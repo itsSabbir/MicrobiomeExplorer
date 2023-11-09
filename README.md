@@ -18,11 +18,11 @@ library(MicrobiomeExplorer)
 
 ## Overview
 MicrobiomeExplorer offers a suite of functions that facilitate the exploration and analysis of microbiome data. 
-*Data preprocessing and normalization.
-*Taxonomic classification and abundance estimation.
-*Biodiversity analysis and comparative analysis.
-*Functional profiling of microbial communities.
-*Advanced visualization of analysis results.
+- Data preprocessing and normalization.
+- Taxonomic classification and abundance estimation.
+- Biodiversity analysis and comparative analysis.
+- Functional profiling of microbial communities.
+- Advanced visualization of analysis results.
 
 To list the functions and datasets provided by MicrobiomeExplorer, use:
 
@@ -40,14 +40,9 @@ browseVignettes("MicrobiomeExplorer")
 ```
 
 
-
 ## Contributions
 The MicrobiomeExplorer package was developed by Sabbir Hossain. The development of this package was inspired and informed by various established tools and methods within the bioinformatics community. Contributions from existing R packages and other sources are duly noted for each function within the package.This package synergizes with tools like phyloseq for data management, ggplot2 for visualization, vegan for diversity analysis, dplyr and tidyr for data manipulation. The aim is to enhance workflow efficiency in microbiome studies.
 
-
-
-## References
-MicrobiomeExplorer integrates methods and insights from various sources, ensuring a robust and versatile tool for the scientific community:
 
 ## References
 
