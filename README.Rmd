@@ -22,6 +22,8 @@ library("devtools")
 devtools::install_github("itsSabbir/MicrobiomeExplorer", build_vignettes = TRUE)
 library(MicrobiomeExplorer)
 ```
+To run the shinyApp: Under construction
+
 
 ## Overview
 

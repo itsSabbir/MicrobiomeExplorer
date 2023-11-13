@@ -15,6 +15,8 @@ devtools::install_github("itsSabbir/MicrobiomeExplorer", build_vignettes = TRUE)
 library(MicrobiomeExplorer)
 
 ```
+To run the shinyApp: Under construction
+
 
 ## Overview
 MicrobiomeExplorer offers a suite of functions that facilitate the exploration and analysis of microbiome data. 
