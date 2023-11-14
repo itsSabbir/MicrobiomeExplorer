@@ -21,9 +21,21 @@ distributions.
 To install the current version of `MicrobiomeExplorer` from GitHub, use:
 
 ``` r
-install.packages("devtools")
-library("devtools")
+# Install BiocManager if not already installed
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+# Install dependencies from Bioconductor
+BiocManager::install(c("phyloseq", "ComplexHeatmap"))
+
+# Install devtools if not already installed
+if (!requireNamespace("devtools", quietly = TRUE))
+    install.packages("devtools")
+
+# Install MicrobiomeExplorer from GitHub
 devtools::install_github("itsSabbir/MicrobiomeExplorer", build_vignettes = TRUE)
+
+# Load MicrobiomeExplorer
 library(MicrobiomeExplorer)
 ```
 

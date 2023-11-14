@@ -32,7 +32,7 @@ To install **MicrobiomeExplorer**, run the following commands:
 ``` r
 if (!require("devtools"))
   install.packages("devtools")
-devtools::install_github("YourGitHubUsername/MicrobiomeExplorer", build_vignettes = TRUE)
+devtools::install_github("itsSabbir/MicrobiomeExplorer", build_vignettes = TRUE)
 library(MicrobiomeExplorer)
 ```
 
