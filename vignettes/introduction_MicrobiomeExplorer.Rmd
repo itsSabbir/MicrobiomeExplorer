@@ -1,0 +1,99 @@
+
+
+```markdown
+---
+title: "A tour of MicrobiomeExplorer"
+author: "Your Name"
+date: "`r format(Sys.time(), '%d %b %Y')`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: false
+vignette: >
+  %\VignetteIndexEntry{A tour of MicrobiomeExplorer}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.align = "center", 
+               out.width = "90%",
+               fig.width = 6, fig.height = 5.5,
+               dev.args=list(pointsize=10),
+               collapse = TRUE,
+               warning = FALSE)
+set.seed(1) # for exact reproducibility
+```
+
+## Introduction
+
+`MicrobiomeExplorer` is an R package designed to facilitate the analysis and visualization of microbiome datasets. It includes functions to calculate statistical metrics, normalize data, and create comprehensive heatmaps for exploratory data analysis. **This document provides a guide to using the MicrobiomeExplorer package (version 0.1.0)**.
+
+To install **MicrobiomeExplorer**, run the following commands:
+
+``` r
+if (!require("devtools"))
+  install.packages("devtools")
+devtools::install_github("YourGitHubUsername/MicrobiomeExplorer", build_vignettes = TRUE)
+library(MicrobiomeExplorer)
+```
+
+To list all functions available in the package:
+``` r
+ls("package:MicrobiomeExplorer")
+```
+
+To list all datasets available in the package:
+``` r
+data(package = "MicrobiomeExplorer")
+```
+
+<br>
+
+## Using MicrobiomeExplorer
+
+### Data Preparation
+
+Before analyzing your microbiome data, ensure it is in the correct format: a matrix or dataframe with rows representing samples and columns representing taxa.
+
+### Calculating Statistics
+
+Use the `calculate_stats` function to compute extended statistics for your dataset:
+
+``` r
+# Example dataset
+data(microbiome_example)
+
+# Calculate statistics
+stats <- MicrobiomeExplorer::calculate_stats(microbiome_example)
+print(stats)
+```
+
+### Visualizing Data
+
+Visualize your microbiome data with a heatmap using the `plot_microbiome_heatmap` function:
+
+``` r
+# Generate a heatmap
+MicrobiomeExplorer::plot_microbiome_heatmap(microbiome_example, normalize = TRUE)
+```
+
+<br>
+
+## Conclusion
+
+The `MicrobiomeExplorer` package provides an easy-to-use set of tools for microbiome data analysis, allowing researchers to quickly calculate key statistics and visualize their data. For any further details, consult the function-specific help pages.
+
+<br>
+
+## Session Information
+
+It's always a good practice to include the session information in vignettes.
+
+```{r}
+sessionInfo()
+```
+```
+
+Remember to replace "Your Name" and "YourGitHubUsername" with your actual name and GitHub username. After saving this as an `.Rmd` file in the `vignettes` folder, you can build your vignettes using the `devtools::build_vignettes()` function.

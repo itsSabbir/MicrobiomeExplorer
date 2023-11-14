@@ -1,12 +1,20 @@
 ---
-title: "MicrobiomeExplorer"
 output: github_document
 ---
 
-<!-- badges: start -->
-<!-- badges: end -->
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # MicrobiomeExplorer
+
 
 ## Description
 
@@ -80,3 +88,26 @@ MicrobiomeExplorer is committed to EDI principles, providing accessible document
 (PENDING)
 Reproducibility is ensured through rigorous version control, comprehensive documentation, clear specification of dependencies, automated testing, and continuous integration. A Docker container is also provided to facilitate a consistent and controlled environment for all users.
 
+## Package Structure
+
+The MicrobiomeExplorer package is organized as follows:
+
+```r
+- MicrobiomeExplorer
+  |- DESCRIPTION
+  |- LICENSE
+  |- LICENSE.md
+  |- MicrobiomeExplorer.Rproj
+  |- MicrobiomeExplorer_utilities.R
+  |- NAMESPACE
+  |- README.Rmd
+  |- README.md
+  |- samples.R
+  |- data/
+  |- inst/
+  |- man/
+  |- R/
+  |- tests/
+  |- vignettes/
+  
+```
