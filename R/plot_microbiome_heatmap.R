@@ -41,7 +41,7 @@ plot_microbiome_heatmap <- function(data, normalize = FALSE, cluster_rows = TRUE
   if (normalize) {
     data <- t(apply(data, 1, function(x) x / sum(x)))
   }
-calplot
+
   # Load ComplexHeatmap if not already loaded
   if (!requireNamespace("ComplexHeatmap", quietly = TRUE)) {
     if (!requireNamespace("BiocManager", quietly = TRUE))
@@ -59,5 +59,7 @@ calplot
           show_row_names = TRUE,
           show_column_names = TRUE)
 }
+
+
 
 

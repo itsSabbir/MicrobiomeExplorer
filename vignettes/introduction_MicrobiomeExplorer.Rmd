@@ -30,11 +30,35 @@ set.seed(1) # for exact reproducibility
 
 To install **MicrobiomeExplorer**, run the following commands:
 
-``` r
-if (!require("devtools"))
-  install.packages("devtools")
+You must first install its dependencies. Notably, phyloseq and ComplexHeatmap are available through Bioconductor, not CRAN, and require Bioconductor's installation methods.
+
+Please run the following commands to install the current version of the dependency packages:
+
+```r
+# Install BiocManager if not already installed
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+# Install dependencies from Bioconductor
+BiocManager::install(c("phyloseq", "ComplexHeatmap"), force = TRUE)
+
+# Load the each of dependancy packages
+library(ComplexHeatmap)
+library(phyloseq)
+```
+
+To install the current version of `MicrobiomeExplorer` from GitHub, use:
+```r
+# Install devtools if not already installed
+if (!requireNamespace("devtools", quietly = TRUE))
+    install.packages("devtools")
+    
+# Install MicrobiomeExplorer from GitHub
 devtools::install_github("itsSabbir/MicrobiomeExplorer", build_vignettes = TRUE)
+
+# Load MicrobiomeExplorer
 library(MicrobiomeExplorer)
+
 ```
 
 To list all functions available in the package:
@@ -55,6 +79,21 @@ data(package = "MicrobiomeExplorer")
 
 Before analyzing your microbiome data, ensure it is in the correct format: a matrix or dataframe with rows representing samples and columns representing taxa.
 
+Run the R following code block to generate some data called microbiome_example to be used in the vignettes:
+```r
+# Mock Microbiome Dataframe Creation
+set.seed(123)  # For reproducibility
+sample_size <- 10  # Number of samples
+taxa_number <- 5   # Number of microbial taxa
+
+# Create a dataframe with random counts
+microbiome_example <- as.data.frame(matrix(rnorm(sample_size * taxa_number, mean = 10, sd = 5),
+                                        nrow = sample_size,
+                                        ncol = taxa_number))
+colnames(microbiome_example) <- paste("Taxa", 1:taxa_number, sep = "_")
+rownames(microbiome_example) <- paste("Sample", 1:sample_size, sep = "_")
+```
+
 ### Calculating Statistics
 
 Use the `calculate_stats` function to compute extended statistics for your dataset:
@@ -74,7 +113,8 @@ Visualize your microbiome data with a heatmap using the `plot_microbiome_heatmap
 
 ``` r
 # Generate a heatmap
-MicrobiomeExplorer::plot_microbiome_heatmap(microbiome_example, normalize = TRUE)
+heatmap_result <- MicrobiomeExplorer::plot_microbiome_heatmap(microbiome_example, normalize = TRUE)
+print(heatmap _result)
 ```
 
 <br>
@@ -87,11 +127,9 @@ The `MicrobiomeExplorer` package provides an easy-to-use set of tools for microb
 
 ## Session Information
 
-It's always a good practice to include the session information in vignettes.
+It's always a good practice to include the session information in vignettes:
 
 ```{r}
 sessionInfo()
 ```
 ```
-
-Remember to replace "Your Name" and "YourGitHubUsername" with your actual name and GitHub username. After saving this as an `.Rmd` file in the `vignettes` folder, you can build your vignettes using the `devtools::build_vignettes()` function.
