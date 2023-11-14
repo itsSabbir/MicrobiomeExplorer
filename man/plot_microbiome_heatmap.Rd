@@ -30,18 +30,9 @@ A ComplexHeatmap plot.
 This function creates a comprehensive heatmap for microbiome data analysis.
 It supports normalization, various clustering methods, and enhanced visualization options.
 }
-\details{
-\itemize{
-  \item \strong{Normalization}: Normalize data to account for varying sequencing depths.
-  \item \strong{Clustering Options}: Choose to cluster rows (taxa) and/or columns (samples) to identify patterns.
-  \item \strong{Enhanced Visualization with ComplexHeatmap}: Utilizes the ComplexHeatmap package for sophisticated heatmaps with features like easy annotation and flexible color schemes.
-  \item \strong{Color Customization}: Users can specify their color palette for the heatmap.
-}
-}
 \examples{
 data(microbiome_example) # Example dataset
-plot_microbiome_heatmap(microbiome_example, normalize = TRUE, color_palette = RColorBrewer::brewer.pal(9, "Blues"))
-
+plot_microbiome_heatmap(microbiome_example, normalize = TRUE, color_palette = brewer.pal(9, "Blues"))
 }
 \references{
 Gu, Z. (2016). Complex heatmaps reveal patterns and correlations in multidimensional

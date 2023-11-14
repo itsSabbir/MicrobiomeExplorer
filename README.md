@@ -11,8 +11,10 @@ into microbial communities. Through this package, users can process,
 analyze, and visualize data from 16S rRNA gene sequencing, metagenomic,
 and metatranscriptomic studies. The goal is to provide a comprehensive
 toolset that improves upon existing workflows by integrating multiple
-data types and offering advanced graphical outputs. This package was
-developed using R 4.1.0 (Platform information) and is intended to be
+data types and offering advanced graphical outputs. The
+`MicrobiomeExplorer` package was developed using
+`R version 4.3.1 (2023-06-16)`, `Platform: aarch64, darwin20` and
+`Running under: macOS Sonoma 14.0`. and is intended to be
 platform-independent, supporting macOS, Windows, and Linux
 distributions.
 
@@ -79,6 +81,10 @@ Each function is designed with robustness in mind, ensuring that they
 handle missing values appropriately, provide flexible clustering
 options, and allow for extensive plot customization to aid in data
 interpretation.
+
+Currently,`calculate_alpha_diversity` are in beta and may not work as
+intended due to some cross-platform package errors. `calculate_stats`
+works as inteded.
 
 To list the functions and datasets provided by `MicrobiomeExplorer`,
 use:

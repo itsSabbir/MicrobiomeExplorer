@@ -26,13 +26,20 @@ set.seed(1) # for exact reproducibility
 
 ## Introduction
 
-`MicrobiomeExplorer` is an R package designed to facilitate the analysis and visualization of microbiome datasets. It includes functions to calculate statistical metrics, normalize data, and create comprehensive heatmaps for exploratory data analysis. **This document provides a guide to using the MicrobiomeExplorer package (version 0.1.0)**.
+`MicrobiomeExplorer` is an R package designed to facilitate the analysis and 
+visualization of microbiome datasets. It includes functions to calculate 
+statistical metrics, normalize data, and create comprehensive heatmaps for 
+exploratory data analysis. 
+**This document provides a guide to using the MicrobiomeExplorer package (version 0.1.0)**.
 
 To install **MicrobiomeExplorer**, run the following commands:
 
-You must first install its dependencies. Notably, phyloseq and ComplexHeatmap are available through Bioconductor, not CRAN, and require Bioconductor's installation methods.
+You must first install its dependencies. Notably, phyloseq and ComplexHeatmap 
+which are available through Bioconductor, not CRAN, and require Bioconductor's 
+installation methods.
 
-Please run the following commands to install the current version of the dependency packages:
+Please run the following commands to install the current version of the 
+dependency packages:
 
 ```r
 # Install BiocManager if not already installed
@@ -77,11 +84,15 @@ data(package = "MicrobiomeExplorer")
 
 ### Data Preparation
 
-Before analyzing your microbiome data, ensure it is in the correct format: a matrix or dataframe with rows representing samples and columns representing taxa.
+Before analyzing your microbiome data, ensure it is in the correct format: 
+a matrix or dataframe with rows representing samples and columns representing 
+taxa.
 
-Run the R following code block to generate some data called microbiome_example to be used in the vignettes:
+Run the R following code block to generate some data called microbiome_example 
+to be used in the vignettes:
+
 ```r
-# Mock Microbiome Dataframe Creation
+# Mock Microbiome Dataframe Creation and Example dataset
 set.seed(123)  # For reproducibility
 sample_size <- 10  # Number of samples
 taxa_number <- 5   # Number of microbial taxa
@@ -99,9 +110,6 @@ rownames(microbiome_example) <- paste("Sample", 1:sample_size, sep = "_")
 Use the `calculate_stats` function to compute extended statistics for your dataset:
 
 ``` r
-# Example dataset
-data(microbiome_example)
-
 # Calculate statistics
 stats <- MicrobiomeExplorer::calculate_stats(microbiome_example)
 print(stats)
@@ -113,15 +121,18 @@ Visualize your microbiome data with a heatmap using the `plot_microbiome_heatmap
 
 ``` r
 # Generate a heatmap
-heatmap_result <- MicrobiomeExplorer::plot_microbiome_heatmap(microbiome_example, normalize = TRUE)
-print(heatmap _result)
+heatmap_result <- plot_microbiome_heatmap(microbiome_example, normalize = TRUE)
+print(heatmap_result)
 ```
 
 <br>
 
 ## Conclusion
 
-The `MicrobiomeExplorer` package provides an easy-to-use set of tools for microbiome data analysis, allowing researchers to quickly calculate key statistics and visualize their data. For any further details, consult the function-specific help pages.
+The `MicrobiomeExplorer` package provides an easy-to-use set of tools for 
+microbiome data analysis, allowing researchers to quickly calculate key 
+statistics and visualize their data. For any further details, consult the 
+function-specific help pages.
 
 <br>
 
@@ -131,5 +142,4 @@ It's always a good practice to include the session information in vignettes:
 
 ```{r}
 sessionInfo()
-```
 ```

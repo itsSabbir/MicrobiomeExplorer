@@ -45,6 +45,16 @@ calculate_alpha_diversity <- function(data, indices = c("Shannon", "Simpson"), r
     1 - sum(p^2, na.rm = TRUE)
   }
 
+  # Placeholder for Chao1 diversity calculation
+  calc_chao1 <- function(x) {
+    # Implement Chao1 calculation here
+  }
+
+  # Placeholder for ACE diversity calculation
+  calc_ace <- function(x) {
+    # Implement ACE calculation here
+  }
+
   if ("Shannon" %in% indices) {
     results$Shannon <- apply(data, 1, calc_shannon)
   }
@@ -53,20 +63,18 @@ calculate_alpha_diversity <- function(data, indices = c("Shannon", "Simpson"), r
     results$Simpson <- apply(data, 1, calc_simpson)
   }
 
-  # Rarefied data adjustments
-  #if (rarefied) {
-    # Recalculate diversity indices for rarefied data
-    # This assumes that the data has already been rarefied to a consistent sampling depth.
-   # if ("Shannon" %in% indices) {
-    #  results$Shannon_Rarefied <- apply(data, 1, calc_shannon)
-    #}
-#
- #   if ("Simpson" %in% indices) {
-  #    results$Simpson_Rarefied <- apply(data, 1, calc_simpson)
-   # }
-  #}
+  if ("Chao1" %in% indices) {
+    # Implement Chao1 calculation application here
+    # results$Chao1 <- apply(data, 1, calc_chao1)
+  }
+
+  if ("ACE" %in% indices) {
+    # Implement ACE calculation application here
+    # results$ACE <- apply(data, 1, calc_ace)
+  }
 
   return(results)
 }
+
 
 

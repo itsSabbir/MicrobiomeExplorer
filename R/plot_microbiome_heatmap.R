@@ -1,17 +1,7 @@
-# plot_microbiome_heatmap.R
-
 #' Advanced Heatmap for Microbiome Data Visualization
 #'
 #' This function creates a comprehensive heatmap for microbiome data analysis.
 #' It supports normalization, various clustering methods, and enhanced visualization options.
-#'
-#' @details
-#' \itemize{
-#'   \item \strong{Normalization}: Normalize data to account for varying sequencing depths.
-#'   \item \strong{Clustering Options}: Choose to cluster rows (taxa) and/or columns (samples) to identify patterns.
-#'   \item \strong{Enhanced Visualization with ComplexHeatmap}: Utilizes the ComplexHeatmap package for sophisticated heatmaps with features like easy annotation and flexible color schemes.
-#'   \item \strong{Color Customization}: Users can specify their color palette for the heatmap.
-#' }
 #'
 #' @param data A matrix or dataframe with rows as samples and columns as taxa.
 #' @param normalize Should the data be normalized? Default is FALSE.
@@ -19,16 +9,20 @@
 #' @param cluster_cols Should columns be clustered? Default is TRUE.
 #' @param color_palette Color palette to use for heatmap.
 #' @return A ComplexHeatmap plot.
+#' @importFrom phyloseq plot_heatmap
+#' @importFrom ComplexHeatmap Heatmap
+#' @importFrom RColorBrewer brewer.pal
 #' @export
-#'
 #' @examples
 #' data(microbiome_example) # Example dataset
-#' plot_microbiome_heatmap(microbiome_example, normalize = TRUE, color_palette = RColorBrewer::brewer.pal(9, "Blues"))
-#'
+#' plot_microbiome_heatmap(microbiome_example, normalize = TRUE, color_palette = brewer.pal(9, "Blues"))
 #' @references
 #' Gu, Z. (2016). Complex heatmaps reveal patterns and correlations in multidimensional
 #' genomic data. Bioinformatics, 32(18), 2847–2849.
-plot_microbiome_heatmap <- function(data, normalize = FALSE, cluster_rows = TRUE, cluster_cols = TRUE, color_palette = heat.colors(10)) {
+plot_microbiome_heatmap <- function(data, normalize = FALSE,
+                                    cluster_rows = TRUE,
+                                    cluster_cols = TRUE,
+                                    color_palette = heat.colors(10)) {
   if (!is.matrix(data) && !is.data.frame(data)) {
     stop("Data must be a matrix or dataframe.")
   }

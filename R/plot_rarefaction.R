@@ -51,7 +51,7 @@ plot_rarefaction <- function(data, step = 1, sample = NULL, xlab = "Sample Size"
   }
 
   # Generate the rarefaction curves
-  rarefaction_curves <- rarefy(data, sample, step = step)
+  rarefaction_curves <- rarefy(data, sample)
 
   # Create the plot
   if (save_plot) {
