@@ -1,9 +1,6 @@
-
-
-```markdown
 ---
 title: "A tour of MicrobiomeExplorer"
-author: "Your Name"
+author: "Sabbir Hossain"
 date: "`r format(Sys.time(), '%d %b %Y')`"
 output: 
   rmarkdown::html_vignette:

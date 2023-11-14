@@ -54,17 +54,17 @@ calculate_alpha_diversity <- function(data, indices = c("Shannon", "Simpson"), r
   }
 
   # Rarefied data adjustments
-  if (rarefied) {
+  #if (rarefied) {
     # Recalculate diversity indices for rarefied data
     # This assumes that the data has already been rarefied to a consistent sampling depth.
-    if ("Shannon" %in% indices) {
-      results$Shannon_Rarefied <- apply(data, 1, calc_shannon)
-    }
-
-    if ("Simpson" %in% indices) {
-      results$Simpson_Rarefied <- apply(data, 1, calc_simpson)
-    }
-  }
+   # if ("Shannon" %in% indices) {
+    #  results$Shannon_Rarefied <- apply(data, 1, calc_shannon)
+    #}
+#
+ #   if ("Simpson" %in% indices) {
+  #    results$Simpson_Rarefied <- apply(data, 1, calc_simpson)
+   # }
+  #}
 
   return(results)
 }

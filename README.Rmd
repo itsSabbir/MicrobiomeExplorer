@@ -35,18 +35,23 @@ To run the shinyApp: Under construction
 
 ## Overview
 
-MicrobiomeExplorer offers a suite of functions that facilitate the exploration and analysis of microbiome data. 
-- Data preprocessing and normalization.
-- Taxonomic classification and abundance estimation.
-- Biodiversity analysis and comparative analysis.
-- Functional profiling of microbial communities.
-- Advanced visualization of analysis results.
+`MicrobiomeExplorer` offers a suite of functions that facilitate the exploration and analysis of microbiome data. Here is a list of the main functions along with a brief description:
 
-To list the functions and datasets provided by MicrobiomeExplorer, use:
+- `calculate_stats`: Calculates extended statistics (mean, median, standard deviation, variance, range, and interquartile range) for each feature in a microbiome dataset, providing a comprehensive statistical overview essential for preliminary data analysis.
+
+- `plot_microbiome_heatmap`: Creates a comprehensive heatmap for microbiome data analysis, with support for normalization, various clustering methods, and enhanced visualization options using the `ComplexHeatmap` package.
+
+- `plot_rarefaction`: Generates rarefaction curves for microbiome count data, useful for comparing species richness among samples with customizable sampling and plot aesthetics.
+
+- `calculate_alpha_diversity`: Computes various alpha diversity indices (like Shannon, Simpson, Chao1, and ACE) for each sample in a microbiome dataset, facilitating in-depth ecological and diversity studies.
+
+Each function is designed with robustness in mind, ensuring that they handle missing values appropriately, provide flexible clustering options, and allow for extensive plot customization to aid in data interpretation.
+
+To list the functions and datasets provided by `MicrobiomeExplorer`, use:
 
 ```r
-
 ls("package:MicrobiomeExplorer")
+
 data(package = "MicrobiomeExplorer") # if applicable
 
 ```
