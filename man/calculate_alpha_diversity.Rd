@@ -26,9 +26,16 @@ This function calculates various alpha diversity indices (Shannon, Simpson, and 
 in a microbiome dataset. It also offers an option to handle rarefied data.
 }
 \examples{
-data(microbiome_example) # Example dataset
-alpha_diversity <- calculate_alpha_diversity(microbiome_example, indices = c("Shannon", "Simpson"))
-print(alpha_diversity)
+# Create a simple numeric dataset for the example
+sample_data <- matrix(rnorm(45), nrow = 9, ncol = 5)
+colnames(sample_data) <- paste0("Taxa_", 1:5)
+rownames(sample_data) <- paste0("Sample_", 1:9)
+
+# Convert to a dataframe if your function requires it
+sample_data_df <- as.data.frame(sample_data)
+
+# Plot the heatmap
+plot_microbiome_heatmap(sample_data_df, normalize = TRUE, color_palette = brewer.pal(9, "Blues"))
 
 }
 \references{

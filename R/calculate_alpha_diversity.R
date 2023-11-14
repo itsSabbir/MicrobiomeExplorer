@@ -13,9 +13,16 @@
 #' @export
 #'
 #' @examples
-#' data(microbiome_example) # Example dataset
-#' alpha_diversity <- calculate_alpha_diversity(microbiome_example, indices = c("Shannon", "Simpson"))
-#' print(alpha_diversity)
+#' # Create a simple numeric dataset for the example
+#' sample_data <- matrix(rnorm(45), nrow = 9, ncol = 5)
+#' colnames(sample_data) <- paste0("Taxa_", 1:5)
+#' rownames(sample_data) <- paste0("Sample_", 1:9)
+#'
+#' # Convert to a dataframe if your function requires it
+#' sample_data_df <- as.data.frame(sample_data)
+#'
+#' # Plot the heatmap
+#' plot_microbiome_heatmap(sample_data_df, normalize = TRUE, color_palette = brewer.pal(9, "Blues"))
 #'
 #' @references
 #' Shannon, C.E. (1948). A Mathematical Theory of Communication. Bell System Technical Journal.
@@ -30,6 +37,9 @@ calculate_alpha_diversity <- function(data, indices = c("Shannon", "Simpson"), r
   if (ncol(data) == 0 || nrow(data) == 0) {
     stop("Data must have non-zero dimensions.")
   }
+
+  # Keep only numeric columns
+  data <- data[, sapply(data, is.numeric)]
 
   results <- data.frame(Sample = rownames(data))
 
