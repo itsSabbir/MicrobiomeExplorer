@@ -75,9 +75,6 @@ The MicrobiomeExplorer package was developed by Sabbir Hossain. The development 
 - **dplyr** and **tidyr**: Facilitate efficient data manipulation across the package, crucial for preprocessing and organizing data for analysis.
 
 
-
-This version succinctly describes the role of each external package in enhancing `MicrobiomeExplorer`'s functionality, maintaining the engaging tone of the original description.
-
 ## References
 
 MicrobiomeExplorer integrates methods and insights from various sources, ensuring a robust and versatile tool for the scientific community. Key references include:

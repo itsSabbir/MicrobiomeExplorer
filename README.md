@@ -99,10 +99,6 @@ for each function within the package.
   the package, crucial for preprocessing and organizing data for
   analysis.
 
-This version succinctly describes the role of each external package in
-enhancing `MicrobiomeExplorer`’s functionality, maintaining the engaging
-tone of the original description.
-
 ## References
 
 MicrobiomeExplorer integrates methods and insights from various sources,
