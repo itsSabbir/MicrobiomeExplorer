@@ -64,7 +64,19 @@ browseVignettes("MicrobiomeExplorer")
 
 
 ## Contributions
-The MicrobiomeExplorer package was developed by Sabbir Hossain. The development of this package was inspired and informed by various established tools and methods within the bioinformatics community. Contributions from existing R packages and other sources are duly noted for each function within the package.This package synergizes with tools like phyloseq for data management, ggplot2 for visualization, vegan for diversity analysis, dplyr and tidyr for data manipulation. The aim is to enhance workflow efficiency in microbiome studies.
+The MicrobiomeExplorer package was developed by Sabbir Hossain. The development of this package was inspired and informed by various established tools and methods within the bioinformatics community. Contributions from existing R packages and other sources are duly noted for each function within the package.
+
+- **phyloseq**: Enhances data management, particularly in functions like `calculate_stats` and `calculate_alpha_diversity`, offering robust handling of complex microbiome datasets.
+
+- **ggplot2**: Underpins the visualization aspects in `plot_microbiome_heatmap` and `plot_rarefaction`, providing elegant and informative data representation.
+
+- **vegan**: Contributes to diversity analysis, especially in `calculate_alpha_diversity` and `plot_rarefaction`, delivering extensive ecological insights.
+
+- **dplyr** and **tidyr**: Facilitate efficient data manipulation across the package, crucial for preprocessing and organizing data for analysis.
+
+
+
+This version succinctly describes the role of each external package in enhancing `MicrobiomeExplorer`'s functionality, maintaining the engaging tone of the original description.
 
 ## References
 
