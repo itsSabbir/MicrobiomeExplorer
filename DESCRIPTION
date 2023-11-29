@@ -3,13 +3,12 @@ Type: Package
 Title: Tools for Microbiome Analysis and Visualization
 Version: 0.1.0
 Authors@R: 
-    person("Sabbir", "Hossain", email = "hossain.sabbir17@gmail.com", role = c("aut", "cre")),
-    person("First name", "Last name", email = "email@example.com", role = "ctb")
-Description: MicrobiomeExplorer provides an integrated platform for the 
-comprehensive analysis of microbiome data. It includes functionalities for 
-preprocessing, statistical analysis, and advanced visualization, catering 
-specifically to 16S rRNA gene sequencing, metagenomics, and metatranscriptomics 
-data.
+    person("Sabbir", "Hossain", email = "hossain.sabbir17@gmail.com", role = c("aut", "cre"))
+Description: 
+  MicrobiomeExplorer provides an integrated platform for the comprehensive 
+  analysis of microbiome data. It includes functionalities for preprocessing, 
+  statistical analysis, and advanced visualization, catering specifically to 
+  16S rRNA gene sequencing, metagenomics, and metatranscriptomics data.
 biocViews: MicrobiomeAnalysis, Visualization, Bioinformatics
 Depends: R (>= 4.1.0)
 Imports: 
