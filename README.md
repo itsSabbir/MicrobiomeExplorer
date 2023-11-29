@@ -105,7 +105,6 @@ browseVignettes("MicrobiomeExplorer")
 The package also contains one sample micriobiome dataset presented as a
 dataframe called microbiome_data.csv. Refer to package vignettes for
 more details. An overview of the package is illustrated below.
-![](./vignettes/flow.png)
 
 A more standard barebones look: ![](./vignettes/sabbir.png)
 
