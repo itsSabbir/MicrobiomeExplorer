@@ -2,12 +2,15 @@ Package: MicrobiomeExplorer
 Type: Package
 Title: Tools for Microbiome Analysis and Visualization
 Version: 0.1.0
-Authors@R: person("Sabbir", "Hossain", email = "hossain.sabbir17@gmail.com", role = c("aut", "cre"))
-Description: Provides a suite of tools for processing, analyzing, and visualizing microbiome data. 
-    MicrobiomeExplorer aims to enhance the workflow in bioinformatics for microbial community analysis. 
-    It integrates data preprocessing, statistical analysis, and advanced graphical representation, 
-    offering a comprehensive analysis platform for 16S rRNA gene sequencing, metagenomics, 
-    and metatranscriptomics data.
+Authors@R: 
+    person("Sabbir", "Hossain", email = "hossain.sabbir17@gmail.com", role = c("aut", "cre")),
+    person("First name", "Last name", email = "email@example.com", role = "ctb")
+Description: MicrobiomeExplorer provides an integrated platform for the 
+comprehensive analysis of microbiome data. It includes functionalities for 
+preprocessing, statistical analysis, and advanced visualization, catering 
+specifically to 16S rRNA gene sequencing, metagenomics, and metatranscriptomics 
+data.
+biocViews: MicrobiomeAnalysis, Visualization, Bioinformatics
 Depends: R (>= 4.1.0)
 Imports: 
     ggplot2,
@@ -22,7 +25,7 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     roxygen2 (>= 7.1.1)
-License: GPL-3 + LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
