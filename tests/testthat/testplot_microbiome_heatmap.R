@@ -5,7 +5,7 @@ library(MicrobiomeExplorer)
 test_that("plot_microbiome_heatmap creates a heatmap object", {
   test_data <- matrix(rnorm(20), nrow = 5)
   result <- plot_microbiome_heatmap(test_data)
-  expect_is(result, "Heatmap")
+  expect_s4_class(result, "Heatmap")
 })
 
 # Test plot_microbiome_heatmap with non-numeric data

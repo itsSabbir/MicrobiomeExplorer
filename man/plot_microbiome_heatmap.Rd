@@ -15,16 +15,17 @@ plot_microbiome_heatmap(
 \arguments{
 \item{data}{A matrix or dataframe with rows as samples and columns as taxa.}
 
-\item{normalize}{Should the data be normalized? Default is FALSE.}
+\item{normalize}{Logical TRUE or FALSE indicating if the data should be normalized.
+Default: FALSE (data will not be normalized).}
 
 \item{cluster_rows}{Should rows be clustered? Default is TRUE.}
 
 \item{cluster_cols}{Should columns be clustered? Default is TRUE.}
 
-\item{color_palette}{Color palette to use for heatmap.}
+\item{color_palette}{Color palette to use for heatmap. Default is heat.colors(10).}
 }
 \value{
-A ComplexHeatmap plot.
+A ComplexHeatmap plot object.
 }
 \description{
 This function creates a comprehensive heatmap for microbiome data analysis.
@@ -32,9 +33,9 @@ It supports normalization, various clustering methods, and enhanced visualizatio
 }
 \examples{
 data(microbiome_example) # Example dataset
-plot_microbiome_heatmap(microbiome_example, normalize = TRUE, color_palette = brewer.pal(9, "Blues"))
+heatmap_plot <- plot_microbiome_heatmap(microbiome_example, normalize = TRUE, color_palette = RColorBrewer::brewer.pal(9, "Blues"))
+print(heatmap_plot)
 }
 \references{
-Gu, Z. (2016). Complex heatmaps reveal patterns and correlations in multidimensional
-genomic data. Bioinformatics, 32(18), 2847–2849.
+Gu, Z. (2016). Complex heatmaps reveal patterns and correlations in multidimensional genomic data. Bioinformatics, 32(18), 2847–2849.
 }

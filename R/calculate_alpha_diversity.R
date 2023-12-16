@@ -1,8 +1,6 @@
-# calculate_alpha_diversity.R
-
 #' Advanced Alpha Diversity Calculation for Microbiome Data
 #'
-#' This function calculates various alpha diversity indices (Shannon, Simpson, and others) for each sample
+#' This function calculates various alpha diversity indices (Shannon, Simpson, Chao1, and ACE) for each sample
 #' in a microbiome dataset. It also offers an option to handle rarefied data.
 #'
 #' @param data A matrix or dataframe with rows as samples and columns as taxa.
@@ -13,23 +11,18 @@
 #' @export
 #'
 #' @examples
-#' # Create a simple numeric dataset for the example
 #' sample_data <- matrix(rnorm(45), nrow = 9, ncol = 5)
 #' colnames(sample_data) <- paste0("Taxa_", 1:5)
 #' rownames(sample_data) <- paste0("Sample_", 1:9)
-#'
-#' # Convert to a dataframe if your function requires it
 #' sample_data_df <- as.data.frame(sample_data)
-#'
-#' # Plot the heatmap
-#' plot_microbiome_heatmap(sample_data_df, normalize = TRUE, color_palette = brewer.pal(9, "Blues"))
+#' diversity_results <- calculate_alpha_diversity(sample_data_df, indices = c("Shannon", "Simpson", "Chao1", "ACE"))
 #'
 #' @references
 #' Shannon, C.E. (1948). A Mathematical Theory of Communication. Bell System Technical Journal.
 #' Simpson, E.H. (1949). Measurement of Diversity. Nature.
 #' Chao, A. (1984). Nonparametric estimation of the number of classes in a population. Scandinavian Journal of Statistics.
 #' Chao, A., & Lee, S.M. (1992). Estimating the number of classes via sample coverage. Journal of the American Statistical Association.
-calculate_alpha_diversity <- function(data, indices = c("Shannon", "Simpson"), rarefied = FALSE) {
+calculate_alpha_diversity <- function(data, indices = c("Shannon", "Simpson", "Chao1", "ACE"), rarefied = FALSE) {
   if (!is.matrix(data) && !is.data.frame(data)) {
     stop("Data must be a matrix or dataframe.")
   }
@@ -38,31 +31,36 @@ calculate_alpha_diversity <- function(data, indices = c("Shannon", "Simpson"), r
     stop("Data must have non-zero dimensions.")
   }
 
-  # Keep only numeric columns
   data <- data[, sapply(data, is.numeric)]
 
   results <- data.frame(Sample = rownames(data))
 
-  # Function to calculate Shannon diversity
   calc_shannon <- function(x) {
     p <- x / sum(x)
     -sum(p * log(p), na.rm = TRUE)
   }
 
-  # Function to calculate Simpson diversity
   calc_simpson <- function(x) {
     p <- x / sum(x)
     1 - sum(p^2, na.rm = TRUE)
   }
 
-  # Placeholder for Chao1 diversity calculation
   calc_chao1 <- function(x) {
-    # Implement Chao1 calculation here
+    S_obs <- sum(x > 0)
+    n <- sum(x)
+    f1 <- sum(x == 1)
+    S_chao1 <- S_obs + f1^2 / (2 * (sum(x == 2) + 1))
+    return(S_chao1)
   }
 
-  # Placeholder for ACE diversity calculation
   calc_ace <- function(x) {
-    # Implement ACE calculation here
+    S_abund <- sum(x > 10)
+    S_rare <- sum(x <= 10)
+    n_rare <- sum(x[x <= 10])
+    f1 <- sum(x == 1)
+    f2 <- sum(x == 2)
+    ACE <- S_abund + S_rare / (1 - f1 / n_rare) + (f1 * (f1 - 1)) / (2 * (f2 + 1))
+    return(ACE)
   }
 
   if ("Shannon" %in% indices) {
@@ -74,17 +72,12 @@ calculate_alpha_diversity <- function(data, indices = c("Shannon", "Simpson"), r
   }
 
   if ("Chao1" %in% indices) {
-    # Implement Chao1 calculation application here
-    # results$Chao1 <- apply(data, 1, calc_chao1)
+    results$Chao1 <- apply(data, 1, calc_chao1)
   }
 
   if ("ACE" %in% indices) {
-    # Implement ACE calculation application here
-    # results$ACE <- apply(data, 1, calc_ace)
+    results$ACE <- apply(data, 1, calc_ace)
   }
 
   return(results)
 }
-
-
-
