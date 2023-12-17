@@ -15,10 +15,12 @@
 #' colnames(sample_data) <- paste0("Taxa_", 1:5)
 #' rownames(sample_data) <- paste0("Sample_", 1:9)
 #' sample_data_df <- as.data.frame(sample_data)
-#' diversity_results <- calculate_alpha_diversity(sample_data_df, indices = c("Shannon", "Simpson", "Chao1", "ACE"))
+#' diversity_results <- calculate_alpha_diversity(sample_data_df,
+#' indices = c("Shannon", "Simpson", "Chao1", "ACE"))
 #'
 #' @references
-#' Shannon, C.E. (1948). A Mathematical Theory of Communication. Bell System Technical Journal.
+#' Shannon, C.E. (1948). A Mathematical Theory of Communication. Bell System
+#' Technical Journal.
 #' Simpson, E.H. (1949). Measurement of Diversity. Nature.
 #' Chao, A. (1984). Nonparametric estimation of the number of classes in a population. Scandinavian Journal of Statistics.
 #' Chao, A., & Lee, S.M. (1992). Estimating the number of classes via sample coverage. Journal of the American Statistical Association.

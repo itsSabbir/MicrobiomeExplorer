@@ -12,15 +12,23 @@
 #' @return A ComplexHeatmap plot object.
 #' @export
 #' @examples
-#' data(microbiome_example) # Example dataset
-#' heatmap_plot <- plot_microbiome_heatmap(microbiome_example, normalize = TRUE, color_palette = RColorBrewer::brewer.pal(9, "Blues"))
+#' # Create a simple numeric dataset for the example
+#' example_data <- matrix(rnorm(100), nrow = 10)
+#' colnames(example_data) <- paste0("Taxa_", 1:10)
+#' rownames(example_data) <- paste0("Sample_", 1:10)
+#'
+#' # Plot the heatmap
+#' heatmap_plot <- plot_microbiome_heatmap(example_data,
+#' normalize = TRUE, color_palette = RColorBrewer::brewer.pal(9, "Blues"))
 #' print(heatmap_plot)
+
 #' @references
 #' Gu, Z. (2016). Complex heatmaps reveal patterns and correlations in multidimensional genomic data. Bioinformatics, 32(18), 2847–2849.
 plot_microbiome_heatmap <- function(data, normalize = FALSE,
                                     cluster_rows = TRUE,
                                     cluster_cols = TRUE,
                                     color_palette = heat.colors(10)) {
+  # Validate data input
   if (!is.matrix(data) && !is.data.frame(data)) {
     stop("Data must be a matrix or dataframe.")
   }
@@ -29,12 +37,13 @@ plot_microbiome_heatmap <- function(data, normalize = FALSE,
     stop("Data must have non-zero dimensions.")
   }
 
-  # Check if data is a data frame and convert it to a matrix
+  # Convert data frame to matrix, excluding non-numeric columns
   if (is.data.frame(data)) {
-    if (any(!sapply(data, is.numeric))) {
-      stop("Data contains non-numeric columns which cannot be processed for heatmap.")
+    numeric_columns <- sapply(data, is.numeric)
+    if (all(!numeric_columns)) {
+      stop("Data does not contain any numeric columns.")
     }
-    data <- as.matrix(data)
+    data <- as.matrix(data[, numeric_columns])
   }
 
   # Normalize data if requested
@@ -52,7 +61,6 @@ plot_microbiome_heatmap <- function(data, normalize = FALSE,
     stop("ComplexHeatmap library is not installed. Please install it using BiocManager::install('ComplexHeatmap').")
   }
 
-  # Load required color palettes
   if (!requireNamespace("RColorBrewer", quietly = TRUE)) {
     stop("RColorBrewer library is not installed. Please install it to use custom color palettes.")
   }
@@ -68,3 +76,5 @@ plot_microbiome_heatmap <- function(data, normalize = FALSE,
 
   return(heatmap_plot)
 }
+
+
