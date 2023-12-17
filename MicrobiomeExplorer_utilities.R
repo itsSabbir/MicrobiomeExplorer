@@ -16,6 +16,8 @@ devtools::test()
 # Check the package: Validate package structure and contents
 devtools::check()
 
+devtools::build()
+
 # ---------------------------
 # End of Utility Script
 # ---------------------------

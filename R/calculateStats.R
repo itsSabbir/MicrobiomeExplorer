@@ -1,4 +1,4 @@
-# calculate_stats.R
+# calculateStats.R
 
 #' Calculate Extended Statistics for Microbiome Data
 #'
