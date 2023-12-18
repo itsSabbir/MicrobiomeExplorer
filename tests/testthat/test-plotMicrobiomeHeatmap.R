@@ -1,6 +1,3 @@
-library(testthat)
-library(MicrobiomeExplorer)
-
 # Test plot_microbiome_heatmap with valid data
 test_that("plot_microbiome_heatmap creates a heatmap object", {
   test_data <- matrix(rnorm(20), nrow = 5)

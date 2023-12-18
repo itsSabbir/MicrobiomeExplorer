@@ -5,8 +5,6 @@
 \title{Validate 16S rRNA Data}
 \usage{
 validate16SRNAData(rRNA16SData, minColumns = 10, minNonZeroEntries = 5)
-
-validate16SRNAData(rRNA16SData, minColumns = 10, minNonZeroEntries = 5)
 }
 \arguments{
 \item{rRNA16SData}{A matrix or data frame with rows as samples and columns as OTUs/taxa.}
@@ -17,13 +15,8 @@ validate16SRNAData(rRNA16SData, minColumns = 10, minNonZeroEntries = 5)
 }
 \value{
 A logical value indicating whether the data is valid.
-
-A logical value indicating whether the data is valid.
 }
 \description{
-Performs comprehensive checks on 16S rRNA gene sequencing data, including structure,
-quality, and content checks to ensure its suitability for analysis.
-
 Performs comprehensive checks on 16S rRNA gene sequencing data, including structure,
 quality, and content checks to ensure its suitability for analysis.
 }

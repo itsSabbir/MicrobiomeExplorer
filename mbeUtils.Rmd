@@ -7,18 +7,25 @@
 # ---------------------------
 # These commands are to be run regularly as you develop your package.
 
-# Document the package: Update NAMESPACE and create/update .Rd files in 'man/'
-devtools::document()
 
-# Run tests: Execute tests in 'tests/testthat'
-devtools::test()
 
-# Check the package: Validate package structure and contents
-devtools::check()
 
-devtools::build()
 
 # ---------------------------
 # End of Utility Script
 # ---------------------------
 # Remember to regularly commit changes to your Git repository.
+```{r}
+# Document the package: Update NAMESPACE and create/update .Rd files in 'man/'
+devtools::document()
+```
+
+```{r}
+# Check the package: Validate package structure and contents
+devtools::check()
+```
+
+```{r}
+devtools::build()
+```
+

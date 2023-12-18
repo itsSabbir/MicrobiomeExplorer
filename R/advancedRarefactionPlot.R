@@ -25,6 +25,8 @@
 #' Gotelli, N.J. & Colwell, R.K. (2001). Quantifying biodiversity: procedures and pitfalls in the measurement and comparison of species richness. Ecology Letters, 4(4), 379-391.
 #' @importFrom ggplot2 ggplot aes_string geom_line scale_color_manual labs theme_minimal
 #' @importFrom vegan rarefy
+#' @importFrom utils globalVariables
+#'
 AdvancedRarefactionPlot <- function(data, indices = c("Shannon", "Simpson", "Chao1", "ACE"), xlab = "Sample Size", ylab = "Diversity Index", col = NULL, lty = 1, save_plot = FALSE, file_name = "rarefaction_plot", file_type = "pdf", ...) {
   # Validate input data
   if (!is.matrix(data) && !is.data.frame(data)) {
@@ -37,14 +39,20 @@ AdvancedRarefactionPlot <- function(data, indices = c("Shannon", "Simpson", "Cha
   # Prepare plot data
   plot_data <- reshape2::melt(diversity_data, id.vars = "Sample")
 
+  # Define column names explicitly
+  variable_col <- names(plot_data)[which(names(plot_data) == "variable")]
+  value_col <- names(plot_data)[which(names(plot_data) == "value")]
+  sample_col <- names(plot_data)[which(names(plot_data) == "Sample")]
+
   # Set dynamic colors if not specified
   if (is.null(col)) {
-    num_samples <- length(unique(plot_data$Sample))
+    num_samples <- length(unique(plot_data[[sample_col]]))
     col <- grDevices::rainbow(num_samples)
   }
 
   # Prepare the plot
-  plot <- ggplot2::ggplot(plot_data, ggplot2::aes_string(x = "variable", y = "value", group = "Sample", color = "Sample", linetype = "Sample")) +
+  plot <- ggplot2::ggplot(plot_data,
+                          ggplot2::aes_string(x = variable_col, y = value_col, group = sample_col, color = sample_col, linetype = sample_col)) +
     ggplot2::geom_line() +
     ggplot2::scale_color_manual(values = col) +
     ggplot2::labs(x = xlab, y = ylab, color = "Sample") +
@@ -61,3 +69,4 @@ AdvancedRarefactionPlot <- function(data, indices = c("Shannon", "Simpson", "Cha
 
   return(invisible(plot))
 }
+

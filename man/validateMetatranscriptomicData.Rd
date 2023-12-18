@@ -5,8 +5,6 @@
 \title{Validate Metatranscriptomic Data}
 \usage{
 validateMetatranscriptomicData(metatranscriptomicData)
-
-validateMetatranscriptomicData(metatranscriptomicData)
 }
 \arguments{
 \item{metatranscriptomicData}{A matrix or data frame containing metatranscriptomic data.
@@ -14,13 +12,8 @@ Expected format: rows as samples, columns as gene expression features.}
 }
 \value{
 A logical value indicating whether the data is valid.
-
-A logical value indicating whether the data is valid.
 }
 \description{
-Performs comprehensive validation of metatranscriptomic data, ensuring correct format,
-data integrity, and adherence to expected properties of RNA sequencing data.
-
 Performs comprehensive validation of metatranscriptomic data, ensuring correct format,
 data integrity, and adherence to expected properties of RNA sequencing data.
 }

@@ -162,15 +162,19 @@ setGeneric("updateData", function(object, dataType, newData) standardGeneric("up
 setMethod("updateData",
           signature(object = "MicrobiomeData", dataType = "character", newData = "ANY"),
           function(object, dataType, newData) {
-            # Validation
-            validationFunction <- get(paste0("validate", dataType, "Data"))
-            if (!is.null(validationFunction)) validationFunction(newData)
+            # Check if validation function exists
+            validationFunctionName <- paste0("validate", dataType, "Data")
+            if (exists(validationFunctionName, mode = "function")) {
+              validationFunction <- get(validationFunctionName)
+              validationFunction(newData)
+            }
 
             # Update data
             slot(object, dataType) <- newData
             return(object)
           }
 )
+
 
 
 

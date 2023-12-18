@@ -1,6 +1,3 @@
-library(testthat)
-library(MicrobiomeExplorer)
-
 # Test calculate_stats with valid data
 test_that("calculate_stats returns correct results with valid data", {
   test_data <- data.frame(
