@@ -192,9 +192,6 @@ all users.
 
 The MicrobiomeExplorer package is organized as follows:
 
-A more graphical look: ![](./vignettes/flow.png) A more standard
-barebones look: ![](./vignettes/sabbir.png)
-
 ``` r
 - MicrobiomeExplorer
   |- DESCRIPTION
