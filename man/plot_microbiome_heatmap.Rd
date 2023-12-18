@@ -9,20 +9,20 @@ plot_microbiome_heatmap(
   normalize = FALSE,
   cluster_rows = TRUE,
   cluster_cols = TRUE,
-  color_palette = heat.colors(10)
+  color_palette = NULL
 )
 }
 \arguments{
 \item{data}{A matrix or dataframe with rows as samples and columns as taxa.}
 
-\item{normalize}{Logical TRUE or FALSE indicating if the data should be normalized.
-Default: FALSE (data will not be normalized).}
+\item{normalize}{Logical indicating if the data should be normalized. Default: FALSE.}
 
-\item{cluster_rows}{Should rows be clustered? Default is TRUE.}
+\item{cluster_rows}{Logical indicating if rows should be clustered. Default: TRUE.}
 
-\item{cluster_cols}{Should columns be clustered? Default is TRUE.}
+\item{cluster_cols}{Logical indicating if columns should be clustered. Default: TRUE.}
 
-\item{color_palette}{Color palette to use for heatmap. Default is heat.colors(10).}
+\item{color_palette}{A color palette function to use for heatmap colors. Default is NULL,
+which will cause the function to dynamically create a palette based on the data.}
 }
 \value{
 A ComplexHeatmap plot object.
@@ -32,14 +32,10 @@ This function creates a comprehensive heatmap for microbiome data analysis.
 It supports normalization, various clustering methods, and enhanced visualization options.
 }
 \examples{
-# Create a simple numeric dataset for the example
 example_data <- matrix(rnorm(100), nrow = 10)
 colnames(example_data) <- paste0("Taxa_", 1:10)
 rownames(example_data) <- paste0("Sample_", 1:10)
-
-# Plot the heatmap
-heatmap_plot <- plot_microbiome_heatmap(example_data,
-normalize = TRUE, color_palette = RColorBrewer::brewer.pal(9, "Blues"))
+heatmap_plot <- plot_microbiome_heatmap(example_data, normalize = TRUE)
 print(heatmap_plot)
 }
 \references{

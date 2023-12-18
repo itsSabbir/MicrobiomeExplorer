@@ -36,6 +36,8 @@ if (!requireNamespace("devtools", quietly = TRUE))
     
 # Install MicrobiomeExplorer from GitHub
 devtools::install_github("itsSabbir/MicrobiomeExplorer", build_vignettes = TRUE)
+#> Skipping install of 'MicrobiomeExplorer' from a github remote, the SHA1 (b1591b99) has not changed since last install.
+#>   Use `force = TRUE` to force installation
 
 # Load MicrobiomeExplorer
 library(MicrobiomeExplorer)
@@ -228,7 +230,7 @@ developers’ abilities.
 
 ## Reproducibility
 
-(PENDING) Reproducibility is ensured through rigorous version control,
+Reproducibility is ensured through rigorous version control,
 comprehensive documentation, clear specification of dependencies,
 automated testing, and continuous integration. A Docker container is
 also provided to facilitate a consistent and controlled environment for
@@ -240,20 +242,67 @@ The MicrobiomeExplorer package is organized as follows:
 
 ``` r
 - MicrobiomeExplorer
+  |- .DS_Store
+  |- .Rbuildignore
+  |- .gitignore
   |- DESCRIPTION
   |- LICENSE
   |- LICENSE.md
   |- MicrobiomeExplorer.Rproj
-  |- MicrobiomeExplorer_utilities.R
   |- NAMESPACE
   |- README.Rmd
   |- README.md
-  |- samples.R
+  |- mbeUtils.Rmd
   |- data/
+     |- microbiomeExample.rda
+     |- microbiome_example.rda
   |- inst/
+     |- extdata/
+        |- microbiomeExampleObjectShin...
+        |- microbiome_exampleShiny.csv
   |- man/
+     |- AdvancedRarefactionPlot.Rd
+     |- MicrobiomeData-class.Rd
+     |- addData.Rd
+     |- calculate_alpha_diversity.Rd
+     |- calculate_stats.Rd
+     |- createMicrobiomeDataObject.Rd
+     |- getData.Rd
+     |- microbiomeExample.Rd
+     |- microbiome_example.Rd
+     |- performDifferentialExpression.Rd
+     |- plot_microbiome_heatmap.Rd
+     |- removeData.Rd
+     |- runMicrobiomeExplorerApp.Rd
+     |- updateData.Rd
+     |- updateSampleInfo.Rd
+     |- validate16SRNAData.Rd
+     |- validateMetagenomicData.Rd
+     |- validateMetatranscriptomicData...
+     |- validateSampleInfo.Rd
   |- R/
+     |- advancedRarefactionPlot.R
+     |- calculateAlphaDiversity.R
+     |- calculateStats.R
+     |- data.R
+     |- dataManipulationFunctions.R
+     |- dataValidationFunctions.R
+     |- microbiomeDataClass.R
+     |- performDEAnalysis.R
+     |- plotMicrobiomeHeatmap.R
+     |- runMicrobiomeExplorer.R
   |- tests/
+     |- testthat/
+        |- test-AdvancedRarefactionPlot.R
+        |- test-DataManipulationFunction...
+        |- test-MBDataClass.R
+        |- test-calculateStats.R
+        |- test-plotMicrobiomeHeatmap.R
+        |- testthat.R
   |- vignettes/
-  
+     |- .DS_Store
+     |- introduction_MicrobiomeExplore...
+     |- sabbir.png
+  |- shiny-scripts/
+     |- app.R
 ```

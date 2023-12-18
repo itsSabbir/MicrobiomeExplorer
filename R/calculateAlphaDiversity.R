@@ -35,7 +35,13 @@ calculate_alpha_diversity <- function(data, indices = c("Shannon", "Simpson", "C
     stop("Data must have non-zero dimensions.")
   }
 
-  data <- data[, sapply(data, is.numeric)] # Ensure all columns are numeric
+  # Ensure all columns are numeric
+  numeric_cols <- sapply(data, is.numeric)
+  if (is.matrix(data)) {
+    data <- data[, numeric_cols]
+  } else {  # Handle data frames
+    data <- data[, numeric_cols, drop = FALSE]
+  }
 
   alphaResults <- data.frame(Sample = rownames(data))
 

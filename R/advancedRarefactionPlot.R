@@ -27,7 +27,10 @@
 #' @importFrom vegan rarefy
 #' @importFrom utils globalVariables
 #'
-AdvancedRarefactionPlot <- function(data, indices = c("Shannon", "Simpson", "Chao1", "ACE"), xlab = "Sample Size", ylab = "Diversity Index", col = NULL, lty = 1, save_plot = FALSE, file_name = "rarefaction_plot", file_type = "pdf", ...) {
+AdvancedRarefactionPlot <- function(data, indices = c("Shannon", "Simpson", "Chao1", "ACE"),
+                                    xlab = "Sample Size", ylab = "Diversity Index",
+                                    col = NULL, lty = 1, save_plot = FALSE,
+                                    file_name = "rarefaction_plot", file_type = "pdf", ...) {
   # Validate input data
   if (!is.matrix(data) && !is.data.frame(data)) {
     stop("Data must be a matrix or dataframe.")
@@ -36,24 +39,18 @@ AdvancedRarefactionPlot <- function(data, indices = c("Shannon", "Simpson", "Cha
   # Calculate alpha diversity using the calculate_alpha_diversity function
   diversity_data <- calculate_alpha_diversity(data, indices = indices)
 
-  # Prepare plot data
-  plot_data <- reshape2::melt(diversity_data, id.vars = "Sample")
-
-  # Define column names explicitly
-  variable_col <- names(plot_data)[which(names(plot_data) == "variable")]
-  value_col <- names(plot_data)[which(names(plot_data) == "value")]
-  sample_col <- names(plot_data)[which(names(plot_data) == "Sample")]
+  # Prepare plot data using tidyr::pivot_longer
+  plot_data <- tidyr::pivot_longer(diversity_data, cols = -Sample, names_to = "variable", values_to = "value")
 
   # Set dynamic colors if not specified
   if (is.null(col)) {
-    num_samples <- length(unique(plot_data[[sample_col]]))
+    num_samples <- length(unique(plot_data$Sample))
     col <- grDevices::rainbow(num_samples)
   }
 
-  # Prepare the plot
-  plot <- ggplot2::ggplot(plot_data,
-                          ggplot2::aes_string(x = variable_col, y = value_col, group = sample_col, color = sample_col, linetype = sample_col)) +
-    ggplot2::geom_line() +
+  # Prepare the plot using tidy evaluation with aes()
+  plot <- ggplot2::ggplot(plot_data, ggplot2::aes(x = variable, y = value, group = Sample, color = Sample, linetype = Sample)) +
+    ggplot2::geom_line(lty = lty) +
     ggplot2::scale_color_manual(values = col) +
     ggplot2::labs(x = xlab, y = ylab, color = "Sample") +
     ggplot2::theme_minimal()
@@ -69,4 +66,6 @@ AdvancedRarefactionPlot <- function(data, indices = c("Shannon", "Simpson", "Cha
 
   return(invisible(plot))
 }
+
+
 

@@ -25,9 +25,9 @@ Imports:
     stats,
     methods,
     grDevices,
-    reshape2,
     shinydashboard
 Suggests:
+    devtools,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),

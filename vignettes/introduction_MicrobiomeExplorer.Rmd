@@ -1,5 +1,5 @@
 ---
-title: "A tour of MicrobiomeExplorer"
+title: "A Detailed Guide On Using the Functions in the MicropbiomeExplorer Package"
 author: "Sabbir Hossain"
 date: "`r format(Sys.time(), '%d %b %Y')`"
 output: 
@@ -12,8 +12,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-
-```{r setup, include=FALSE}
+# Pre-Setup
+```{r setup1, include=FALSE}
 library(knitr)
 opts_chunk$set(fig.align = "center", 
                out.width = "90%",
@@ -24,7 +24,22 @@ opts_chunk$set(fig.align = "center",
 set.seed(1) # for exact reproducibility
 ```
 
-## Introduction
+```{r , setup}
+# Install devtools if not already installed
+if (!requireNamespace("devtools", quietly = TRUE))
+    install.packages("devtools")
+    
+# Install MicrobiomeExplorer from GitHub
+devtools::install_github("itsSabbir/MicrobiomeExplorer")
+
+# Load MicrobiomeExplorer
+library(MicrobiomeExplorer)
+
+```
+
+
+
+# Introduction
 
 `MicrobiomeExplorer` is an R package designed to facilitate the analysis and 
 visualization of microbiome datasets. It includes functions to calculate 
@@ -57,7 +72,7 @@ library(MicrobiomeExplorer)
 ```
 
 To list all functions available in the package:
-``` r
+```r
 ls("package:MicrobiomeExplorer")
 ```
 
@@ -68,9 +83,9 @@ data(package = "MicrobiomeExplorer")
 
 <br>
 
-## Using MicrobiomeExplorer
+# Using MicrobiomeExplorer
 
-### Functions in the Package
+## Functions in the Package
 
 `MicrobiomeExplorer` offers a suite of functions that facilitate the exploration and analysis of microbiome data. Here is a list of the main functions along with a brief description:
 
@@ -110,7 +125,10 @@ data(package = "MicrobiomeExplorer")
 
 - `runMicrobiomeExplorerApp`: Initiates a Shiny application for the MicrobiomeExplorer package. This app provides an interactive interface for visualizing, analyzing, and exploring microbiome data. It supports various functionalities like plot generation and statistical analysis. The function launches the app in the user's default web browser and is located in the `./inst/shiny-scripts` directory of the MicrobiomeExplorer package.
 
-### Data Preparation and Formatting
+
+
+
+## Data Preparation, Validation, and Formatting
 
 Before analyzing your microbiome data, ensure it is in the correct format: 
 a matrix or dataframe with rows representing samples and columns representing 
@@ -124,32 +142,314 @@ to be used in the vignettes:
 
 # Microbiome Example Dataset with Decimal Numbers
 data("microbiome_example")
+
 # Microbiome Example Dataset with Whole Numbers
 data("microbiomeExample")
 ```
 
+### Data Validation Functions in MicrobiomeExplorer
+
+#### validate16SRNAData Function
+
+- **Purpose**: Ensures that 16S rRNA gene sequencing data is structured and qualified for analysis.
+- **Parameters**:
+  - `rRNA16SData`: Matrix or dataframe of 16S rRNA data.
+  - `minColumns`: Minimum number of OTUs/taxa columns expected.
+  - `minNonZeroEntries`: Minimum number of non-zero entries required per sample.
+- **Functionality**: Checks for numeric values, absence of negative or missing values, minimum column count, and sufficient non-zero entries.
+- **Return**: Logical value indicating data validity.
+
+#### validateMetagenomicData Function
+
+- **Purpose**: Validates metagenomic data, focusing on format integrity and data quality.
+- **Parameters**:
+  - `metagenomicData`: Matrix or dataframe of metagenomic data.
+- **Functionality**: Verifies numeric values, checks for negative values and extremely high counts, and ensures proper data dimensions.
+- **Return**: Logical value indicating data validity.
+
+#### validateMetatranscriptomicData Function
+
+- **Purpose**: Validates metatranscriptomic data for correct format and data integrity.
+- **Parameters**:
+  - `metatranscriptomicData`: Matrix or dataframe of metatranscriptomic data.
+- **Functionality**: Ensures numeric values, checks for negative values and outliers, verifies sequencing depth consistency, and confirms appropriate dimensions.
+- **Return**: Logical value indicating data validity.
+
+#### validateSampleInfo Function
+
+- **Purpose**: Confirms the correctness of sample information format and consistency with the provided dataset.
+- **Parameters**:
+  - `sampleInfo`: Data frame of sample information.
+  - `data`: Corresponding dataset (16S rRNA, metagenomic, or metatranscriptomic).
+- **Functionality**: Checks for matching sample numbers, unique identifiers, and absence of discrepancies between sample information and dataset.
+- **Return**: Logical value indicating sample information validity.
+
+### General Overview
+
+These functions in `dataValidationFunctions.R` are essential for ensuring the quality and suitability of various types of microbiome data. They perform critical checks on data structure, content, and consistency, which are fundamental for reliable and accurate microbiome data analysis within the MicrobiomeExplorer package.
+
+### Data Manipulation Functions in MicrobiomeExplorer
+
+#### addData Function
+
+- **Purpose**: Incorporates new data into an existing MicrobiomeData object.
+- **Parameters**:
+  - `object`: The MicrobiomeData object.
+  - `new_data`: New data to be added, either a matrix or data frame.
+  - `data_type`: The category of the new data (choices: 'rRNA16S', 'Metagenomic', 'Metatranscriptomic').
+- **Functionality**: Validates the new data and merges it with existing data, handling overlapping samples and ensuring consistency.
+- **Return**: The MicrobiomeData object, updated with the new data.
+
+#### removeData Function
+
+- **Purpose**: Eliminates a specific data type from a MicrobiomeData object.
+- **Parameters**:
+  - `object`: The MicrobiomeData object.
+  - `data_type`: The category of data to be removed (options: 'rRNA16S', 'Metagenomic', 'Metatranscriptomic').
+- **Functionality**: Directly removes the specified data type, updating the object.
+- **Return**: The MicrobiomeData object, updated post-removal of specified data.
+
+#### updateSampleInfo Function
+
+- **Purpose**: Updates the sample information in a MicrobiomeData object.
+- **Parameters**:
+  - `object`: The MicrobiomeData object.
+  - `new_sample_info`: A data frame containing the new sample information.
+- **Functionality**: Validates and updates the sample information in the object, ensuring consistency with existing data types.
+- **Return**: The MicrobiomeData object, updated with new sample information.
+
+#### General Utility
+
+These functions in `dataManipulationFunctions.R` are designed to provide comprehensive data management capabilities within the MicrobiomeExplorer package. They ensure flexibility in data handling while maintaining data integrity and structure, essential for accurate and efficient microbiome data analysis.
+
+## Statistical Analysis
+
+
+### Introduction to the `calculateStats` function
+
+The `calculate_stats` function in the MicrobiomeExplorer package is designed to calculate extended statistics (mean, median, standard deviation, variance, range, and interquartile range) for each feature in a microbiome dataset. This function is vital for conducting a comprehensive preliminary analysis of your data.
+
+### Function Overview
+
+The function takes a matrix or dataframe with rows as samples and columns as features. It returns a dataframe containing the calculated statistics for each feature. It handles missing values by ignoring NA values, ensuring robust results.
+
+### Example Usage
+
+In this example, we will use the `calculate_stats` function on a sample dataset to demonstrate its functionality.
+
+### Preparing Data
+
+First, let's load a sample dataset. For this example, we will use the famous Iris dataset, focusing on its numeric columns.
+
+```{r load-data}
+data(iris)
+iris_data <- iris[, 1:4]  # Using only the first four columns (numeric features)
+```
 
 ### Calculating Statistics
 
-Use the `calculate_stats` function to compute extended statistics for your dataset:
+Now, we will use the `calculate_stats` function to calculate extended statistics for the Iris dataset:
 
-```{r}
+```{r calculate-stats}
 # Calculate statistics
-stats <- MicrobiomeExplorer::calculate_stats(microbiome_example)
+stats <- calculate_stats(iris_data)
 stats
 ```
 
-### Visualizing Data
+This command will output a dataframe with the calculated mean, median, standard deviation, variance, range (minimum and maximum), and interquartile range for each feature in the dataset.
 
-Visualize your microbiome data with a heatmap using the `plot_microbiome_heatmap` function:
+### Interpreting Results
 
-``` r
-# Generate a heatmap
-heatmap_result <- plot_microbiome_heatmap(microbiome_example, normalize = TRUE)
-print(heatmap_result)
+The resulting dataframe provides a comprehensive statistical overview of each feature in the dataset. For example, you can compare the mean and median to assess the skewness of the distribution or examine the standard deviation and IQR to understand the variability within each feature.
+
+### Conclusion to the `calculateStats` function
+
+The `calculate_stats` function from the MicrobiomeExplorer package is an essential tool for conducting preliminary statistical analysis on microbiome datasets. It provides valuable insights into the distribution and variability of features within your data.
+
+
+### Introduction to performDifferentialExpression Function
+
+The `performDifferentialExpression` function is a vital tool in microbiome research, tailored to conduct differential expression analysis on microbiome data sets. This function is key for uncovering significant changes in gene expression across different conditions, playing a crucial role in understanding the biological implications of these changes.
+
+### Function Overview
+
+The function is designed with the following features:
+
+- **Data Input**: Accepts microbiome data in the form of a matrix or dataframe.
+- **Conditions Input**: Requires a factor vector specifying the condition for each sample, aligning with the columns of the microbiome data.
+- **Analysis Options**: Supports multiple analysis types, including "DESeq2" and "EdgeR", providing flexibility in the choice of statistical methods.
+- **Data Filtering**: Implements a count threshold and a minimum sample criterion to filter out low-count genes.
+
+The function returns the results of the differential expression analysis, offering insights into the genes significantly affected by the experimental conditions.
+
+### Key Parameters
+
+- `microbiomeData`: The input matrix or dataframe containing microbiome data.
+- `conditions`: A factor vector aligning with the samples, indicating their respective conditions.
+- `analysisType`: Specifies the type of differential expression analysis to perform, with "DESeq2" as the default.
+- `countThreshold` and `minSamples`: Parameters for pre-filtering the data based on gene counts and sample sizes.
+
+### Example Usage
+
+Demonstrating the function with an example:
+
+```r
+# Generating mock microbiome data
+microbiomeData <- matrix(rpois(400, lambda = 20), nrow = 100, ncol = 4)
+conditions <- factor(rep(c("Condition1", "Condition2"), each = 2))
+
+# Performing differential expression analysis
+results <- performDifferentialExpression(microbiomeData, conditions, analysisType = "DESeq2")
 ```
 
-<br>
+In this example, the function is used to analyze a simulated microbiome dataset, comparing two conditions using the DESeq2 method.
+
+### Conclusion
+
+The `performDifferentialExpression` function is an essential component in the toolbox of microbiome researchers, especially those investigating gene expression differences across conditions. Its flexibility, robustness, and ease of use make it a highly valuable asset for analyzing complex microbiome datasets, contributing significantly to the field of microbiome research and data analysis.
+
+
+
+
+
+
+
+## Visualizing Data
+
+
+
+
+### Introduction to `AdvancedRarefactionPlot`
+
+The `AdvancedRarefactionPlot` function is designed for generating rarefaction curves using alpha diversity indices from microbiome data. This function allows users to visualize the diversity of species within their samples and compare across different indices.
+
+### Function Parameters
+
+The function accepts the following parameters:
+
+- `data`: A matrix or dataframe with rows as samples and columns as taxa.
+- `indices`: A character vector specifying the diversity indices to use for plotting.
+- `xlab` and `ylab`: Labels for the x-axis and y-axis.
+- `col`: Colors for the curves, recycled if necessary.
+- `lty`: Line types for the curves, recycled if necessary.
+- `save_plot`: Logical, if `TRUE`, the plot is saved to the specified file.
+- `file_name`: Name of the file to save the plot.
+- `file_type`: Type of the file to save the plot (e.g., "png", "pdf").
+- `...`: Any other additional arguments to pass to insider functions.
+
+### Example Usage
+
+In this example, we will generate a mock microbiome dataset and use the `AdvancedRarefactionPlot` function to create a plot.
+
+
+### Plotting with `AdvancedRarefactionPlot`
+
+Now we'll use the `AdvancedRarefactionPlot` function to create a rarefaction plot from our mock data, microbiome_example.rda file. 
+
+```{r plot-rarefaction}
+
+# Use the function to plot the data
+AdvancedRarefactionPlot(microbiome_example, indices = c("Shannon", "Simpson"))
+```
+
+This plot provides a visual representation of the diversity within the microbiome samples across different indices. Adjusting the parameters can tailor the plot to specific needs and preferences.
+
+### Conclusion to `AdvancedRarefactionPlot`
+
+The `AdvancedRarefactionPlot` function is a versatile tool for microbiome data analysis, allowing for the exploration and comparison of species diversity across samples and conditions.
+
+
+
+
+
+### Introduction to `plot_microbiome_heatmap` function
+
+The `plot_microbiome_heatmap` function is designed for advanced visualization of microbiome data. It offers features such as data normalization, various clustering methods, and enhanced visualization options using heatmaps. This function is crucial for exploring complex microbiome datasets and uncovering underlying patterns.
+
+### Function Overview
+
+The function takes the following parameters:
+
+- `data`: A matrix or dataframe with rows as samples and columns as taxa.
+- `normalize`: Logical value indicating if the data should be normalized.
+- `cluster_rows` and `cluster_cols`: Booleans determining whether to cluster rows and/or columns.
+- `color_palette`: Color palette to use for the heatmap.
+
+It returns a ComplexHeatmap plot object, providing a visually appealing and informative representation of the data.
+
+### Example Usage
+
+Let's create a heatmap using the `plot_microbiome_heatmap` function with a mock microbiome dataset.
+
+### Creating the Heatmap
+
+Now, we will use the `plot_microbiome_heatmap` function to visualize this data:
+
+```{r create-heatmap}
+# Plot the heatmap with dynamic color palette
+heatmap_plot <- plot_microbiome_heatmap(microbiome_example, normalize = TRUE)
+print(heatmap_plot)
+
+```
+
+This will produce a heatmap with normalized data, clustered rows and columns, and a color palette from the RColorBrewer package.
+
+### Conclusion
+
+The `plot_microbiome_heatmap` function is an invaluable tool for microbiome researchers and data scientists. It provides an effective way to visualize complex datasets, helping to identify patterns, correlations, and other significant insights in microbiome data.
+
+
+### Introduction to calculate_alpha_diversity Function
+
+The `calculate_alpha_diversity` function is a crucial tool in microbiome data analysis, designed to compute various alpha diversity indices. These indices are key in understanding the complexity and richness of microbial communities within samples. The function's ability to handle both standard and rarefied data makes it versatile and suitable for a broad range of datasets.
+
+### Function Overview
+
+This function offers the following functionalities:
+
+- **Data Input**: Accepts a matrix or dataframe where rows represent samples and columns represent taxa, ensuring compatibility with typical microbiome data formats.
+- **Diversity Indices Calculation**: Calculates a range of alpha diversity indices, including Shannon, Simpson, Chao1, ACE, and Fisher. These indices provide different perspectives on microbial diversity.
+- **Handling Rarefied Data**: Includes an option to process rarefied data, which is essential for standardizing sample sizes across a dataset.
+
+### Key Parameters
+
+- `data`: The input matrix or dataframe.
+- `indices`: A character vector specifying which diversity indices to calculate. Supports "Shannon", "Simpson", "Chao1", "ACE", and "Fisher".
+- `rarefied`: A boolean flag indicating whether the data is rarefied, enabling appropriate processing.
+
+### Example Usage
+
+The function can be demonstrated with a simple example:
+
+```{r}
+# Creating a mock microbiome dataset
+sample_data <- matrix(rnorm(45), nrow = 9, ncol = 5)
+colnames(sample_data) <- paste0("Taxa_", 1:5)
+rownames(sample_data) <- paste0("Sample_", 1:9)
+sample_data_df <- as.data.frame(sample_data)
+
+# Calculating alpha diversity indices
+diversity_alphaResults <- calculate_alpha_diversity(sample_data_df,
+                                                    indices = c("Shannon", "Simpson", "Chao1", "ACE"))
+print(diversity_alphaResults)
+```
+
+In this example, the function calculates specified alpha diversity indices for a mock microbiome dataset.
+
+### Conclusion
+
+The `calculate_alpha_diversity` function is an essential asset for microbiome researchers and ecologists. It streamlines the process of quantifying biodiversity within microbial communities, thereby aiding in the interpretation and comparison of complex ecological datasets. This function is not only a powerful tool for exploratory data analysis but also vital for presenting comprehensive findings in microbial ecology studies.
+
+
+
+
+
+
+
+
+
+
+
 
 ## Conclusion
 
