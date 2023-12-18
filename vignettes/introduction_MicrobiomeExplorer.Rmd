@@ -41,18 +41,6 @@ installation methods.
 Please run the following commands to install the current version of the 
 dependency packages:
 
-```r
-# Install BiocManager if not already installed
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-# Install dependencies from Bioconductor
-BiocManager::install(c("phyloseq", "ComplexHeatmap"), force = TRUE)
-
-# Load the each of dependancy packages
-library(ComplexHeatmap)
-library(phyloseq)
-```
 
 To install the current version of `MicrobiomeExplorer` from GitHub, use:
 ```r
@@ -82,7 +70,47 @@ data(package = "MicrobiomeExplorer")
 
 ## Using MicrobiomeExplorer
 
-### Data Preparation
+### Functions in the Package
+
+`MicrobiomeExplorer` offers a suite of functions that facilitate the exploration and analysis of microbiome data. Here is a list of the main functions along with a brief description:
+
+- `calculateStats`: Calculates extended statistics (mean, median, standard deviation, variance, range, and interquartile range) for each feature in a microbiome dataset, providing a comprehensive statistical overview essential for preliminary data analysis.
+
+- `plotMicrobiomeHeatmap`: Creates a comprehensive heatmap for microbiome data analysis, with support for normalization, various clustering methods, and enhanced visualization options using the `ComplexHeatmap` package.
+
+- `advancedRarefactionPlot`: Generates rarefaction curves for microbiome count data, useful for comparing species richness among samples with customizable sampling and plot aesthetics.
+
+- `calculateAlphaDiversity`: Computes various alpha diversity indices (like Shannon, Simpson, Chao1, and ACE) for each sample in a microbiome dataset, facilitating in-depth ecological and diversity studies.
+
+- `addData`: Adds new data to a MicrobiomeData object, ensuring class compatibility and handling overlapping samples with advanced merging strategies. Supports rRNA16S, Metagenomic, or Metatranscriptomic data types, with specific validation for each..
+
+- `mergeData`: Helper function to merge data matrices within MicrobiomeData objects, offering advanced merging options for overlapping data (like averaging or prioritizing new/existing data).
+
+- `removeData`: Removes specified data (rRNA16S, Metagenomic, or Metatranscriptomic) from a MicrobiomeData object, simplifying data management and manipulation.
+
+- `updateSampleInfo`: Updates the sample information in a MicrobiomeData object, ensuring consistency and integrity of new sample data with existing datasets.
+
+- `validateSampleInfo`: Validates new sample information against existing data in MicrobiomeData objects, checking for consistency in sample counts, uniqueness, and matching identifiers.
+
+- `validate16SRNAData`: Checks 16S rRNA gene sequencing data for structure, quality, and content, including numeric values, absence of negative values, minimum column and non-zero entry requirements, and no missing values.
+
+- `validateMetagenomicData`: Validates metagenomic data for structure and quality, ensuring numeric values, no negative or extremely high values, and adequate dimensions.
+
+- `validateMetatranscriptomicData`: Ensures metatranscriptomic data integrity by checking format, numeric values, non-negativity, potential outliers, and sequencing depth consistency.
+
+- `MicrobiomeData S4 Class`: Defines an S4 class for managing microbiome data, including types such as 16S rRNA gene sequencing, metagenomic, and metatranscriptomic data, along with sample information.
+
+- `createMicrobiomeDataObject`: Initializes a MicrobiomeData object with provided data, performing validation checks on the input data.
+
+- `getData`: Extracts specified data type ('rRNA16S', 'Metagenomic', 'Metatranscriptomic', 'SampleInfo') from a MicrobiomeData object.
+
+- `updateData`: Updates specific data within a MicrobiomeData object, allowing modification of existing data slots.
+
+- `performDifferentialExpression`: Conducts differential expression analysis on microbiome data using either DESeq2 or EdgeR methods. It filters data based on count thresholds, normalizes counts, and returns results of the statistical analysis.
+
+- `runMicrobiomeExplorerApp`: Initiates a Shiny application for the MicrobiomeExplorer package. This app provides an interactive interface for visualizing, analyzing, and exploring microbiome data. It supports various functionalities like plot generation and statistical analysis. The function launches the app in the user's default web browser and is located in the `./inst/shiny-scripts` directory of the MicrobiomeExplorer package.
+
+### Data Preparation and Formatting
 
 Before analyzing your microbiome data, ensure it is in the correct format: 
 a matrix or dataframe with rows representing samples and columns representing 
@@ -91,28 +119,24 @@ taxa.
 Run the R following code block to generate some data called microbiome_example 
 to be used in the vignettes:
 
-```r
-# Mock Microbiome Dataframe Creation and Example dataset
-set.seed(123)  # For reproducibility
-sample_size <- 10  # Number of samples
-taxa_number <- 5   # Number of microbial taxa
+```{r}
+# Load in the data for the function tutorials and walkthroughs.
 
-# Create a dataframe with random counts
-microbiome_example <- as.data.frame(matrix(rnorm(sample_size * taxa_number, mean = 10, sd = 5),
-                                        nrow = sample_size,
-                                        ncol = taxa_number))
-colnames(microbiome_example) <- paste("Taxa", 1:taxa_number, sep = "_")
-rownames(microbiome_example) <- paste("Sample", 1:sample_size, sep = "_")
+# Microbiome Example Dataset with Decimal Numbers
+data("microbiome_example")
+# Microbiome Example Dataset with Whole Numbers
+data("microbiomeExample")
 ```
+
 
 ### Calculating Statistics
 
 Use the `calculate_stats` function to compute extended statistics for your dataset:
 
-``` r
+```{r}
 # Calculate statistics
 stats <- MicrobiomeExplorer::calculate_stats(microbiome_example)
-print(stats)
+stats
 ```
 
 ### Visualizing Data
@@ -140,6 +164,6 @@ function-specific help pages.
 
 It's always a good practice to include the session information in vignettes:
 
-```{r}
-sessionInfo()
+```{r, message=FALSE, tidy=TRUE}
+sessionInfo("MicrobiomeExplorer")
 ```

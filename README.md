@@ -27,15 +27,6 @@ Bioconductor, not CRAN, and require Bioconductor’s installation methods.
 Please run the following commands to install the current version of the
 dependency packages:
 
-``` r
-# Install BiocManager if not already installed
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-# Install dependencies from Bioconductor
-BiocManager::install(c("phyloseq", "ComplexHeatmap"))
-```
-
 To install the current version of `MicrobiomeExplorer` from GitHub, use:
 
 ``` r
@@ -50,7 +41,11 @@ devtools::install_github("itsSabbir/MicrobiomeExplorer", build_vignettes = TRUE)
 library(MicrobiomeExplorer)
 ```
 
-To run the shinyApp: Under construction
+To run the shinyApp:
+
+``` r
+runMicrobiomeExplorerApp()
+```
 
 ## Overview
 
@@ -58,33 +53,84 @@ To run the shinyApp: Under construction
 exploration and analysis of microbiome data. Here is a list of the main
 functions along with a brief description:
 
-- `calculate_stats`: Calculates extended statistics (mean, median,
+- `calculateStats`: Calculates extended statistics (mean, median,
   standard deviation, variance, range, and interquartile range) for each
   feature in a microbiome dataset, providing a comprehensive statistical
   overview essential for preliminary data analysis.
 
-- `plot_microbiome_heatmap`: Creates a comprehensive heatmap for
+- `plotMicrobiomeHeatmap`: Creates a comprehensive heatmap for
   microbiome data analysis, with support for normalization, various
   clustering methods, and enhanced visualization options using the
   `ComplexHeatmap` package.
 
-- `plot_rarefaction`: Generates rarefaction curves for microbiome count
-  data, useful for comparing species richness among samples with
+- `advancedRarefactionPlot`: Generates rarefaction curves for microbiome
+  count data, useful for comparing species richness among samples with
   customizable sampling and plot aesthetics.
 
-- `calculate_alpha_diversity`: Computes various alpha diversity indices
+- `calculateAlphaDiversity`: Computes various alpha diversity indices
   (like Shannon, Simpson, Chao1, and ACE) for each sample in a
   microbiome dataset, facilitating in-depth ecological and diversity
   studies.
 
-Each function is designed with robustness in mind, ensuring that they
-handle missing values appropriately, provide flexible clustering
-options, and allow for extensive plot customization to aid in data
-interpretation.
+- `addData`: Adds new data to a MicrobiomeData object, ensuring class
+  compatibility and handling overlapping samples with advanced merging
+  strategies. Supports rRNA16S, Metagenomic, or Metatranscriptomic data
+  types, with specific validation for each..
 
-Currently,`calculate_alpha_diversity` are in beta and may not work as
-intended due to some cross-platform package errors. `calculate_stats`
-works as inteded.
+- `mergeData`: Helper function to merge data matrices within
+  MicrobiomeData objects, offering advanced merging options for
+  overlapping data (like averaging or prioritizing new/existing data).
+
+- `removeData`: Removes specified data (rRNA16S, Metagenomic, or
+  Metatranscriptomic) from a MicrobiomeData object, simplifying data
+  management and manipulation.
+
+- `updateSampleInfo`: Updates the sample information in a MicrobiomeData
+  object, ensuring consistency and integrity of new sample data with
+  existing datasets.
+
+- `validateSampleInfo`: Validates new sample information against
+  existing data in MicrobiomeData objects, checking for consistency in
+  sample counts, uniqueness, and matching identifiers.
+
+- `validate16SRNAData`: Checks 16S rRNA gene sequencing data for
+  structure, quality, and content, including numeric values, absence of
+  negative values, minimum column and non-zero entry requirements, and
+  no missing values.
+
+- `validateMetagenomicData`: Validates metagenomic data for structure
+  and quality, ensuring numeric values, no negative or extremely high
+  values, and adequate dimensions.
+
+- `validateMetatranscriptomicData`: Ensures metatranscriptomic data
+  integrity by checking format, numeric values, non-negativity,
+  potential outliers, and sequencing depth consistency.
+
+- `MicrobiomeData S4 Class`: Defines an S4 class for managing microbiome
+  data, including types such as 16S rRNA gene sequencing, metagenomic,
+  and metatranscriptomic data, along with sample information.
+
+- `createMicrobiomeDataObject`: Initializes a MicrobiomeData object with
+  provided data, performing validation checks on the input data.
+
+- `getData`: Extracts specified data type (‘rRNA16S’, ‘Metagenomic’,
+  ‘Metatranscriptomic’, ‘SampleInfo’) from a MicrobiomeData object.
+
+- `updateData`: Updates specific data within a MicrobiomeData object,
+  allowing modification of existing data slots.
+
+- `performDifferentialExpression`: Conducts differential expression
+  analysis on microbiome data using either DESeq2 or EdgeR methods. It
+  filters data based on count thresholds, normalizes counts, and returns
+  results of the statistical analysis.
+
+- `runMicrobiomeExplorerApp`: Initiates a Shiny application for the
+  MicrobiomeExplorer package. This app provides an interactive interface
+  for visualizing, analyzing, and exploring microbiome data. It supports
+  various functionalities like plot generation and statistical analysis.
+  The function launches the app in the user’s default web browser and is
+  located in the `./inst/shiny-scripts` directory of the
+  MicrobiomeExplorer package.
 
 To list the functions and datasets provided by `MicrobiomeExplorer`,
 use:

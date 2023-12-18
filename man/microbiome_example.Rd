@@ -3,17 +3,22 @@
 \docType{data}
 \name{microbiome_example}
 \alias{microbiome_example}
-\title{Microbiome Example Dataset}
+\title{Microbiome Example Dataset with Decimal Numbers}
 \format{
-A data frame with 30 rows and 10 variables (taxa).
+A data frame with 30 rows and 10 variables (taxa). Each variable
+represents a taxa count in each sample. The counts include decimal values.
 }
 \source{
-Generated using createMicrobiomeExample function.
+Generated using generateMicrobiomeData function, simulating
+microbiome count data with decimalization.
 }
 \usage{
 microbiome_example
 }
 \description{
-A dataset representing hypothetical microbiome count data, useful for examples in functions like AdvancedRarefactionPlot.
+A synthetic dataset representing microbiome count data with decimal values.
+This dataset includes decimalized counts, making it suitable for functions
+and analysis techniques where finer precision is required. It illustrates
+how decimalization impacts the analysis and visualization in microbiome studies.
 }
 \keyword{datasets}
