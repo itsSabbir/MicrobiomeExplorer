@@ -36,7 +36,7 @@ if (!requireNamespace("devtools", quietly = TRUE))
     
 # Install MicrobiomeExplorer from GitHub
 devtools::install_github("itsSabbir/MicrobiomeExplorer", build_vignettes = TRUE)
-#> Skipping install of 'MicrobiomeExplorer' from a github remote, the SHA1 (b1591b99) has not changed since last install.
+#> Skipping install of 'MicrobiomeExplorer' from a github remote, the SHA1 (b9d3fbc1) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 
 # Load MicrobiomeExplorer
@@ -149,6 +149,11 @@ the vignettes:
 ``` r
 browseVignettes("MicrobiomeExplorer")
 ```
+
+The Vignettes will provide in depth documentation on how you can use the
+shinyapp to validate, normalize, analyzie, and visualze the date. You
+can get the data in the `data/` directory as both will work, download
+from my respective github section as well.
 
 The package also contains one sample micriobiome dataset presented as a
 dataframe called microbiome_data.csv. Refer to package vignettes for
