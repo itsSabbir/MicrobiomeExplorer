@@ -10,6 +10,7 @@
 #' @param data_type Type of the new data ('rRNA16S', 'Metagenomic', or 'Metatranscriptomic').
 #' @return Updated MicrobiomeData object.
 #' @export
+#' @importFrom methods slot slot<-
 addData <- function(object, new_data, data_type) {
   if (!inherits(object, "MicrobiomeData")) {
     stop("Object must be of class 'MicrobiomeData'")

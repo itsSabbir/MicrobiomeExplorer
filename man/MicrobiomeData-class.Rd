@@ -5,18 +5,19 @@
 \alias{MicrobiomeData-class}
 \title{MicrobiomeData S4 Class}
 \description{
-A class for storing and managing microbiome data including 16S rRNA,
-metagenomic, and metatranscriptomic data along with sample information.
+An S4 class for storing and managing microbiome data. It encompasses various
+types of microbiome-related data including 16S rRNA gene sequencing data,
+metagenomic, and metatranscriptomic data, along with associated sample information.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{rRNA16S}}{16S rRNA gene sequencing data}
+\item{\code{rRNA16S}}{16S rRNA gene sequencing data stored as a matrix or dataframe.}
 
-\item{\code{Metagenomic}}{Metagenomic data}
+\item{\code{Metagenomic}}{Metagenomic data stored as a matrix or dataframe.}
 
-\item{\code{Metatranscriptomic}}{Metatranscriptomic data}
+\item{\code{Metatranscriptomic}}{Metatranscriptomic data stored as a matrix or dataframe.}
 
-\item{\code{SampleInfo}}{Information about the samples}
+\item{\code{SampleInfo}}{A dataframe containing information about the samples.}
 }}
 

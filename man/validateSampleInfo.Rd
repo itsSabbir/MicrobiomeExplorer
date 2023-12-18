@@ -5,6 +5,8 @@
 \title{Validate Sample Information}
 \usage{
 validateSampleInfo(sampleInfo, data)
+
+validateSampleInfo(sampleInfo, data)
 }
 \arguments{
 \item{sampleInfo}{A data frame containing sample information, expected to have rows as samples and columns as metadata fields.}
@@ -13,8 +15,13 @@ validateSampleInfo(sampleInfo, data)
 }
 \value{
 A logical value indicating whether the sample information is valid.
+
+A logical value indicating whether the sample information is valid.
 }
 \description{
+Verifies if the sample information is correctly formatted and consistent with the provided dataset.
+Ensures that sample identifiers are unique and match those in the dataset.
+
 Verifies if the sample information is correctly formatted and consistent with the provided dataset.
 Ensures that sample identifiers are unique and match those in the dataset.
 }

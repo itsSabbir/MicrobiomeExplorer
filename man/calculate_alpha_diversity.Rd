@@ -6,7 +6,7 @@
 \usage{
 calculate_alpha_diversity(
   data,
-  indices = c("Shannon", "Simpson", "Chao1", "ACE"),
+  indices = c("Shannon", "Simpson", "Chao1", "ACE", "Fisher"),
   rarefied = FALSE
 )
 }
@@ -30,7 +30,7 @@ sample_data <- matrix(rnorm(45), nrow = 9, ncol = 5)
 colnames(sample_data) <- paste0("Taxa_", 1:5)
 rownames(sample_data) <- paste0("Sample_", 1:9)
 sample_data_df <- as.data.frame(sample_data)
-diversity_results <- calculate_alpha_diversity(sample_data_df,
+diversity_alphaResults <- calculate_alpha_diversity(sample_data_df,
 indices = c("Shannon", "Simpson", "Chao1", "ACE"))
 
 }

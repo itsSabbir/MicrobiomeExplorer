@@ -13,13 +13,19 @@ biocViews: MicrobiomeAnalysis, Visualization, Bioinformatics
 Depends: R (>= 4.1.0)
 Imports: 
     ggplot2,
-    dplyr,
     tidyr,
     phyloseq,
     vegan,
     ComplexHeatmap,
     RColorBrewer,
-    shiny
+    shiny,
+    DESeq2,
+    edgeR,
+    limma,
+    stats,
+    methods,
+    grDevices,
+    reshape2
 Suggests:
     knitr,
     rmarkdown,

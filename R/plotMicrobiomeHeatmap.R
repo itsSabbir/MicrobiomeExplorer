@@ -11,6 +11,9 @@
 #' @param color_palette Color palette to use for heatmap. Default is heat.colors(10).
 #' @return A ComplexHeatmap plot object.
 #' @export
+#' @importFrom ComplexHeatmap Heatmap
+#' @importFrom grDevices heat.colors
+#' @import RColorBrewer
 #' @examples
 #' # Create a simple numeric dataset for the example
 #' example_data <- matrix(rnorm(100), nrow = 10)
@@ -54,15 +57,6 @@ plot_microbiome_heatmap <- function(data, normalize = FALSE,
       }
       x / sum(x)
     }))
-  }
-
-  # Load required libraries
-  if (!requireNamespace("ComplexHeatmap", quietly = TRUE)) {
-    stop("ComplexHeatmap library is not installed. Please install it using BiocManager::install('ComplexHeatmap').")
-  }
-
-  if (!requireNamespace("RColorBrewer", quietly = TRUE)) {
-    stop("RColorBrewer library is not installed. Please install it to use custom color palettes.")
   }
 
   # Creating the heatmap

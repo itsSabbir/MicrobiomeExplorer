@@ -13,8 +13,12 @@
 #' }
 #'
 #' @param data A matrix or dataframe with rows as samples and columns as features.
+#'
 #' @return A dataframe with calculated statistics for each feature.
+#'
 #' @export
+#'
+#' @importFrom stats median var IQR
 #'
 #' @examples
 #' data(iris)
