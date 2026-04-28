@@ -13,11 +13,15 @@ performDifferentialExpression(
 )
 }
 \arguments{
-\item{microbiomeData}{Matrix or dataframe with microbiome data.}
+\item{microbiomeData}{Integer count matrix with rows as features/taxa and
+columns as samples (standard DESeq2/edgeR orientation). Note: most other
+functions in this package use rows=samples; transpose your data if needed.}
 
-\item{conditions}{Factor vector specifying the condition for each sample.}
+\item{conditions}{Factor vector specifying the condition for each sample.
+Length must equal \code{ncol(microbiomeData)}.}
 
-\item{analysisType}{Type of analysis to perform, default "DESeq2".}
+\item{analysisType}{Type of analysis to perform: \code{"DESeq2"} (default) or
+\code{"EdgeR"}.}
 
 \item{countThreshold}{The minimum count threshold for a gene to be kept for analysis.}
 

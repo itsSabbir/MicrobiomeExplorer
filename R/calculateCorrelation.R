@@ -54,8 +54,11 @@ calculateCorrelation <- function(data, method = "spearman",
 
   # P-values via t-distribution (avoids external package dependency)
   n <- nrow(data)
-  t_stat <- cor_mat * sqrt((n - 2) / (1 - cor_mat^2))
+  denom <- 1 - cor_mat^2
+  denom[denom < .Machine$double.eps] <- .Machine$double.eps
+  t_stat <- cor_mat * sqrt((n - 2) / denom)
   p_mat  <- 2 * stats::pt(-abs(t_stat), df = n - 2)
+  p_mat[abs(cor_mat) >= 1] <- 0
   diag(p_mat) <- 0
 
   list(correlation = cor_mat, pvalue = p_mat,

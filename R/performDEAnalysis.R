@@ -3,9 +3,13 @@
 #' @description
 #' Performs differential expression analysis using specified statistical methods.
 #'
-#' @param microbiomeData Matrix or dataframe with microbiome data.
+#' @param microbiomeData Integer count matrix with rows as features/taxa and
+#'   columns as samples (standard DESeq2/edgeR orientation). Note: most other
+#'   functions in this package use rows=samples; transpose your data if needed.
 #' @param conditions Factor vector specifying the condition for each sample.
-#' @param analysisType Type of analysis to perform, default "DESeq2".
+#'   Length must equal \code{ncol(microbiomeData)}.
+#' @param analysisType Type of analysis to perform: \code{"DESeq2"} (default) or
+#'   \code{"EdgeR"}.
 #' @param countThreshold The minimum count threshold for a gene to be kept for analysis.
 #' @param minSamples The minimum number of samples that must meet the countThreshold.
 #' @return Results of the differential expression analysis.

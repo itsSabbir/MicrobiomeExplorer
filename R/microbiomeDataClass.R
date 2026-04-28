@@ -149,7 +149,7 @@ setMethod("getData",
 #' Updates specific data within a MicrobiomeData object. This function allows modification
 #' of the existing data slots in the MicrobiomeData object.
 #'
-#' @param object A `MicrobiomeData` object to be updated.G
+#' @param object A `MicrobiomeData` object to be updated.
 #' @param dataType The type of data to update. Valid types include 'rRNA16S', 'Metagenomic',
 #'                 'Metatranscriptomic', and 'SampleInfo'.
 #' @param newData The new data to be inserted into the object.

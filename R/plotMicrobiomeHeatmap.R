@@ -20,12 +20,12 @@
 #' example_data <- matrix(rnorm(100), nrow = 10)
 #' colnames(example_data) <- paste0("Taxa_", 1:10)
 #' rownames(example_data) <- paste0("Sample_", 1:10)
-#' heatmap_plot <- plot_microbiome_heatmap(example_data, normalize = TRUE)
+#' heatmap_plot <- plotMicrobiomeHeatmap(example_data, normalize = TRUE)
 #' print(heatmap_plot)
 #' @references
 #' Gu, Z. (2016). Complex heatmaps reveal patterns and correlations in multidimensional genomic data. Bioinformatics, 32(18), 2847–2849.
 
-plot_microbiome_heatmap <- function(data, normalize = FALSE,
+plotMicrobiomeHeatmap <- function(data, normalize = FALSE,
                                     cluster_rows = TRUE, cluster_cols = TRUE,
                                     color_palette = NULL) {
   # Validate data input

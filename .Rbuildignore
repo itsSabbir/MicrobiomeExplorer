@@ -1,2 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.github$
+^Dockerfile$
+^\.dockerignore$
+^deploy$
+^docs$
+^README\.Rmd$
+^mbeUtils\.Rmd$
+^\.local$

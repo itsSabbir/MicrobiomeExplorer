@@ -3,7 +3,7 @@
 #' Visualises alpha diversity distributions across sample groups using box or
 #' violin plots with optional statistical testing.
 #'
-#' @param alpha_results A data.frame from \code{calculate_alpha_diversity()}.
+#' @param alpha_results A data.frame from \code{calculateAlphaDiversity()}.
 #'   Must have a \code{Sample} column and one column per diversity index.
 #' @param sample_info A data.frame with sample metadata. Row names or a column
 #'   named \code{"Sample"} must match \code{alpha_results$Sample}.
@@ -28,7 +28,7 @@
 #' counts <- matrix(rpois(50, lambda = 20), nrow = 10, ncol = 5)
 #' rownames(counts) <- paste0("S", 1:10)
 #' colnames(counts) <- paste0("OTU", 1:5)
-#' alpha <- calculate_alpha_diversity(counts, indices = c("Shannon", "Simpson"))
+#' alpha <- calculateAlphaDiversity(counts, indices = c("Shannon", "Simpson"))
 #' meta  <- data.frame(Group = rep(c("A", "B"), 5),
 #'                     row.names = paste0("S", 1:10))
 #' result <- plotAlphaDiversityBoxplot(alpha, sample_info = meta,
@@ -43,7 +43,7 @@ plotAlphaDiversityBoxplot <- function(alpha_results, sample_info, group_var,
                                        index = "Shannon", plot_type = "box",
                                        add_points = TRUE, test = "kruskal") {
   if (!is.data.frame(alpha_results)) {
-    stop("alpha_results must be a data.frame (output of calculate_alpha_diversity).")
+    stop("alpha_results must be a data.frame (output of calculateAlphaDiversity).")
   }
   if (!"Sample" %in% colnames(alpha_results)) {
     stop("alpha_results must have a 'Sample' column.")
@@ -62,9 +62,12 @@ plotAlphaDiversityBoxplot <- function(alpha_results, sample_info, group_var,
   }
 
   # Merge alpha results with metadata
-  merged <- merge(alpha_results,
-                  cbind(Sample = rownames(sample_info), sample_info),
-                  by = "Sample")
+  meta_df <- sample_info
+  meta_df$Sample <- rownames(sample_info)
+  merged <- merge(alpha_results, meta_df, by = "Sample")
+  if (nrow(merged) == 0) {
+    stop("No matching sample IDs between alpha results and sample_info.")
+  }
 
   # Statistical test
   formula_obj <- stats::as.formula(paste(index, "~", group_var))

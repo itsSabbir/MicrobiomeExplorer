@@ -24,6 +24,9 @@ ui <- dashboardPage(
       menuItem("Differential Abundance", tabName = "deAnalysis",    icon = icon("chart-line")),
       menuItem("Correlation Analysis",   tabName = "correlation",   icon = icon("network-wired")),
       menuItem("Heatmap",                tabName = "heatmap",       icon = icon("fire")),
+      menuItem("ML Classification",     tabName = "mlClassification", icon = icon("robot")),
+      menuItem("Biomarkers & Clustering",tabName = "biomarkerClustering", icon = icon("microscope")),
+      menuItem("Network Analysis",      tabName = "networkAnalysis", icon = icon("circle-nodes")),
       menuItem("Export",                 tabName = "export",        icon = icon("download"))
     )
   ),
@@ -59,7 +62,7 @@ ui <- dashboardPage(
         ),
         fluidRow(
           box(width = 12, title = "Data Preview", status = "info", collapsible = TRUE,
-            shinycssloaders::withSpinner(DT::dataTableOutput("homePreviewTable"))
+            DT::dataTableOutput("homePreviewTable")
           )
         )
       ),
@@ -94,17 +97,17 @@ ui <- dashboardPage(
               actionButton("processUpload", "Load Data", icon = icon("upload"),
                            class = "btn-primary btn-lg"),
               br(), br(),
-              shinycssloaders::withSpinner(verbatimTextOutput("uploadStatus"))
+              verbatimTextOutput("uploadStatus")
             )
           ),
           fluidRow(
             box(width = 12, title = "Count Table Preview", collapsible = TRUE,
-              shinycssloaders::withSpinner(DT::dataTableOutput("dataPreviewTable"))
+              DT::dataTableOutput("dataPreviewTable")
             )
           ),
           fluidRow(
             box(width = 12, title = "Metadata Preview", collapsible = TRUE,
-              shinycssloaders::withSpinner(DT::dataTableOutput("metaPreviewTable"))
+              DT::dataTableOutput("metaPreviewTable")
             )
           )
         )
@@ -140,7 +143,7 @@ ui <- dashboardPage(
           ),
           fluidRow(
             box(width = 12, title = "Filtered & Normalised Data Preview", collapsible = TRUE,
-              shinycssloaders::withSpinner(DT::dataTableOutput("filteredDataPreview"))
+              (DT::dataTableOutput("filteredDataPreview"))
             )
           )
         )
@@ -161,7 +164,7 @@ ui <- dashboardPage(
                            class = "btn-primary")
             ),
             box(width = 9, title = "Taxonomic Composition Plot", status = "info",
-              shinycssloaders::withSpinner(plotly::plotlyOutput("taxAbundancePlot", height = "500px"))
+              (plotly::plotlyOutput("taxAbundancePlot", height = "500px"))
             )
           )
         )
@@ -186,7 +189,7 @@ ui <- dashboardPage(
                            class = "btn-primary")
             ),
             box(width = 9, title = "Ordination Plot", status = "info",
-              shinycssloaders::withSpinner(plotOutput("ordinationPlot", height = "450px"))
+              (plotOutput("ordinationPlot", height = "450px"))
             )
           ),
           fluidRow(
@@ -194,7 +197,7 @@ ui <- dashboardPage(
               verbatimTextOutput("permanovaResult")
             ),
             box(width = 6, title = "Distance Matrix (first 10×10)", collapsible = TRUE,
-              shinycssloaders::withSpinner(DT::dataTableOutput("distMatrixTable"))
+              (DT::dataTableOutput("distMatrixTable"))
             )
           )
         )
@@ -222,14 +225,14 @@ ui <- dashboardPage(
             box(width = 9,
               tabBox(width = 12,
                 tabPanel("Diversity Boxplot",
-                  shinycssloaders::withSpinner(plotOutput("alphaDivBoxplot", height = "400px")),
+                  (plotOutput("alphaDivBoxplot", height = "400px")),
                   verbatimTextOutput("alphaTestResult")
                 ),
                 tabPanel("Rarefaction Curves",
-                  shinycssloaders::withSpinner(plotOutput("rarefactionCurvePlot", height = "400px"))
+                  (plotOutput("rarefactionCurvePlot", height = "400px"))
                 ),
                 tabPanel("Results Table",
-                  shinycssloaders::withSpinner(DT::dataTableOutput("alphaDivTable"))
+                  (DT::dataTableOutput("alphaDivTable"))
                 )
               )
             )
@@ -257,10 +260,10 @@ ui <- dashboardPage(
             box(width = 9,
               tabBox(width = 12,
                 tabPanel("Volcano Plot",
-                  shinycssloaders::withSpinner(plotOutput("volcanoPlot", height = "450px"))
+                  (plotOutput("volcanoPlot", height = "450px"))
                 ),
                 tabPanel("Results Table",
-                  shinycssloaders::withSpinner(DT::dataTableOutput("deResultsTable"))
+                  (DT::dataTableOutput("deResultsTable"))
                 )
               )
             )
@@ -284,7 +287,7 @@ ui <- dashboardPage(
                            class = "btn-primary")
             ),
             box(width = 9, title = "Correlation Heatmap", status = "info",
-              shinycssloaders::withSpinner(plotOutput("corrHeatmapPlot", height = "500px"))
+              (plotOutput("corrHeatmapPlot", height = "500px"))
             )
           )
         )
@@ -307,13 +310,96 @@ ui <- dashboardPage(
                            class = "btn-primary")
             ),
             box(width = 9, title = "Heatmap", status = "info",
-              shinycssloaders::withSpinner(plotOutput("heatmapPlot", height = "550px"))
+              (plotOutput("heatmapPlot", height = "550px"))
             )
           )
         )
       ),
 
-      # ── Tab 10: Export ────────────────────────────────────────────────────────
+      # ── Tab 11: ML Classification ──────────────────────────────────────────
+      tabItem(tabName = "mlClassification",
+        fluidPage(
+          titlePanel("Machine Learning Classification"),
+          fluidRow(
+            box(width = 3, title = "Options", status = "primary", solidHeader = TRUE,
+              selectInput("mlGroupVar", "Group Variable", choices = c("Upload metadata first" = "")),
+              numericInput("mlNtree", "Number of Trees", value = 500, min = 100),
+              sliderInput("mlTestFrac", "Test Fraction", min = 0.1, max = 0.5, value = 0.3, step = 0.05),
+              numericInput("mlNfolds", "CV Folds", value = 5, min = 2, max = 10),
+              numericInput("mlNrepeats", "CV Repeats", value = 5, min = 1, max = 20),
+              actionButton("runRF", "Train Model", icon = icon("play"), class = "btn-primary btn-block"),
+              br(),
+              actionButton("runCV", "Run Cross-Validation", icon = icon("chart-line"), class = "btn-info btn-block")
+            ),
+            box(width = 9, title = "Results",
+              tabsetPanel(
+                tabPanel("Summary", (verbatimTextOutput("rfSummary"))),
+                tabPanel("Feature Importance", (plotOutput("rfImportancePlot", height = "500px"))),
+                tabPanel("ROC Curve", (plotOutput("rocCurvePlot", height = "450px"))),
+                tabPanel("Confusion Matrix", (DT::dataTableOutput("rfConfusionTable")))
+              )
+            )
+          )
+        )
+      ),
+
+      # ── Tab 12: Biomarkers & Clustering ─────────────────────────────────────
+      tabItem(tabName = "biomarkerClustering",
+        fluidPage(
+          titlePanel("Biomarker Discovery & Clustering"),
+          fluidRow(
+            box(width = 3, title = "Options", status = "primary", solidHeader = TRUE,
+              h4("Biomarker Discovery"),
+              selectInput("bmGroupVar", "Group Variable", choices = c("Upload metadata first" = "")),
+              selectInput("bmMethod", "Method", choices = c("Kruskal-Wallis" = "kw", "Random Forest" = "rf", "Combined" = "combined")),
+              numericInput("bmPvalThresh", "P-value Threshold", value = 0.05, min = 0.001, max = 0.1, step = 0.01),
+              numericInput("bmLdaThresh", "Effect Size Threshold", value = 0.5, min = 0, step = 0.1),
+              actionButton("runBiomarkers", "Find Biomarkers", icon = icon("search"), class = "btn-primary btn-block"),
+              hr(),
+              h4("Clustering"),
+              selectInput("clMethod", "Method", choices = c("K-means" = "kmeans", "Hierarchical" = "hierarchical")),
+              numericInput("clK", "K (blank = auto)", value = NA, min = 2, max = 20),
+              numericInput("clMaxK", "Max K (auto)", value = 10, min = 2, max = 30),
+              actionButton("runClustering", "Run Clustering", icon = icon("object-group"), class = "btn-info btn-block")
+            ),
+            box(width = 9, title = "Results",
+              tabsetPanel(
+                tabPanel("Biomarker Plot", (plotOutput("biomarkerPlot", height = "500px"))),
+                tabPanel("Biomarker Table", (DT::dataTableOutput("biomarkerTable"))),
+                tabPanel("Cluster Ordination", (plotOutput("clusterOrdPlot", height = "450px"))),
+                tabPanel("Cluster Summary", (verbatimTextOutput("clusterSummary")))
+              )
+            )
+          )
+        )
+      ),
+
+      # ── Tab 13: Network Analysis ────────────────────────────────────────────
+      tabItem(tabName = "networkAnalysis",
+        fluidPage(
+          titlePanel("Co-occurrence Network Analysis"),
+          fluidRow(
+            box(width = 3, title = "Options", status = "primary", solidHeader = TRUE,
+              selectInput("netCorrMethod", "Correlation Method", choices = c("Spearman" = "spearman", "Pearson" = "pearson")),
+              sliderInput("netCorThresh", "Min. |Correlation|", min = 0.1, max = 0.9, value = 0.6, step = 0.05),
+              numericInput("netPvalThresh", "P-value Threshold", value = 0.05, min = 0.001, max = 0.1, step = 0.01),
+              sliderInput("netPrev", "Min. Prevalence (%)", min = 0, max = 100, value = 10),
+              numericInput("netTopTaxa", "Top Taxa (by variance)", value = 50, min = 5, max = 500),
+              selectInput("netLayout", "Layout", choices = c("Fruchterman-Reingold" = "fr", "Circle" = "circle", "Kamada-Kawai" = "kk")),
+              actionButton("buildNetwork", "Build Network", icon = icon("circle-nodes"), class = "btn-primary btn-block")
+            ),
+            box(width = 9, title = "Results",
+              tabsetPanel(
+                tabPanel("Network Plot", (plotOutput("networkPlot", height = "550px"))),
+                tabPanel("Node Metrics", (DT::dataTableOutput("nodeMetricsTable"))),
+                tabPanel("Edge List", (DT::dataTableOutput("edgeListTable")))
+              )
+            )
+          )
+        )
+      ),
+
+      # ── Tab 14: Export ────────────────────────────────────────────────────────
       tabItem(tabName = "export",
         fluidPage(
           titlePanel("Export Results"),
@@ -326,7 +412,11 @@ ui <- dashboardPage(
                                       "Rarefaction Curves"     = "rarefaction",
                                       "Volcano Plot"           = "volcano",
                                       "Correlation Heatmap"    = "corr_heatmap",
-                                      "Abundance Heatmap"      = "heatmap")),
+                                      "Abundance Heatmap"      = "heatmap",
+                                      "Feature Importance"     = "rf_importance",
+                                      "ROC Curve"              = "roc_curve",
+                                      "Biomarker Plot"         = "biomarker",
+                                      "Network Plot"           = "network")),
               radioButtons("exportFormat", "File Format",
                            choices = c("PNG" = "png", "PDF" = "pdf", "SVG" = "svg"),
                            inline = TRUE),
@@ -377,7 +467,17 @@ server <- function(input, output, session) {
     lastRarePlot   = NULL,
     lastVolcPlot   = NULL,
     lastCorrPlot   = NULL,
-    lastHeatPlot   = NULL
+    lastHeatPlot   = NULL,
+    # ML/AI results
+    rfResult       = NULL,
+    classResult    = NULL,
+    biomarkerResult= NULL,
+    clusterResult  = NULL,
+    networkResult  = NULL,
+    lastImportPlot = NULL,
+    lastROCPlot    = NULL,
+    lastBiomarkerPlot = NULL,
+    lastNetworkPlot= NULL
   )
 
   # Helper: active data (normalised if available, else raw)
@@ -385,14 +485,23 @@ server <- function(input, output, session) {
     if (!is.null(rv$normData)) rv$normData else rv$microbiomeData
   })
 
+  # ── Auto-load sample data on startup ──────────────────────────────────────
+  local({
+    data("sampleDataset", package = "MicrobiomeExplorer", envir = environment())
+    rv$microbiomeData <- sampleDataset$counts
+    rv$sampleInfo     <- sampleDataset$metadata
+  })
+
   # ── Update sidebar selects when metadata loads ────────────────────────────
   observe({
     req(rv$sampleInfo)
     cols <- colnames(rv$sampleInfo)
-    updateSelectInput(session, "taxGroupVar",   choices = c("None" = "", cols))
-    updateSelectInput(session, "betaColorVar",  choices = c("None" = "", cols))
-    updateSelectInput(session, "alphaGroupVar", choices = c("None" = "", cols))
-    updateSelectInput(session, "deGroupVar",    choices = c("None" = "", cols))
+    # Default to "Group" if it exists (common for 2-group comparisons)
+    default <- if ("Group" %in% cols) "Group" else cols[1]
+    updateSelectInput(session, "taxGroupVar",   choices = c("None" = "", cols), selected = default)
+    updateSelectInput(session, "betaColorVar",  choices = c("None" = "", cols), selected = default)
+    updateSelectInput(session, "alphaGroupVar", choices = c("None" = "", cols), selected = default)
+    updateSelectInput(session, "deGroupVar",    choices = c("None" = "", cols), selected = default)
   })
 
   # Update alpha index choices after calculation
@@ -428,9 +537,39 @@ server <- function(input, output, session) {
       as.data.frame(rv$microbiomeData[1:min(10, nrow(rv$microbiomeData)),
                                       1:min(10, ncol(rv$microbiomeData))]),
       options = list(scrollX = TRUE, pageLength = 5),
-      caption = "First 10 samples × 10 taxa"
+      caption = "First 10 samples x 10 taxa"
     )
   })
+
+  # ── Default guarded renders (prevent infinite spinners on empty outputs) ──
+  output$uploadStatus       <- renderText({ "" })
+  output$dataPreviewTable   <- DT::renderDataTable({ req(rv$microbiomeData); NULL })
+  output$metaPreviewTable   <- DT::renderDataTable({ req(rv$sampleInfo); NULL })
+  output$preprocessSummary  <- renderText({ req(rv$normData); "" })
+  output$filteredDataPreview<- DT::renderDataTable({ req(rv$normData); NULL })
+  output$taxAbundancePlot   <- plotly::renderPlotly({ req(rv$microbiomeData); NULL })
+  output$ordinationPlot     <- renderPlot({ req(rv$ordinationRes); NULL })
+  output$permanovaResult    <- renderText({ "" })
+  output$distMatrixTable    <- DT::renderDataTable({ req(rv$betaDist); NULL })
+  output$alphaDivBoxplot    <- renderPlot({ req(rv$alphaResults); NULL })
+  output$rarefactionCurvePlot <- renderPlot({ req(rv$alphaResults); NULL })
+  output$alphaDivTable      <- DT::renderDataTable({ req(rv$alphaResults); NULL })
+  output$alphaTestResult    <- renderText({ "" })
+  output$volcanoPlot        <- renderPlot({ req(rv$deResults); NULL })
+  output$deResultsTable     <- DT::renderDataTable({ req(rv$deResults); NULL })
+  output$corrHeatmapPlot    <- renderPlot({ req(rv$corrMatrix); NULL })
+  output$heatmapPlot        <- renderPlot({ req(rv$lastHeatPlot); NULL })
+  output$rfSummary          <- renderText({ req(rv$rfResult); "" })
+  output$rfImportancePlot   <- renderPlot({ req(rv$lastImportPlot); print(rv$lastImportPlot) })
+  output$rocCurvePlot       <- renderPlot({ req(rv$lastROCPlot); print(rv$lastROCPlot) })
+  output$rfConfusionTable   <- DT::renderDataTable({ req(rv$rfResult); NULL })
+  output$biomarkerPlot      <- renderPlot({ req(rv$lastBiomarkerPlot); print(rv$lastBiomarkerPlot) })
+  output$biomarkerTable     <- DT::renderDataTable({ req(rv$biomarkerResult); NULL })
+  output$clusterOrdPlot     <- renderPlot({ req(rv$clusterResult); NULL })
+  output$clusterSummary     <- renderText({ req(rv$clusterResult); "" })
+  output$networkPlot        <- renderPlot({ req(rv$lastNetworkPlot); print(rv$lastNetworkPlot) })
+  output$nodeMetricsTable   <- DT::renderDataTable({ req(rv$networkResult); NULL })
+  output$edgeListTable      <- DT::renderDataTable({ req(rv$networkResult); NULL })
 
   # ── Tab 2: Data Upload ─────────────────────────────────────────────────────
   observeEvent(input$processUpload, {
@@ -448,8 +587,13 @@ server <- function(input, output, session) {
         "Metagenomic"       = validateMetagenomicData,
         "Metatranscriptomic"= validateMetatranscriptomicData
       )
-      val_result <- tryCatch(val_fn(raw, input$minColsUpload, input$minNonZeroUpload),
-                             error = function(e) e$message)
+      val_result <- tryCatch({
+        if (input$dataTypeSelect == "rRNA16S") {
+          val_fn(raw, input$minColsUpload, input$minNonZeroUpload)
+        } else {
+          val_fn(raw)
+        }
+      }, error = function(e) e$message)
       if (!isTRUE(val_result)) {
         output$uploadStatus <- renderText(paste("Validation warning:", val_result))
       }
@@ -465,6 +609,18 @@ server <- function(input, output, session) {
         meta <- read.csv(input$sampleInfoUpload$datapath,
                          header = TRUE, row.names = 1, check.names = FALSE)
         rv$sampleInfo <- meta
+
+        # Warn if sample IDs don't fully match
+        data_samples <- rownames(raw)
+        meta_samples <- rownames(meta)
+        missing_in_meta <- setdiff(data_samples, meta_samples)
+        if (length(missing_in_meta) > 0) {
+          showNotification(
+            paste0(length(missing_in_meta),
+                   " sample(s) in count data have no matching metadata row."),
+            type = "warning", duration = 10
+          )
+        }
       }
 
       # Build S4 object (best-effort)
@@ -642,14 +798,14 @@ server <- function(input, output, session) {
     tryCatch({
       data <- activeData()
 
-      rv$alphaResults <- calculate_alpha_diversity(
+      rv$alphaResults <- calculateAlphaDiversity(
         data,
         indices  = input$alphaIndices,
         rarefied = input$alphaRarefied
       )
 
       # Rarefaction curves
-      rare_p <- AdvancedRarefactionPlot(data, indices = input$alphaIndices)
+      rare_p <- advancedRarefactionPlot(data, indices = input$alphaIndices)
       rv$lastRarePlot <- rare_p
       output$rarefactionCurvePlot <- renderPlot({ print(rare_p) })
 
@@ -703,10 +859,20 @@ server <- function(input, output, session) {
     req(!is.null(rv$sampleInfo))
 
     tryCatch({
-      # DE analysis expects rows=taxa, cols=samples → transpose
+      groups <- rv$sampleInfo[[input$deGroupVar]]
+      n_groups <- length(unique(groups))
+      if (n_groups != 2) {
+        showNotification(
+          paste0("Differential analysis requires exactly 2 groups, found ", n_groups, "."),
+          type = "error"
+        )
+        return()
+      }
+
+      # DE analysis expects rows=taxa, cols=samples -> transpose
       count_mat   <- t(rv$microbiomeData)
       storage.mode(count_mat) <- "integer"
-      conditions  <- factor(rv$sampleInfo[[input$deGroupVar]])
+      conditions  <- factor(groups)
 
       rv$deResults <- performDifferentialExpression(
         count_mat, conditions,
@@ -782,7 +948,7 @@ server <- function(input, output, session) {
         min_prevalence = input$corrMinPrev / 100
       )
 
-      corr_p <- plot_microbiome_heatmap(
+      corr_p <- plotMicrobiomeHeatmap(
         rv$corrMatrix$correlation,
         normalize     = FALSE,
         cluster_rows  = TRUE,
@@ -817,7 +983,7 @@ server <- function(input, output, session) {
         RColorBrewer::brewer.pal(9, input$colorPalette)
       )
 
-      heat_p <- plot_microbiome_heatmap(
+      heat_p <- plotMicrobiomeHeatmap(
         sub_data,
         normalize     = input$normalizeData,
         cluster_rows  = input$clusterRows,
@@ -834,7 +1000,161 @@ server <- function(input, output, session) {
     })
   })
 
-  # ── Tab 10: Export ─────────────────────────────────────────────────────────
+  # ── Tab 11: ML Classification ───────────────────────────────────────────
+  observe({
+    req(rv$sampleInfo)
+    updateSelectInput(session, "mlGroupVar", choices = colnames(rv$sampleInfo))
+  })
+
+  observeEvent(input$runRF, {
+    req(activeData(), rv$sampleInfo, input$mlGroupVar != "")
+    tryCatch({
+      rv$rfResult <- performRandomForest(
+        activeData(), rv$sampleInfo, input$mlGroupVar,
+        ntree = input$mlNtree, test_fraction = input$mlTestFrac
+      )
+      output$rfSummary <- renderText({
+        rf <- rv$rfResult
+        paste0("Random Forest Results\n",
+               "=====================\n",
+               "Test accuracy: ", round(rf$accuracy * 100, 1), "%\n",
+               "OOB error:     ", round(rf$oob_error * 100, 1), "%\n",
+               "Train samples: ", length(rf$train_indices), "\n",
+               "Test samples:  ", length(rf$test_indices), "\n",
+               "Features used: ", ncol(activeData()))
+      })
+      imp_p <- plotFeatureImportance(rv$rfResult, top_n = 20)
+      rv$lastImportPlot <- imp_p
+      output$rfImportancePlot <- renderPlot({ print(imp_p) })
+      output$rfConfusionTable <- DT::renderDataTable({
+        DT::datatable(as.data.frame.matrix(rv$rfResult$confusion_matrix))
+      })
+    }, error = function(e) {
+      showNotification(paste("RF error:", e$message), type = "error")
+    })
+  })
+
+  observeEvent(input$runCV, {
+    req(activeData(), rv$sampleInfo, input$mlGroupVar != "")
+    tryCatch({
+      rv$classResult <- performClassification(
+        activeData(), rv$sampleInfo, input$mlGroupVar,
+        n_folds = input$mlNfolds, n_repeats = input$mlNrepeats,
+        ntree = input$mlNtree
+      )
+      output$rfSummary <- renderText({
+        cv <- rv$classResult
+        paste0("Cross-Validation Results\n",
+               "========================\n",
+               "Mean accuracy: ", round(cv$cv_accuracy * 100, 1), "% (+/- ",
+                 round(cv$cv_accuracy_sd * 100, 1), "%)\n",
+               "AUC:           ", if (!is.na(cv$auc)) round(cv$auc, 3) else "N/A", "\n",
+               "Folds: ", input$mlNfolds, " x ", input$mlNrepeats, " repeats")
+      })
+      if (!is.null(rv$classResult$roc_data)) {
+        roc_p <- plotROCCurve(rv$classResult)
+        rv$lastROCPlot <- roc_p
+        output$rocCurvePlot <- renderPlot({ print(roc_p) })
+      }
+    }, error = function(e) {
+      showNotification(paste("CV error:", e$message), type = "error")
+    })
+  })
+
+  # ── Tab 12: Biomarkers & Clustering ────────────────────────────────────────
+  observe({
+    req(rv$sampleInfo)
+    updateSelectInput(session, "bmGroupVar", choices = colnames(rv$sampleInfo))
+  })
+
+  observeEvent(input$runBiomarkers, {
+    req(activeData(), rv$sampleInfo, input$bmGroupVar != "")
+    tryCatch({
+      rv$biomarkerResult <- discoverBiomarkers(
+        activeData(), rv$sampleInfo, input$bmGroupVar,
+        method = input$bmMethod,
+        pval_threshold = input$bmPvalThresh,
+        lda_threshold = input$bmLdaThresh
+      )
+      bm_p <- plotBiomarkers(rv$biomarkerResult, top_n = 20)
+      rv$lastBiomarkerPlot <- bm_p
+      output$biomarkerPlot <- renderPlot({ print(bm_p) })
+      output$biomarkerTable <- DT::renderDataTable({
+        DT::datatable(rv$biomarkerResult$biomarkers,
+                      options = list(scrollX = TRUE, pageLength = 15))
+      })
+    }, error = function(e) {
+      showNotification(paste("Biomarker error:", e$message), type = "error")
+    })
+  })
+
+  observeEvent(input$runClustering, {
+    req(activeData())
+    tryCatch({
+      k_val <- if (is.na(input$clK)) NULL else input$clK
+      rv$clusterResult <- performClustering(
+        activeData(), method = input$clMethod,
+        k = k_val, max_k = input$clMaxK
+      )
+      output$clusterSummary <- renderText({
+        cl <- rv$clusterResult
+        paste0("Clustering Results\n",
+               "==================\n",
+               "Method: ", cl$method, "\n",
+               "K: ", cl$k, "\n",
+               "Avg silhouette: ", round(cl$avg_silhouette, 3), "\n",
+               "Cluster sizes: ", paste(table(cl$cluster_assignments), collapse = ", "))
+      })
+      # Show clusters on ordination
+      ord_res <- performOrdination(activeData(), method = "PCoA")
+      cluster_meta <- data.frame(
+        Cluster = factor(rv$clusterResult$cluster_assignments),
+        row.names = names(rv$clusterResult$cluster_assignments)
+      )
+      cl_p <- plotOrdinationBiplot(ord_res, sample_info = cluster_meta,
+                                    color_var = "Cluster", ellipse = TRUE)
+      output$clusterOrdPlot <- renderPlot({ print(cl_p) })
+    }, error = function(e) {
+      showNotification(paste("Clustering error:", e$message), type = "error")
+    })
+  })
+
+  # ── Tab 13: Network Analysis ──────────────────────────────────────────────
+  observeEvent(input$buildNetwork, {
+    req(activeData())
+    tryCatch({
+      data <- activeData()
+      variances <- apply(data, 2, var)
+      top_taxa <- names(sort(variances, decreasing = TRUE))[
+        seq_len(min(input$netTopTaxa, ncol(data)))]
+      sub_data <- data[, top_taxa, drop = FALSE]
+
+      rv$networkResult <- buildCooccurrenceNetwork(
+        sub_data,
+        method = input$netCorrMethod,
+        cor_threshold = input$netCorThresh,
+        pval_threshold = input$netPvalThresh,
+        min_prevalence = input$netPrev / 100
+      )
+
+      net_p <- plotCooccurrenceNetwork(rv$networkResult, layout = input$netLayout)
+      rv$lastNetworkPlot <- net_p
+      output$networkPlot <- renderPlot({ print(net_p) })
+
+      output$nodeMetricsTable <- DT::renderDataTable({
+        DT::datatable(rv$networkResult$node_metrics,
+                      options = list(scrollX = TRUE, pageLength = 15))
+      })
+      output$edgeListTable <- DT::renderDataTable({
+        DT::datatable(rv$networkResult$edge_list,
+                      options = list(scrollX = TRUE, pageLength = 15))
+      })
+    }, error = function(e) {
+      showNotification(paste("Network error:", e$message), type = "error")
+    })
+  })
+
+  # ── Tab 14: Export ─────────────────────────────────────────────────────────
   output$downloadPlot <- downloadHandler(
     filename = function() {
       paste0(input$exportPlotSelect, "_", Sys.Date(), ".", input$exportFormat)
@@ -847,11 +1167,25 @@ server <- function(input, output, session) {
         "rarefaction" = rv$lastRarePlot,
         "volcano"     = rv$lastVolcPlot,
         "corr_heatmap"= rv$lastCorrPlot,
-        "heatmap"     = rv$lastHeatPlot
+        "heatmap"     = rv$lastHeatPlot,
+        "rf_importance"= rv$lastImportPlot,
+        "roc_curve"   = rv$lastROCPlot,
+        "biomarker"   = rv$lastBiomarkerPlot,
+        "network"     = rv$lastNetworkPlot
       )
       if (is.null(p)) {
         showNotification("Generate this plot first before exporting.", type = "warning")
-        return(NULL)
+        if (input$exportFormat == "pdf") {
+          grDevices::pdf(file, width = 4, height = 2)
+        } else if (input$exportFormat == "png") {
+          grDevices::png(file, width = 400, height = 200)
+        } else {
+          grDevices::svg(file, width = 4, height = 2)
+        }
+        graphics::plot.new()
+        graphics::text(0.5, 0.5, "No plot generated yet.", cex = 1.5)
+        grDevices::dev.off()
+        return()
       }
       if (inherits(p, "Heatmap") || inherits(p, "HeatmapList")) {
         # ComplexHeatmap

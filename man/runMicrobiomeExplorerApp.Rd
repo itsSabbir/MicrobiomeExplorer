@@ -4,7 +4,14 @@
 \alias{runMicrobiomeExplorerApp}
 \title{Launch Shiny App for MicrobiomeExplorer}
 \usage{
-runMicrobiomeExplorerApp()
+runMicrobiomeExplorerApp(host = "127.0.0.1", port = NULL)
+}
+\arguments{
+\item{host}{Character string. The IP address to bind to. Use
+\code{"0.0.0.0"} for Docker containers. Default: \code{"127.0.0.1"}.}
+
+\item{port}{Integer or \code{NULL}. Port number. \code{NULL} lets Shiny
+choose a random available port. Default: \code{NULL}.}
 }
 \value{
 This function does not return a value, but it opens a Shiny application
@@ -22,8 +29,8 @@ within the MicrobiomeExplorer package.
 }
 \examples{
 \dontrun{
-  # Launch the Shiny app from the MicrobiomeExplorer package
   MicrobiomeExplorer::runMicrobiomeExplorerApp()
+  MicrobiomeExplorer::runMicrobiomeExplorerApp(host = "0.0.0.0", port = 3838)
 }
 
 }

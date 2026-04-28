@@ -10,7 +10,7 @@ updateData(object, dataType, newData)
 \S4method{updateData}{MicrobiomeData,character}(object, dataType, newData)
 }
 \arguments{
-\item{object}{A `MicrobiomeData` object to be updated.G}
+\item{object}{A `MicrobiomeData` object to be updated.}
 
 \item{dataType}{The type of data to update. Valid types include 'rRNA16S', 'Metagenomic',
 'Metatranscriptomic', and 'SampleInfo'.}

@@ -7,16 +7,19 @@
 #' @param indices A character vector specifying the diversity indices to calculate.
 #'                Supported indices: "Shannon", "Simpson", "Chao1", "ACE".
 #' @param rarefied Logical, indicating whether the data is rarefied.
+#' @param ace_threshold Numeric. Abundance threshold for ACE index; taxa with
+#'   counts above this are considered "abundant". Default: \code{10}.
 #' @return A dataframe with specified alpha diversity indices for each sample.
 #' @export
 #'@importFrom stats rmultinom
 #'
 #' @examples
-#' sample_data <- matrix(rnorm(45), nrow = 9, ncol = 5)
+#' set.seed(42)
+#' sample_data <- matrix(rpois(45, lambda = 10), nrow = 9, ncol = 5)
 #' colnames(sample_data) <- paste0("Taxa_", 1:5)
 #' rownames(sample_data) <- paste0("Sample_", 1:9)
 #' sample_data_df <- as.data.frame(sample_data)
-#' diversity_alphaResults <- calculate_alpha_diversity(sample_data_df,
+#' diversity_alphaResults <- calculateAlphaDiversity(sample_data_df,
 #' indices = c("Shannon", "Simpson", "Chao1", "ACE"))
 #'
 #' @references
@@ -25,7 +28,7 @@
 #' Simpson, E.H. (1949). Measurement of Diversity. Nature.
 #' Chao, A. (1984). Nonparametric estimation of the number of classes in a population. Scandinavian Journal of Statistics.
 #' Chao, A., & Lee, S.M. (1992). Estimating the number of classes via sample coverage. Journal of the American Statistical Association.
-calculate_alpha_diversity <- function(data, indices = c("Shannon", "Simpson", "Chao1", "ACE", "Fisher"), rarefied = FALSE) {
+calculateAlphaDiversity <- function(data, indices = c("Shannon", "Simpson", "Chao1", "ACE", "Fisher"), rarefied = FALSE, ace_threshold = 10) {
   # Validate input data
   if (!is.matrix(data) && !is.data.frame(data)) {
     stop("Data must be a matrix or dataframe.")
@@ -36,33 +39,69 @@ calculate_alpha_diversity <- function(data, indices = c("Shannon", "Simpson", "C
   }
 
   # Ensure all columns are numeric
-  numeric_cols <- sapply(data, is.numeric)
   if (is.matrix(data)) {
-    data <- data[, numeric_cols]
-  } else {  # Handle data frames
+    if (!is.numeric(data)) stop("Matrix must be numeric.")
+  } else {
+    numeric_cols <- vapply(data, is.numeric, logical(1))
     data <- data[, numeric_cols, drop = FALSE]
   }
+  data <- as.matrix(data)
 
   alphaResults <- data.frame(Sample = rownames(data))
 
   # Define diversity calculation functions
   diversity_functions <- list(
-    Shannon = function(x) -sum((x / sum(x)) * log(x / sum(x)), na.rm = TRUE),
-    Simpson = function(x) 1 - sum((x / sum(x))^2, na.rm = TRUE),
-    Chao1 = function(x) sum(x > 0) + sum(x == 1)^2 / (2 * (sum(x == 2) + 1)),
-    ACE = function(x) {
-      S_abund <- sum(x > 10)
-      S_rare <- sum(x <= 10)
-      n_rare <- sum(x[x <= 10])
+    Shannon = function(x) {
+      x <- x[x > 0]
+      if (length(x) == 0) return(NA_real_)
+      p <- x / sum(x)
+      -sum(p * log(p))
+    },
+    Simpson = function(x) {
+      x <- x[x > 0]
+      if (length(x) == 0) return(NA_real_)
+      p <- x / sum(x)
+      1 - sum(p^2)
+    },
+    Chao1 = function(x) {
+      x <- x[x > 0]
+      if (length(x) == 0) return(NA_real_)
+      S_obs <- length(x)
       f1 <- sum(x == 1)
       f2 <- sum(x == 2)
-      S_abund + S_rare / (1 - f1 / n_rare) + (f1 * (f1 - 1)) / (2 * (f2 + 1))
+      S_obs + f1^2 / (2 * (f2 + 1))
+    },
+    ACE = function(x) {
+      x <- x[x > 0]
+      if (length(x) == 0) return(NA_real_)
+      S_abund <- sum(x > ace_threshold)
+      S_rare <- sum(x <= ace_threshold)
+      n_rare <- sum(x[x <= ace_threshold])
+      if (n_rare == 0) return(S_abund)
+      f1 <- sum(x == 1)
+      f2 <- sum(x == 2)
+      C_ace <- 1 - f1 / n_rare
+      if (C_ace == 0) return(NA_real_)
+      S_abund + S_rare / C_ace + (f1 * (f1 - 1)) / (2 * (f2 + 1))
     },
     Fisher = function(x) {
-      s <- sum(x)
-      a <- sum(log(1:x))
-      b <- sum(x * log(x))
-      return(s * log(s) - a - b)
+      # Fisher's alpha: S = a * ln(1 + n/a), solved via Newton-Raphson
+      x <- x[x > 0]
+      if (length(x) == 0) return(NA_real_)
+      n <- sum(x)
+      s <- length(x)
+      if (n == 0 || s <= 1) return(NA_real_)
+      alpha <- s / log(n)
+      for (i in seq_len(50)) {
+        f_val <- alpha * log(1 + n / alpha) - s
+        f_deriv <- log(1 + n / alpha) - n / (alpha + n)
+        if (abs(f_deriv) < .Machine$double.eps) break
+        alpha_new <- alpha - f_val / f_deriv
+        if (alpha_new <= 0) alpha_new <- alpha / 2
+        if (abs(alpha_new - alpha) < 1e-8) break
+        alpha <- alpha_new
+      }
+      alpha
     }
   )
 

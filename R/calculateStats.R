@@ -22,13 +22,13 @@
 #'
 #' @examples
 #' data(iris)
-#' stats <- calculate_stats(iris[,1:4])
+#' stats <- calculateStats(iris[,1:4])
 #' print(stats)
 #'
 #' @references
 #' Chambers, J. M. (2008). Software for Data Analysis: Programming with R. Springer.
 #' Gentleman, R., & Ihaka, R. (2000). Lexical Scope and Statistical Computing. Journal of Computational and Graphical Statistics, 9(3).
-calculate_stats <- function(data) {
+calculateStats <- function(data) {
   if (!is.matrix(data) && !is.data.frame(data)) {
     stop("Data must be a matrix or dataframe.")
   }

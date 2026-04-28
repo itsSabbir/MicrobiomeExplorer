@@ -19,15 +19,16 @@
 #'
 #' @examples
 #' data(microbiome_example) # Load the example dataset
-#' AdvancedRarefactionPlot(microbiome_example, indices = c("Shannon", "Simpson"))
+#' advancedRarefactionPlot(microbiome_example, indices = c("Shannon", "Simpson"))
 #'
 #' @references
 #' Gotelli, N.J. & Colwell, R.K. (2001). Quantifying biodiversity: procedures and pitfalls in the measurement and comparison of species richness. Ecology Letters, 4(4), 379-391.
-#' @importFrom ggplot2 ggplot aes_string geom_line scale_color_manual labs theme_minimal
+#' @importFrom ggplot2 ggplot aes geom_line scale_color_manual labs theme_minimal
 #' @importFrom vegan rarefy
 #' @importFrom utils globalVariables
+#' @importFrom stats setNames
 #'
-AdvancedRarefactionPlot <- function(data, indices = c("Shannon", "Simpson", "Chao1", "ACE"),
+advancedRarefactionPlot <- function(data, indices = c("Shannon", "Simpson", "Chao1", "ACE"),
                                     xlab = "Sample Size", ylab = "Diversity Index",
                                     col = NULL, lty = 1, save_plot = FALSE,
                                     file_name = "rarefaction_plot", file_type = "pdf", ...) {
@@ -48,8 +49,8 @@ AdvancedRarefactionPlot <- function(data, indices = c("Shannon", "Simpson", "Cha
     col <- grDevices::rainbow(num_samples)
   }
 
-  # Prepare the plot using tidy evaluation with aes()
-  plot <- ggplot2::ggplot(plot_data, ggplot2::aes(x = variable, y = value, group = Sample, color = Sample, linetype = Sample)) +
+  # Prepare the plot using tidy evaluation with .data pronoun
+  plot <- ggplot2::ggplot(plot_data, ggplot2::aes(x = .data[["variable"]], y = .data[["value"]], group = .data[["Sample"]], color = .data[["Sample"]], linetype = .data[["Sample"]])) +
     ggplot2::geom_line(lty = lty) +
     ggplot2::scale_color_manual(values = col) +
     ggplot2::labs(x = xlab, y = ylab, color = "Sample") +

@@ -16,6 +16,11 @@
 #' @param label_col Optional character string naming a column with point
 #'   labels. If \code{NULL}, row names are used. Default: \code{NULL}.
 #' @param point_size Numeric. Size of plotted points. Default: \code{2}.
+#' @param colors Named character vector of three colours for "Up", "Down", and
+#'   "NS" significance categories. Default: \code{c(Up = "#d73027", Down =
+#'   "#4575b4", NS = "grey60")}.
+#' @param pval_floor Numeric. Minimum p-value floor to avoid \code{log(0)}.
+#'   Default: \code{1e-300}.
 #' @return A \code{ggplot} object.
 #'
 #' @examples
@@ -35,7 +40,9 @@
 plotVolcano <- function(de_results, fc_col = "log2FoldChange",
                          pval_col = "pvalue", fc_threshold = 1,
                          pval_threshold = 0.05, label_col = NULL,
-                         point_size = 2) {
+                         point_size = 2,
+                         colors = c(Up = "#d73027", Down = "#4575b4", NS = "grey60"),
+                         pval_floor = 1e-300) {
   if (!is.data.frame(de_results)) {
     de_results <- as.data.frame(de_results)
   }
@@ -49,7 +56,7 @@ plotVolcano <- function(de_results, fc_col = "log2FoldChange",
   df <- de_results
   df$fc_val  <- df[[fc_col]]
   df$pval    <- df[[pval_col]]
-  df$neg_log_p <- -log10(df$pval + 1e-300)  # guard against log(0)
+  df$neg_log_p <- -log10(pmax(df$pval, pval_floor))
 
   df$significance <- "NS"
   df$significance[df$fc_val >  fc_threshold & df$pval < pval_threshold] <- "Up"
@@ -63,7 +70,7 @@ plotVolcano <- function(de_results, fc_col = "log2FoldChange",
     df$label <- ifelse(df$significance != "NS", as.character(df[[label_col]]), "")
   }
 
-  sig_colors <- c("Up" = "#d73027", "Down" = "#4575b4", "NS" = "grey60")
+  sig_colors <- colors
 
   ggplot2::ggplot(df, ggplot2::aes(x = .data[["fc_val"]], y = .data[["neg_log_p"]],
                                     colour = .data[["significance"]])) +

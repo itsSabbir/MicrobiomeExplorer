@@ -1,5 +1,5 @@
 ---
-title: "A Detailed Guide On Using the Functions in the MicropbiomeExplorer Package"
+title: "A Detailed Guide On Using the Functions in the MicrobiomeExplorer Package"
 author: "Sabbir Hossain"
 date: "`r format(Sys.time(), '%d %b %Y')`"
 output: 
@@ -24,17 +24,17 @@ opts_chunk$set(fig.align = "center",
 set.seed(1) # for exact reproducibility
 ```
 
-```{r , setup}
+```{r , setup, eval=FALSE}
 # Install devtools if not already installed
 if (!requireNamespace("devtools", quietly = TRUE))
     install.packages("devtools")
-    
+
 # Install MicrobiomeExplorer from GitHub
 devtools::install_github("itsSabbir/MicrobiomeExplorer")
+```
 
-# Load MicrobiomeExplorer
+```{r load-package}
 library(MicrobiomeExplorer)
-
 ```
 
 
@@ -227,7 +227,7 @@ These functions in `dataManipulationFunctions.R` are designed to provide compreh
 
 ### Introduction to the `calculateStats` function
 
-The `calculate_stats` function in the MicrobiomeExplorer package is designed to calculate extended statistics (mean, median, standard deviation, variance, range, and interquartile range) for each feature in a microbiome dataset. This function is vital for conducting a comprehensive preliminary analysis of your data.
+The `calculateStats` function in the MicrobiomeExplorer package is designed to calculate extended statistics (mean, median, standard deviation, variance, range, and interquartile range) for each feature in a microbiome dataset. This function is vital for conducting a comprehensive preliminary analysis of your data.
 
 ### Function Overview
 
@@ -235,7 +235,7 @@ The function takes a matrix or dataframe with rows as samples and columns as fea
 
 ### Example Usage
 
-In this example, we will use the `calculate_stats` function on a sample dataset to demonstrate its functionality.
+In this example, we will use the `calculateStats` function on a sample dataset to demonstrate its functionality.
 
 ### Preparing Data
 
@@ -248,11 +248,11 @@ iris_data <- iris[, 1:4]  # Using only the first four columns (numeric features)
 
 ### Calculating Statistics
 
-Now, we will use the `calculate_stats` function to calculate extended statistics for the Iris dataset:
+Now, we will use the `calculateStats` function to calculate extended statistics for the Iris dataset:
 
 ```{r calculate-stats}
 # Calculate statistics
-stats <- calculate_stats(iris_data)
+stats <- calculateStats(iris_data)
 stats
 ```
 
@@ -264,7 +264,7 @@ The resulting dataframe provides a comprehensive statistical overview of each fe
 
 ### Conclusion to the `calculateStats` function
 
-The `calculate_stats` function from the MicrobiomeExplorer package is an essential tool for conducting preliminary statistical analysis on microbiome datasets. It provides valuable insights into the distribution and variability of features within your data.
+The `calculateStats` function from the MicrobiomeExplorer package is an essential tool for conducting preliminary statistical analysis on microbiome datasets. It provides valuable insights into the distribution and variability of features within your data.
 
 
 ### Introduction to performDifferentialExpression Function
@@ -319,9 +319,9 @@ The `performDifferentialExpression` function is an essential component in the to
 
 
 
-### Introduction to `AdvancedRarefactionPlot`
+### Introduction to `advancedRarefactionPlot`
 
-The `AdvancedRarefactionPlot` function is designed for generating rarefaction curves using alpha diversity indices from microbiome data. This function allows users to visualize the diversity of species within their samples and compare across different indices.
+The `advancedRarefactionPlot` function is designed for generating rarefaction curves using alpha diversity indices from microbiome data. This function allows users to visualize the diversity of species within their samples and compare across different indices.
 
 ### Function Parameters
 
@@ -339,32 +339,32 @@ The function accepts the following parameters:
 
 ### Example Usage
 
-In this example, we will generate a mock microbiome dataset and use the `AdvancedRarefactionPlot` function to create a plot.
+In this example, we will generate a mock microbiome dataset and use the `advancedRarefactionPlot` function to create a plot.
 
 
-### Plotting with `AdvancedRarefactionPlot`
+### Plotting with `advancedRarefactionPlot`
 
-Now we'll use the `AdvancedRarefactionPlot` function to create a rarefaction plot from our mock data, microbiome_example.rda file. 
+Now we'll use the `advancedRarefactionPlot` function to create a rarefaction plot from our mock data, microbiome_example.rda file. 
 
 ```{r plot-rarefaction}
 
 # Use the function to plot the data
-AdvancedRarefactionPlot(microbiome_example, indices = c("Shannon", "Simpson"))
+advancedRarefactionPlot(microbiome_example, indices = c("Shannon", "Simpson"))
 ```
 
 This plot provides a visual representation of the diversity within the microbiome samples across different indices. Adjusting the parameters can tailor the plot to specific needs and preferences.
 
-### Conclusion to `AdvancedRarefactionPlot`
+### Conclusion to `advancedRarefactionPlot`
 
-The `AdvancedRarefactionPlot` function is a versatile tool for microbiome data analysis, allowing for the exploration and comparison of species diversity across samples and conditions.
-
-
+The `advancedRarefactionPlot` function is a versatile tool for microbiome data analysis, allowing for the exploration and comparison of species diversity across samples and conditions.
 
 
 
-### Introduction to `plot_microbiome_heatmap` function
 
-The `plot_microbiome_heatmap` function is designed for advanced visualization of microbiome data. It offers features such as data normalization, various clustering methods, and enhanced visualization options using heatmaps. This function is crucial for exploring complex microbiome datasets and uncovering underlying patterns.
+
+### Introduction to `plotMicrobiomeHeatmap` function
+
+The `plotMicrobiomeHeatmap` function is designed for advanced visualization of microbiome data. It offers features such as data normalization, various clustering methods, and enhanced visualization options using heatmaps. This function is crucial for exploring complex microbiome datasets and uncovering underlying patterns.
 
 ### Function Overview
 
@@ -379,15 +379,15 @@ It returns a ComplexHeatmap plot object, providing a visually appealing and info
 
 ### Example Usage
 
-Let's create a heatmap using the `plot_microbiome_heatmap` function with a mock microbiome dataset.
+Let's create a heatmap using the `plotMicrobiomeHeatmap` function with a mock microbiome dataset.
 
 ### Creating the Heatmap
 
-Now, we will use the `plot_microbiome_heatmap` function to visualize this data:
+Now, we will use the `plotMicrobiomeHeatmap` function to visualize this data:
 
 ```{r create-heatmap}
 # Plot the heatmap with dynamic color palette
-heatmap_plot <- plot_microbiome_heatmap(microbiome_example, normalize = TRUE)
+heatmap_plot <- plotMicrobiomeHeatmap(microbiome_example, normalize = TRUE)
 print(heatmap_plot)
 
 ```
@@ -396,12 +396,12 @@ This will produce a heatmap with normalized data, clustered rows and columns, an
 
 ### Conclusion
 
-The `plot_microbiome_heatmap` function is an invaluable tool for microbiome researchers and data scientists. It provides an effective way to visualize complex datasets, helping to identify patterns, correlations, and other significant insights in microbiome data.
+The `plotMicrobiomeHeatmap` function is an invaluable tool for microbiome researchers and data scientists. It provides an effective way to visualize complex datasets, helping to identify patterns, correlations, and other significant insights in microbiome data.
 
 
-### Introduction to calculate_alpha_diversity Function
+### Introduction to calculateAlphaDiversity Function
 
-The `calculate_alpha_diversity` function is a crucial tool in microbiome data analysis, designed to compute various alpha diversity indices. These indices are key in understanding the complexity and richness of microbial communities within samples. The function's ability to handle both standard and rarefied data makes it versatile and suitable for a broad range of datasets.
+The `calculateAlphaDiversity` function is a crucial tool in microbiome data analysis, designed to compute various alpha diversity indices. These indices are key in understanding the complexity and richness of microbial communities within samples. The function's ability to handle both standard and rarefied data makes it versatile and suitable for a broad range of datasets.
 
 ### Function Overview
 
@@ -423,13 +423,14 @@ The function can be demonstrated with a simple example:
 
 ```{r}
 # Creating a mock microbiome dataset
-sample_data <- matrix(rnorm(45), nrow = 9, ncol = 5)
+set.seed(42)
+sample_data <- matrix(rpois(45, lambda = 10), nrow = 9, ncol = 5)
 colnames(sample_data) <- paste0("Taxa_", 1:5)
 rownames(sample_data) <- paste0("Sample_", 1:9)
 sample_data_df <- as.data.frame(sample_data)
 
 # Calculating alpha diversity indices
-diversity_alphaResults <- calculate_alpha_diversity(sample_data_df,
+diversity_alphaResults <- calculateAlphaDiversity(sample_data_df,
                                                     indices = c("Shannon", "Simpson", "Chao1", "ACE"))
 print(diversity_alphaResults)
 ```
@@ -438,7 +439,7 @@ In this example, the function calculates specified alpha diversity indices for a
 
 ### Conclusion
 
-The `calculate_alpha_diversity` function is an essential asset for microbiome researchers and ecologists. It streamlines the process of quantifying biodiversity within microbial communities, thereby aiding in the interpretation and comparison of complex ecological datasets. This function is not only a powerful tool for exploratory data analysis but also vital for presenting comprehensive findings in microbial ecology studies.
+The `calculateAlphaDiversity` function is an essential asset for microbiome researchers and ecologists. It streamlines the process of quantifying biodiversity within microbial communities, thereby aiding in the interpretation and comparison of complex ecological datasets. This function is not only a powerful tool for exploratory data analysis but also vital for presenting comprehensive findings in microbial ecology studies.
 
 
 
@@ -541,10 +542,10 @@ In the MicrobiomeExplorer Shiny app, the Differential Expression Analysis module
 
 ### Advanced Alpha Diversity Analysis in MicrobiomeExplorer Shiny App
 
-In addition to the Differential Expression Analysis, the MicrobiomeExplorer Shiny app features an Advanced Alpha Diversity Analysis module, designed to calculate various alpha diversity indices for microbiome data. This module leverages the `calculate_alpha_diversity` function, enabling a comprehensive assessment of species diversity within each sample.
+In addition to the Differential Expression Analysis, the MicrobiomeExplorer Shiny app features an Advanced Alpha Diversity Analysis module, designed to calculate various alpha diversity indices for microbiome data. This module leverages the `calculateAlphaDiversity` function, enabling a comprehensive assessment of species diversity within each sample.
 
 #### Calculate Alpha Diversity
-- **Function**: `calculate_alpha_diversity`
+- **Function**: `calculateAlphaDiversity`
 - **Purpose**: To compute several alpha diversity indices for each sample in a microbiome dataset, offering insights into the ecological diversity present in the microbiome.
 - **Key Features**:
   - **Diverse Indices**: Calculates indices such as Shannon, Simpson, Chao1, ACE, and Fisher.
@@ -562,10 +563,10 @@ The MicrobiomeExplorer Shiny app, with its Advanced Alpha Diversity Analysis mod
 
 ### Heatmap Visualization in MicrobiomeExplorer Shiny App
 
-The Heatmap Visualization module in the MicrobiomeExplorer Shiny app is an essential tool for graphically representing microbiome data. Utilizing the `plot_microbiome_heatmap` function, this module creates comprehensive heatmaps that offer insights into the abundance and distribution of taxa across samples. Here's a detailed look at the function and its application in the app:
+The Heatmap Visualization module in the MicrobiomeExplorer Shiny app is an essential tool for graphically representing microbiome data. Utilizing the `plotMicrobiomeHeatmap` function, this module creates comprehensive heatmaps that offer insights into the abundance and distribution of taxa across samples. Here's a detailed look at the function and its application in the app:
 
 #### Plot Microbiome Heatmap
-- **Function**: `plot_microbiome_heatmap`
+- **Function**: `plotMicrobiomeHeatmap`
 - **Purpose**: To generate detailed heatmaps for visualizing microbiome data, aiding in the identification of patterns and correlations among taxa and samples.
 - **Key Features**:
   - **Data Input**: Accepts microbiome data in matrix or dataframe format.
