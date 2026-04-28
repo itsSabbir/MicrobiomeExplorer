@@ -1,0 +1,61 @@
+test_that("performOrdination PCoA returns correct structure", {
+  set.seed(42)
+  counts <- matrix(rpois(60, lambda = 15), nrow = 10, ncol = 6)
+  rownames(counts) <- paste0("Sample", 1:10)
+  colnames(counts) <- paste0("OTU", 1:6)
+  res <- performOrdination(counts, method = "PCoA")
+  expect_true(is.list(res))
+  expect_true(all(c("coordinates", "method", "variance_explained", "stress") %in% names(res)))
+  expect_s3_class(res$coordinates, "data.frame")
+  expect_equal(res$method, "PCoA")
+  expect_null(res$stress)
+  expect_false(is.null(res$variance_explained))
+})
+
+test_that("performOrdination NMDS returns stress and no variance_explained", {
+  set.seed(42)
+  counts <- matrix(rpois(60, lambda = 15), nrow = 10, ncol = 6)
+  rownames(counts) <- paste0("Sample", 1:10)
+  colnames(counts) <- paste0("OTU", 1:6)
+  res <- performOrdination(counts, method = "NMDS")
+  expect_equal(res$method, "NMDS")
+  expect_false(is.null(res$stress))
+  expect_true(is.numeric(res$stress))
+  expect_null(res$variance_explained)
+})
+
+test_that("performOrdination PCA returns variance_explained", {
+  set.seed(42)
+  counts <- matrix(rpois(60, lambda = 15), nrow = 10, ncol = 6)
+  rownames(counts) <- paste0("Sample", 1:10)
+  colnames(counts) <- paste0("OTU", 1:6)
+  res <- performOrdination(counts, method = "PCA")
+  expect_equal(res$method, "PCA")
+  expect_false(is.null(res$variance_explained))
+  expect_null(res$stress)
+})
+
+test_that("performOrdination PCoA accepts dist object directly", {
+  set.seed(42)
+  counts <- matrix(rpois(60, lambda = 15), nrow = 10, ncol = 6)
+  rownames(counts) <- paste0("Sample", 1:10)
+  d <- calculateBetaDiversity(counts)
+  res <- performOrdination(d, method = "PCoA")
+  expect_equal(res$method, "PCoA")
+  expect_equal(nrow(res$coordinates), 10)
+})
+
+test_that("performOrdination errors on invalid method", {
+  counts <- matrix(rpois(30, 10), nrow = 5, ncol = 6)
+  expect_error(performOrdination(counts, method = "tSNE"), "method must be one of")
+})
+
+test_that("performOrdination coordinates have 2 axes", {
+  set.seed(42)
+  counts <- matrix(rpois(60, lambda = 15), nrow = 10, ncol = 6)
+  rownames(counts) <- paste0("Sample", 1:10)
+  res_pcoa <- performOrdination(counts, method = "PCoA")
+  res_pca  <- performOrdination(counts, method = "PCA")
+  expect_equal(ncol(res_pcoa$coordinates), 2)
+  expect_equal(ncol(res_pca$coordinates), 2)
+})
