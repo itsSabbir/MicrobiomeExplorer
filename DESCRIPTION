@@ -11,7 +11,7 @@ Description:
   16S rRNA gene sequencing, metagenomics, and metatranscriptomics data.
 biocViews: MicrobiomeAnalysis, Visualization, Bioinformatics
 Depends: R (>= 4.1.0)
-Imports: 
+Imports:
     ggplot2,
     tidyr,
     phyloseq,
@@ -25,7 +25,13 @@ Imports:
     stats,
     methods,
     grDevices,
-    shinydashboard
+    shinydashboard,
+    ape,
+    ggrepel,
+    plotly,
+    DT,
+    shinycssloaders,
+    shinyWidgets
 Suggests:
     devtools,
     knitr,
