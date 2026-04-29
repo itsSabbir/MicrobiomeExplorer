@@ -2,7 +2,7 @@
 #'
 #' A synthetic dataset representing microbiome count data with whole numbers.
 #' This dataset is specifically structured with integer counts to demonstrate
-#' functions like AdvancedRarefactionPlot in scenarios where decimalization is not
+#' functions like advancedRarefactionPlot in scenarios where decimalization is not
 #' present. It can be used to showcase analysis techniques where data precision
 #' does not include decimals.
 #'
@@ -31,3 +31,22 @@
 #'
 #'
 "microbiome_example"
+
+
+#' Sample Microbiome Dataset with Metadata
+#'
+#' A bundled list containing a synthetic OTU count matrix and matching sample
+#' metadata, designed for demonstrating all package features including ML
+#' classification and biomarker discovery. The data simulates two groups
+#' (Healthy vs Disease) with distinct abundance profiles.
+#'
+#' @format A list with two elements:
+#' \describe{
+#'   \item{counts}{Integer matrix (30 samples x 25 OTUs). OTUs 1-10 are
+#'     enriched in Healthy samples, OTUs 11-20 in Disease, OTUs 21-25 shared.}
+#'   \item{metadata}{Data frame with 30 rows and 3 columns: Group
+#'     (Healthy/Disease), Site (Gut/Oral/Skin), Age (integer).}
+#' }
+#'
+#' @source Synthetically generated with \code{set.seed(42)}.
+"sampleDataset"

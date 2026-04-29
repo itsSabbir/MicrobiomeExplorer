@@ -18,23 +18,23 @@ colnames(sample_data) <- taxa_names
 rownames(sample_data) <- sample_names
 
 
-test_that("AdvancedRarefactionPlot handles invalid inputs correctly", {
+test_that("advancedRarefactionPlot handles invalid inputs correctly", {
   # Test with non-matrix and non-dataframe data
-  expect_error(AdvancedRarefactionPlot(data = list(a = 1, b = 2)))
+  expect_error(advancedRarefactionPlot(data = list(a = 1, b = 2)))
 
   # Test with an empty dataset
-  expect_error(AdvancedRarefactionPlot(data = matrix(numeric(0), nrow = 0, ncol = 0)))
+  expect_error(advancedRarefactionPlot(data = matrix(numeric(0), nrow = 0, ncol = 0)))
 
 })
 
 
 
-test_that("AdvancedRarefactionPlot correctly represents the data", {
+test_that("advancedRarefactionPlot correctly represents the data", {
   # Ensure ggplot2 is loaded or use ggplot2::ggplot_build
   library(ggplot2)
 
   # Test with the sample_data
-  known_plot <- AdvancedRarefactionPlot(data = sample_data)
+  known_plot <- advancedRarefactionPlot(data = sample_data)
 
   # Validate axis labels
   expect_equal(known_plot$labels$x, "Sample Size") # Adjust according to your function

@@ -52,3 +52,27 @@ test_that("calculateCorrelation errors on invalid method", {
   counts <- matrix(rpois(50, 10), nrow = 5, ncol = 10)
   expect_error(calculateCorrelation(counts, method = "kendall"), "spearman.*pearson")
 })
+
+test_that("calculateCorrelation handles identical columns without NaN", {
+  data <- matrix(rpois(50, 10), nrow = 10, ncol = 5)
+  data[, 2] <- data[, 1]
+  rownames(data) <- paste0("S", 1:10)
+  colnames(data) <- paste0("OTU", 1:5)
+  result <- calculateCorrelation(data, min_prevalence = 0)
+  expect_true(all(is.finite(result$correlation)))
+  expect_true(all(is.finite(result$pvalue)))
+  expect_equal(result$pvalue[1, 2], 0)
+})
+
+test_that("calculateCorrelation errors when fewer than 2 taxa pass filter", {
+  data <- matrix(0, nrow = 10, ncol = 5)
+  data[, 1] <- rpois(10, 10)
+  rownames(data) <- paste0("S", 1:10)
+  colnames(data) <- paste0("OTU", 1:5)
+  expect_error(calculateCorrelation(data, min_prevalence = 0.5), "Fewer than 2")
+})
+
+test_that("calculateCorrelation errors on non-numeric data", {
+  data <- data.frame(a = letters[1:5], b = letters[6:10])
+  expect_error(calculateCorrelation(data), "numeric")
+})

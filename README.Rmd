@@ -45,6 +45,12 @@ To run the shinyApp:
 runMicrobiomeExplorerApp()
 ```
 
+**Windows users**: Launch from RStudio or PowerShell. Git Bash is not supported due to
+known R/MSYS2 compatibility issues. From PowerShell:
+```powershell
+Rscript -e "library(MicrobiomeExplorer); runMicrobiomeExplorerApp()"
+```
+
 
 ## Overview
 
@@ -101,11 +107,11 @@ For a comprehensive tutorial on how to use MicrobiomeExplorer, check out the vig
 browseVignettes("MicrobiomeExplorer")
 ```
 The Vignettes will provide in depth documentation on how you can use the shinyapp
-to validate, normalize, analyzie, and visualze the date. You can get the data in the 
-`data/` directory as both will work, download from my respective github section as
+to validate, normalize, analyze, and visualize the data. You can get the data in the
+`data/` directory as both will work, download from my respective GitHub section as
 well.
 
-The package also contains one sample micriobiome dataset presented as a dataframe
+The package also contains one sample microbiome dataset presented as a dataframe
 called microbiome_data.csv. Refer to package vignettes for more details. An overview of the package is illustrated below.
 
 A more standard barebones look:
@@ -114,11 +120,11 @@ A more standard barebones look:
 ## Contributions
 The MicrobiomeExplorer package was developed by Sabbir Hossain. The development of this package was inspired and informed by various established tools and methods within the bioinformatics community. Contributions from existing R packages and other sources are duly noted for each function within the package.
 
-- **phyloseq**: Enhances data management, particularly in functions like `calculate_stats` and `calculate_alpha_diversity`, offering robust handling of complex microbiome datasets.
+- **phyloseq**: Enhances data management, particularly in functions like `calculateStats` and `calculateAlphaDiversity`, offering robust handling of complex microbiome datasets.
 
-- **ggplot2**: Underpins the visualization aspects in `plot_microbiome_heatmap` and `plot_rarefaction`, providing elegant and informative data representation.
+- **ggplot2**: Underpins the visualization aspects in `plotMicrobiomeHeatmap` and `advancedRarefactionPlot`, providing elegant and informative data representation.
 
-- **vegan**: Contributes to diversity analysis, especially in `calculate_alpha_diversity` and `plot_rarefaction`, delivering extensive ecological insights.
+- **vegan**: Contributes to diversity analysis, especially in `calculateAlphaDiversity` and `advancedRarefactionPlot`, delivering extensive ecological insights.
 
 - **dplyr** and **tidyr**: Facilitate efficient data manipulation across the package, crucial for preprocessing and organizing data for analysis.
 
@@ -174,17 +180,17 @@ The MicrobiomeExplorer package is organized as follows:
         |- microbiomeExampleObjectShin...
         |- microbiome_exampleShiny.csv
   |- man/
-     |- AdvancedRarefactionPlot.Rd
+     |- advancedRarefactionPlot.Rd
      |- MicrobiomeData-class.Rd
      |- addData.Rd
-     |- calculate_alpha_diversity.Rd
-     |- calculate_stats.Rd
+     |- calculateAlphaDiversity.Rd
+     |- calculateStats.Rd
      |- createMicrobiomeDataObject.Rd
      |- getData.Rd
      |- microbiomeExample.Rd
      |- microbiome_example.Rd
      |- performDifferentialExpression.Rd
-     |- plot_microbiome_heatmap.Rd
+     |- plotMicrobiomeHeatmap.Rd
      |- removeData.Rd
      |- runMicrobiomeExplorerApp.Rd
      |- updateData.Rd
@@ -206,7 +212,7 @@ The MicrobiomeExplorer package is organized as follows:
      |- runMicrobiomeExplorer.R
   |- tests/
      |- testthat/
-        |- test-AdvancedRarefactionPlot.R
+        |- test-advancedRarefactionPlot.R
         |- test-DataManipulationFunction...
         |- test-MBDataClass.R
         |- test-calculateStats.R

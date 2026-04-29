@@ -49,7 +49,10 @@ plotTaxonomicAbundance <- function(data, sample_info = NULL, group_var = NULL,
 
   if (normalize) {
     rs <- rowSums(data)
-    rs[rs == 0] <- 1
+    if (any(rs == 0)) {
+      warning("Some samples have zero total counts; they will appear as zero abundance.")
+      rs[rs == 0] <- 1
+    }
     data <- sweep(data, 1, rs, "/")
   }
 

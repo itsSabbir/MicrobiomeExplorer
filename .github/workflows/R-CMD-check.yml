@@ -1,0 +1,30 @@
+name: R-CMD-check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  R-CMD-check:
+    runs-on: ubuntu-latest
+    container:
+      image: bioconductor/bioconductor_docker:RELEASE_3_20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          apt-get update
+          apt-get install -y libglpk-dev libcurl4-openssl-dev libxml2-dev libfontconfig1-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
+
+      - name: Install R dependencies
+        run: |
+          Rscript -e "install.packages('remotes', repos='https://cloud.r-project.org')"
+          Rscript -e "remotes::install_deps('.', dependencies=TRUE, repos=BiocManager::repositories())"
+          Rscript -e "install.packages('rcmdcheck', repos='https://cloud.r-project.org')"
+
+      - name: Check
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual'), error_on = 'error')"

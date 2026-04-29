@@ -159,35 +159,3 @@ updateSampleInfo <- function(object, new_sample_info) {
   return(object)
 }
 
-# Example of the validateSampleInfo function for reference
-validateSampleInfo <- function(sampleInfo, data) {
-  # Ensuring sampleInfo is a data frame
-  if (!is.data.frame(sampleInfo)) {
-    stop("Sample information must be a data frame.")
-  }
-
-  # Validating matching number of samples
-  if (nrow(sampleInfo) != nrow(data)) {
-    stop("The number of samples in the sample information does not match the data.")
-  }
-
-  # Checking for unique sample identifiers
-  sampleIDs <- rownames(sampleInfo)
-  if (length(unique(sampleIDs)) != length(sampleIDs)) {
-    stop("Sample identifiers in sample information must be unique.")
-  }
-
-  # Verifying sample identifiers match those in the data
-  if (!all(rownames(data) %in% sampleIDs)) {
-    stop("Sample identifiers in the dataset do not match those in the sample information.")
-  }
-
-  # Checking for missing values in metadata
-  if (any(is.na(sampleInfo))) {
-    warning("There are missing values in the sample information.")
-  }
-
-  return(TRUE)
-}
-
-

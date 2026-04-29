@@ -26,9 +26,9 @@ test_that("plotTaxonomicAbundance normalize produces relative abundances", {
   colnames(counts) <- paste0("OTU", 1:6)
   p <- plotTaxonomicAbundance(counts, normalize = TRUE, top_n = 6)
   ld <- ggplot2::layer_data(p)
-  # stacked bar total per sample should be ~1
-  totals <- tapply(ld$y, ld$x, sum)
-  expect_true(all(abs(totals - 1) < 1e-6))
+  # stacked bar: ymax of the topmost layer per group should be ~1
+  max_y <- tapply(ld$ymax, ld$x, max)
+  expect_true(all(abs(max_y - 1) < 1e-6))
 })
 
 test_that("plotTaxonomicAbundance works with group_var and sample_info", {

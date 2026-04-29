@@ -18,7 +18,7 @@ microbiomeExample
 \description{
 A synthetic dataset representing microbiome count data with whole numbers.
 This dataset is specifically structured with integer counts to demonstrate
-functions like AdvancedRarefactionPlot in scenarios where decimalization is not
+functions like advancedRarefactionPlot in scenarios where decimalization is not
 present. It can be used to showcase analysis techniques where data precision
 does not include decimals.
 }
