@@ -45,7 +45,7 @@ library(MicrobiomeExplorer)
 visualization of microbiome datasets. It includes functions to calculate 
 statistical metrics, normalize data, and create comprehensive heatmaps for 
 exploratory data analysis. 
-**This document provides a guide to using the MicrobiomeExplorer package (version 0.1.0)**.
+**This document provides a guide to using the MicrobiomeExplorer package (version 0.2.0)**.
 
 To install **MicrobiomeExplorer**, run the following commands:
 

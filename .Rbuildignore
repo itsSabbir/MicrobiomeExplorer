@@ -8,3 +8,4 @@
 ^README\.Rmd$
 ^mbeUtils\.Rmd$
 ^\.local$
+^KNOWN_ISSUES\.md$
