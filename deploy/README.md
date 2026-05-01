@@ -29,6 +29,9 @@ that, the app is live at:
 https://huggingface.co/spaces/YOUR_HF_USERNAME/MicrobiomeExplorer
 ```
 
+The live instance is hosted at:
+[huggingface.co/spaces/umbralis/MicrobiomeExplorer](https://huggingface.co/spaces/umbralis/MicrobiomeExplorer)
+
 ### Manual Deployment
 
 If you prefer not to use the script:

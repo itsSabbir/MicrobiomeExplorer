@@ -23,7 +23,7 @@ distributions.
 You can use MicrobiomeExplorer directly in your browser — no installation
 required:
 
-**[Launch MicrobiomeExplorer on Hugging Face Spaces](https://huggingface.co/spaces/itsSabbir/MicrobiomeExplorer)**
+**[Launch MicrobiomeExplorer on Hugging Face Spaces](https://huggingface.co/spaces/umbralis/MicrobiomeExplorer)**
 
 > The first load after inactivity may take 2-5 minutes while the container
 > starts. A sample dataset is pre-loaded so you can explore immediately.
