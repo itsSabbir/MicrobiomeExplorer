@@ -18,6 +18,19 @@ data types and offering advanced graphical outputs. The
 platform-independent, supporting macOS, Windows, and Linux
 distributions.
 
+## Try it Online
+
+You can use MicrobiomeExplorer directly in your browser — no installation
+required:
+
+**[Launch MicrobiomeExplorer on Hugging Face Spaces](https://huggingface.co/spaces/umbralis/MicrobiomeExplorer)**
+
+> The first load after inactivity may take 2-5 minutes while the container
+> starts. A sample dataset is pre-loaded so you can explore immediately.
+
+See [`deploy/README.md`](deploy/README.md) for deployment instructions if you
+want to host your own instance.
+
 ## Installation
 
 Before installing MicrobiomeExplorer, you must first install its
