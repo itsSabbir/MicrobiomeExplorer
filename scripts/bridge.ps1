@@ -34,17 +34,33 @@ $startedAt = Get-Date
 $RepoRoot = (Resolve-Path "$PSScriptRoot\..").Path
 Set-Location $RepoRoot
 
-# --- 1. Preflight: find codex binary ---
+# --- 1. Preflight: find codex binary (cross-platform) ---
 $codexCmd = Get-Command codex -ErrorAction SilentlyContinue
 if ($codexCmd) {
     $codex = $codexCmd.Source
 } else {
-    $fallback = "C:\Users\sabbir\AppData\Local\OpenAI\Codex\bin\codex.exe"
-    if (Test-Path $fallback) {
-        $codex = $fallback
-        Write-Host "[preflight] codex not on PATH, using fallback: $codex" -ForegroundColor Yellow
-    } else {
-        Write-Error "[preflight] codex not on PATH and fallback missing. Install OpenAI Codex desktop app, then add bin dir to PATH."
+    # Fallback paths in order of likelihood per OS
+    $fallbackPaths = @(
+        # Windows
+        "$env:USERPROFILE\AppData\Local\OpenAI\Codex\bin\codex.exe",
+        # Mac (typical install locations)
+        "/usr/local/bin/codex",
+        "/opt/homebrew/bin/codex",
+        "/Applications/Codex.app/Contents/Resources/codex",
+        "$env:HOME/.local/bin/codex",
+        # Linux
+        "/usr/bin/codex"
+    )
+    $codex = $null
+    foreach ($p in $fallbackPaths) {
+        if ($p -and (Test-Path $p -ErrorAction SilentlyContinue)) {
+            $codex = $p
+            Write-Host "[preflight] codex not on PATH, using fallback: $codex" -ForegroundColor Yellow
+            break
+        }
+    }
+    if (-not $codex) {
+        Write-Error "[preflight] codex binary not found. Install OpenAI Codex (https://openai.com/codex) and ensure 'codex' is on PATH or at one of: Windows $env:USERPROFILE\AppData\Local\OpenAI\Codex\bin\codex.exe ; Mac /usr/local/bin/codex or /Applications/Codex.app/Contents/Resources/codex"
         exit 2
     }
 }

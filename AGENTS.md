@@ -38,7 +38,7 @@ R package + Shiny app for end-to-end microbiome data analysis (16S, metagenomic,
 These come from `~/.claude/CLAUDE.md § Engineering Charter`. Every change must satisfy all that apply. Claude scores against this list on `/codex-review`; violations are blocking.
 
 1. **TDD** — failing test first; commit only when green.
-2. **Single-responsibility** — functions ≤ 40 LOC, ≤ 1 concern. Split before approaching the limit.
+2. **Single-responsibility** — functions ≤ 60 LOC, ≤ 1 concern. Functions 60-80 LOC need a one-line comment justifying why splitting hurts clarity. > 80 LOC needs a refactor OR an explicit `function > 80 LOC because: <reason>` waiver in the commit message. The 60 is a soft prompt; "single concern" is what's load-bearing — a 70-line R function that does one clear thing beats three 25-line helpers that fragment a coherent pipeline.
 3. **Structured returns** — named lists with `ok`, `reason`, `payload` fields, not bare logicals, when callers branch on outcome.
 4. **Observability** — `message("[tag] ...")` at every decision point (tag lowercase, ≤ 12 chars).
 5. **Backward compatibility** — no breaking changes without a deprecation path.
