@@ -54,7 +54,7 @@ test_that("uneven library-size curves reach each sample terminal depth", {
   line_data <- built$data[[1]]
   terminal_depths <- vapply(split(line_data$x, line_data$group), max, numeric(1))
 
-  expect_equal(sort(terminal_depths), c(8, 100))
+  expect_equal(sort(unname(terminal_depths)), c(8, 100))
 })
 
 test_that("legacy rarefaction arguments warn instead of being silently ignored", {
