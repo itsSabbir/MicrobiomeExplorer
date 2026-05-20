@@ -42,7 +42,9 @@
 2. ggplot: x = "Sequencing Depth", y = "Expected Species Richness", one line per sample.
 3. Vertical dashed line at minimum library size.
 4. Uses `calculateAlphaDiversity` (not deprecated alias).
-5. **Tests** — returns ggplot, x-axis range correct, monoculture = flat line at 1, error on non-numeric.
+5. **Per-sample terminal depth:** Each sample's curve MUST include its own library size as a depth point, even when using coarse `step` or `n_steps`. Without this, small-library samples get truncated (e.g., a sample with 8 reads and `step = 10` would only plot depth=1). Implementation: in the per-sample curve function, append `sample_total` to the depth vector before filtering: `sort(unique(c(depths[depths <= sample_total], sample_total)))`.
+6. **No silent swallowing of legacy args:** Do NOT use `...` to absorb old parameters (`indices`, `save_plot`, `xlab`, etc.). Either omit `...` entirely or check for unexpected named args and warn.
+7. **Tests** — returns ggplot, x-axis range correct, monoculture = flat line at 1, error on non-numeric, AND a test with uneven library sizes (e.g., samples of 8 and 100 reads) confirming both curves reach their own library size as terminal depth.
 
 **Files to touch:**
 - `R/advancedRarefactionPlot.R` (rewritten)
