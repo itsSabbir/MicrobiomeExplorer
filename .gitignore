@@ -3,3 +3,19 @@
 .RData
 .Ruserdata
 inst/doc
+
+# >>> claude-code project-memory >>>
+# Per-machine session memory and notes. Do not commit.
+.claude/
+# <<< claude-code project-memory <<<
+
+# >>> codex-claude bridge >>>
+.codex-runs/
+tasks/.*.log
+*.bak-*
+AGENTS.md.pre-bridge-bak-*
+tasks/handoff-log.jsonl
+.env
+.env.local
+.env.*.local
+# <<< codex-claude bridge <<<
