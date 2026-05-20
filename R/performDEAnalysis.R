@@ -23,16 +23,15 @@
 #' @importFrom DESeq2 DESeqDataSetFromMatrix
 #' @importFrom DESeq2 DESeq
 #' @importFrom DESeq2 results
+#' @importFrom DESeq2 estimateSizeFactors
 #' @import edgeR
 #' @import limma
 #' @export
 performDifferentialExpression <- function(microbiomeData, conditions, analysisType = "DESeq2", countThreshold = 5, minSamples = 2) {
-  # Validate input data
   if (!is.matrix(microbiomeData)) {
     stop("microbiomeData must be a matrix.")
   }
 
-  # Ensure conditions length matches the number of columns (samples) in microbiomeData
   if (!is.factor(conditions) || length(conditions) != ncol(microbiomeData)) {
     stop("conditions must be a factor with length equal to the number of columns (samples) in microbiomeData.")
   }
@@ -41,42 +40,57 @@ performDifferentialExpression <- function(microbiomeData, conditions, analysisTy
     stop("analysisType must be either 'DESeq2' or 'EdgeR'.")
   }
 
-  # Preprocessing data: Filtering low-count genes
-  # Adjust this step for a standard matrix
   keep <- rowSums(microbiomeData >= countThreshold) >= minSamples
-  microbiomeData <- microbiomeData[keep, ]
+  microbiomeData <- microbiomeData[keep, , drop = FALSE]
+  features_passed <- nrow(microbiomeData)
 
-  # Normalizing data
-  # For DESeq2, normalization is part of the DESeq workflow
-  # For EdgeR, normalization factors are calculated during the analysis
-  # Therefore, no explicit normalization step is needed here
-
-  # Log transformation for EdgeR (if needed)
-  if (analysisType == "EdgeR") {
-    microbiomeData <- log2(microbiomeData + 1)
-  }
-
-  # Perform differential expression analysis
   if (analysisType == "DESeq2") {
-    # DESeq2 Analysis
-    dds <- DESeqDataSetFromMatrix(countData = microbiomeData, colData = data.frame(conditions), design = ~ conditions)
-    dds <- DESeq(dds)
-    resultsDESeq2 <- results(dds)
+    resultsDESeq2 <- .run_deseq2_de(microbiomeData, conditions)
+    message(sprintf("[de] DESeq2 ran with %d features after filtering", features_passed))
     return(list(DESeq2 = resultsDESeq2))
-  } else {
-    # EdgeR Analysis
-    group <- factor(conditions)
-    y <- DGEList(counts = microbiomeData, group = group)
-    y <- calcNormFactors(y)
-    design <- model.matrix(~ group)
-    y <- estimateDisp(y, design)
-    fit <- glmQLFit(y, design)
-    resultsEdgeR <- glmQLFTest(fit, coef = 2)
-    topTags <- topTags(resultsEdgeR)
-    return(list(EdgeR = topTags))
   }
+
+  resultsEdgeR <- .run_edger_de(microbiomeData, conditions)
+  message(sprintf("[de] EdgeR ran with %d features after filtering", features_passed))
+  list(EdgeR = resultsEdgeR)
 }
 
+.run_deseq2_de <- function(microbiomeData, conditions) {
+  dds <- DESeqDataSetFromMatrix(
+    countData = microbiomeData,
+    colData = data.frame(conditions = conditions),
+    design = ~ conditions
+  )
+  dds <- tryCatch(
+    DESeq(dds),
+    error = function(error) {
+      if (!.is_deseq_size_factor_error(error)) {
+        stop("DESeq2 analysis failed: ", conditionMessage(error), call. = FALSE)
+      }
+      message("[de] DESeq2 size factor estimation failed; retrying with poscounts")
+      dds <- DESeq2::estimateSizeFactors(dds, type = "poscounts")
+      DESeq(dds)
+    }
+  )
+  results(dds)
+}
 
+.is_deseq_size_factor_error <- function(error) {
+  grepl(
+    "every gene contains at least one zero|cannot compute log geometric means|geometric means|estimateSizeFactors|size factors",
+    conditionMessage(error),
+    ignore.case = TRUE
+  )
+}
 
+.run_edger_de <- function(microbiomeData, conditions) {
+  group <- factor(conditions)
+  y <- DGEList(counts = microbiomeData, group = group)
+  y <- calcNormFactors(y)
+  design <- model.matrix(~ group)
+  y <- estimateDisp(y, design)
+  fit <- glmQLFit(y, design)
+  resultsEdgeR <- glmQLFTest(fit, coef = 2)
+  topTags(resultsEdgeR)
+}
 
