@@ -1,50 +1,69 @@
-# Define the number of samples and taxa
-num_samples <- 10
-num_taxa <- 5
+test_that("advancedRarefactionPlot returns a ggplot with rarefaction axes", {
+  counts <- matrix(c(5, 0, 5, 2, 3, 5), nrow = 2, byrow = TRUE)
+  rownames(counts) <- c("Sample_A", "Sample_B")
+  colnames(counts) <- paste0("Taxa_", 1:3)
 
-# Set seed for reproducibility
-set.seed(42)
+  plot <- advancedRarefactionPlot(counts, n_steps = 4L)
 
-# Generate random data to simulate microbiome counts
-data_values <- matrix(rpois(num_samples * num_taxa, lambda = 10), nrow = num_samples, ncol = num_taxa)
-
-# Create sample and taxa names
-sample_names <- paste("Sample", 1:num_samples, sep = "_")
-taxa_names <- paste("Taxa", 1:num_taxa, sep = "_")
-
-# Creating the DataFrame
-sample_data <- data.frame(data_values)
-colnames(sample_data) <- taxa_names
-rownames(sample_data) <- sample_names
-
-
-test_that("advancedRarefactionPlot handles invalid inputs correctly", {
-  # Test with non-matrix and non-dataframe data
-  expect_error(advancedRarefactionPlot(data = list(a = 1, b = 2)))
-
-  # Test with an empty dataset
-  expect_error(advancedRarefactionPlot(data = matrix(numeric(0), nrow = 0, ncol = 0)))
-
+  expect_s3_class(plot, "ggplot")
+  expect_equal(plot$labels$x, "Sequencing Depth")
+  expect_equal(plot$labels$y, "Expected Species Richness")
 })
 
+test_that("advancedRarefactionPlot uses full sequencing-depth range", {
+  counts <- matrix(c(20, 0, 0, 10, 10, 20), nrow = 2, byrow = TRUE)
+  rownames(counts) <- c("Low", "High")
+  colnames(counts) <- paste0("Taxa_", 1:3)
 
+  built <- ggplot2::ggplot_build(advancedRarefactionPlot(counts, n_steps = 3L))
+  line_data <- built$data[[1]]
+  vline_data <- built$data[[2]]
 
-test_that("advancedRarefactionPlot correctly represents the data", {
-  # Ensure ggplot2 is loaded or use ggplot2::ggplot_build
-  library(ggplot2)
-
-  # Test with the sample_data
-  known_plot <- advancedRarefactionPlot(data = sample_data)
-
-  # Validate axis labels
-  expect_equal(known_plot$labels$x, "Sample Size") # Adjust according to your function
-  expect_equal(known_plot$labels$y, "Diversity Index") # Adjust according to your function
-
-  # Check for distinguishable curves
-  num_of_lines_in_plot <- length(unique(ggplot2::ggplot_build(known_plot)$data[[1]]$group))
-  expect_equal(num_of_lines_in_plot, nrow(sample_data))
+  expect_equal(min(line_data$x), 1)
+  expect_equal(max(line_data$x), max(rowSums(counts)))
+  expect_equal(vline_data$xintercept, min(rowSums(counts)))
 })
 
+test_that("monoculture rarefaction curves stay flat at one species", {
+  counts <- matrix(c(8, 0, 0, 16, 0, 0), nrow = 2, byrow = TRUE)
+  rownames(counts) <- c("Small", "Large")
+  colnames(counts) <- paste0("Taxa_", 1:3)
 
+  built <- ggplot2::ggplot_build(advancedRarefactionPlot(counts, step = 5L))
+  line_data <- built$data[[1]]
 
+  expect_equal(unique(line_data$y), 1)
+})
 
+test_that("advancedRarefactionPlot errors on non-numeric input", {
+  counts <- data.frame(
+    Taxa_1 = c(1, 2),
+    Taxa_2 = c("bad", "input")
+  )
+  rownames(counts) <- c("Sample_A", "Sample_B")
+
+  expect_error(advancedRarefactionPlot(counts), "numeric")
+})
+
+test_that("uneven library-size curves reach each sample terminal depth", {
+  counts <- matrix(c(4, 4, 0, 50, 25, 25), nrow = 2, byrow = TRUE)
+  rownames(counts) <- c("Reads_8", "Reads_100")
+  colnames(counts) <- paste0("Taxa_", 1:3)
+
+  built <- ggplot2::ggplot_build(advancedRarefactionPlot(counts, step = 10L))
+  line_data <- built$data[[1]]
+  terminal_depths <- vapply(split(line_data$x, line_data$group), max, numeric(1))
+
+  expect_equal(sort(unname(terminal_depths)), c(8, 100))
+})
+
+test_that("legacy rarefaction arguments warn instead of being silently ignored", {
+  counts <- matrix(c(5, 5, 10, 0), nrow = 2, byrow = TRUE)
+  rownames(counts) <- c("Sample_A", "Sample_B")
+  colnames(counts) <- paste0("Taxa_", 1:2)
+
+  expect_warning(
+    advancedRarefactionPlot(counts, indices = "Shannon"),
+    "Ignoring unsupported argument"
+  )
+})
