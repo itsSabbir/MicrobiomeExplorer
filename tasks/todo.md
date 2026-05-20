@@ -12,7 +12,7 @@
 
 ## Task 2 — Fix biomarker discovery: add FDR correction and fix silent catch
 
-**Status:** pending
+**Status:** ✅ shipped 2026-05-20 — commit 06d9108
 
 **Context:**
 `discoverBiomarkers()` has two scientific issues: (1) Kruskal-Wallis p-values across all taxa are compared against `pval_threshold` without any multiple-testing correction (BH/Bonferroni), producing a high false-positive rate for datasets with hundreds of taxa. (2) `tryCatch(..., error = function(e) 1.0)` silently swallows errors. Additionally, the `lda_threshold` parameter name is misleading.
@@ -32,7 +32,7 @@
 
 ## Task 3 — Rewrite rarefaction plot as true subsampled rarefaction curves
 
-**Status:** pending
+**Status:** ✅ shipped 2026-05-20 — commit 982b7dc
 
 **Context:**
 `advancedRarefactionPlot()` does NOT produce rarefaction curves. It plots diversity indices on a categorical x-axis. A real rarefaction curve plots observed species richness (y) vs. sampling depth (x) using `vegan::rarefy` at multiple depth levels.
