@@ -92,7 +92,7 @@ test_that("performDifferentialExpression EdgeR returns topTags from raw counts",
   )
   edge_result <- run$value$EdgeR
   edge_table <- edge_result$table
-  expect_s3_class(edge_result, "TopTags")
+  expect_s4_class(edge_result, "TopTags")
   expect_true(all(c("logFC", "PValue") %in% names(edge_table)))
   expect_true(all(is.finite(edge_table$logFC)))
   expect_true(all(edge_table$PValue >= 0 & edge_table$PValue <= 1))
