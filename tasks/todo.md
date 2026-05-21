@@ -137,7 +137,7 @@ Missing standard microbiome visualizations: rank-abundance (Whittaker) plots and
 
 ## Task 8 — Package hygiene for CRAN/Bioconductor submission
 
-**Status:** pending
+**Status:** ✅ shipped 2026-05-21 — commit 8b6e1e1
 **Blocked by:** Tasks 1-7
 
 **Context:**
@@ -157,7 +157,7 @@ Final cleanup: remove deprecated aliases, `\dontrun` → `\donttest`, `import()`
 
 ## Task 9 — Fix vignette for rewritten rarefaction API
 
-**Status:** pending
+**Status:** ✅ shipped 2026-05-21 — commit 9185daa
 
 **Context:**
 CI fails on `R CMD check` because the vignette `introduction_MicrobiomeExplorer.Rmd` at line 349-353 calls `advancedRarefactionPlot(microbiome_example, indices = c("Shannon", "Simpson"))`. Two problems: (1) `microbiome_example` contains decimal counts but `vegan::rarefy()` requires integers — the rewritten function now validates and rejects non-integer data. (2) The `indices` parameter no longer exists in the rewritten function signature (Task 3 replaced it with `step`/`n_steps`). The CI run `26248729033` shows: `Error in vegan::rarefy(): function accepts only integers (counts)`.
