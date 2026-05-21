@@ -321,42 +321,31 @@ The `performDifferentialExpression` function is an essential component in the to
 
 ### Introduction to `advancedRarefactionPlot`
 
-The `advancedRarefactionPlot` function is designed for generating rarefaction curves using alpha diversity indices from microbiome data. This function allows users to visualize the diversity of species within their samples and compare across different indices.
+The `advancedRarefactionPlot` function generates true rarefaction curves
+by estimating expected species richness at a range of sequencing depths
+for each sample. This is the standard quality-control visualization for
+assessing whether samples have been sequenced deeply enough to capture
+the community's diversity.
 
 ### Function Parameters
 
-The function accepts the following parameters:
-
-- `data`: A matrix or dataframe with rows as samples and columns as taxa.
-- `indices`: A character vector specifying the diversity indices to use for plotting.
-- `xlab` and `ylab`: Labels for the x-axis and y-axis.
-- `col`: Colors for the curves, recycled if necessary.
-- `lty`: Line types for the curves, recycled if necessary.
-- `save_plot`: Logical, if `TRUE`, the plot is saved to the specified file.
-- `file_name`: Name of the file to save the plot.
-- `file_type`: Type of the file to save the plot (e.g., "png", "pdf").
-- `...`: Any other additional arguments to pass to insider functions.
-
-### Example Usage
-
-In this example, we will generate a mock microbiome dataset and use the `advancedRarefactionPlot` function to create a plot.
-
+- `data`: A matrix or dataframe of integer counts (rows = samples, columns = taxa).
+- `step`: Optional integer spacing between sequencing depths.
+- `n_steps`: Number of evenly-spaced depths when `step` is not supplied (default 50).
 
 ### Plotting with `advancedRarefactionPlot`
 
-Now we'll use the `advancedRarefactionPlot` function to create a rarefaction plot from our mock data, microbiome_example.rda file. 
+We use the `microbiomeExample` dataset (integer counts) to build rarefaction curves.
+Each line shows one sample; the vertical dashed line marks the minimum library size
+across all samples (a common rarefaction depth).
 
 ```{r plot-rarefaction}
-
-# Use the function to plot the data
-advancedRarefactionPlot(microbiome_example, indices = c("Shannon", "Simpson"))
+# microbiomeExample contains whole-number counts required by vegan::rarefy
+advancedRarefactionPlot(microbiomeExample)
 ```
 
-This plot provides a visual representation of the diversity within the microbiome samples across different indices. Adjusting the parameters can tailor the plot to specific needs and preferences.
-
-### Conclusion to `advancedRarefactionPlot`
-
-The `advancedRarefactionPlot` function is a versatile tool for microbiome data analysis, allowing for the exploration and comparison of species diversity across samples and conditions.
+Samples whose curves plateau early have been sequenced to saturation.
+Samples still climbing may benefit from deeper sequencing.
 
 
 
