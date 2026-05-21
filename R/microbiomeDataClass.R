@@ -11,6 +11,7 @@
 #' @slot Metagenomic Metagenomic data stored as a matrix or dataframe.
 #' @slot Metatranscriptomic Metatranscriptomic data stored as a matrix or dataframe.
 #' @slot SampleInfo A dataframe containing information about the samples.
+#' @slot PhylogeneticTree A phylogenetic tree for tree-aware analyses such as UniFrac.
 #'
 #' @export
 setClass(
@@ -19,13 +20,15 @@ setClass(
     rRNA16S = "ANY",
     Metagenomic = "ANY",
     Metatranscriptomic = "ANY",
-    SampleInfo = "list"
+    SampleInfo = "list",
+    PhylogeneticTree = "ANY"
   ),
   prototype = prototype(
     rRNA16S = NULL,
     Metagenomic = NULL,
     Metatranscriptomic = NULL,
-    SampleInfo = list()
+    SampleInfo = list(),
+    PhylogeneticTree = NULL
   )
 )
 
@@ -41,6 +44,7 @@ setClass(
 #' @param Metagenomic A matrix or dataframe with metagenomic data.
 #' @param Metatranscriptomic A matrix or dataframe with metatranscriptomic data.
 #' @param SampleInfo A data frame with sample information.
+#' @param PhylogeneticTree A phylogenetic tree object used by tree-aware analyses.
 #'
 #' @return A `MicrobiomeData` object.
 #'
@@ -77,15 +81,23 @@ setClass(
 #' @export
 #'
 setGeneric("createMicrobiomeDataObject",
-           function(rRNA16S, Metagenomic, Metatranscriptomic, SampleInfo) {
+           function(rRNA16S, Metagenomic, Metatranscriptomic, SampleInfo,
+                    PhylogeneticTree = NULL) {
              standardGeneric("createMicrobiomeDataObject")
            }
 )
 
 #' @rdname createMicrobiomeDataObject
 setMethod("createMicrobiomeDataObject",
-          signature(rRNA16S = "ANY", Metagenomic = "ANY", Metatranscriptomic = "ANY", SampleInfo = "list"),
-          function(rRNA16S, Metagenomic, Metatranscriptomic, SampleInfo) {
+          signature(
+            rRNA16S = "ANY",
+            Metagenomic = "ANY",
+            Metatranscriptomic = "ANY",
+            SampleInfo = "list",
+            PhylogeneticTree = "ANY"
+          ),
+          function(rRNA16S, Metagenomic, Metatranscriptomic, SampleInfo,
+                   PhylogeneticTree = NULL) {
             # Validation Checks
             message("Validating input data...")
             if (!is.null(rRNA16S)) {
@@ -108,7 +120,8 @@ setMethod("createMicrobiomeDataObject",
                              rRNA16S = rRNA16S,
                              Metagenomic = Metagenomic,
                              Metatranscriptomic = Metatranscriptomic,
-                             SampleInfo = SampleInfo)
+                             SampleInfo = SampleInfo,
+                             PhylogeneticTree = PhylogeneticTree)
             return(newObject)
           }
 )
@@ -123,7 +136,8 @@ setMethod("createMicrobiomeDataObject",
 #'
 #' @param object A MicrobiomeData object.
 #' @param dataType A character string specifying the type of data to retrieve.
-#'                 Valid types are 'rRNA16S', 'Metagenomic', 'Metatranscriptomic', 'SampleInfo'.
+#'                 Valid types are 'rRNA16S', 'Metagenomic', 'Metatranscriptomic',
+#'                 'SampleInfo', and 'PhylogeneticTree'.
 #' @return The requested data stored in the MicrobiomeData object.
 #' @export
 #'
@@ -151,7 +165,7 @@ setMethod("getData",
 #'
 #' @param object A `MicrobiomeData` object to be updated.
 #' @param dataType The type of data to update. Valid types include 'rRNA16S', 'Metagenomic',
-#'                 'Metatranscriptomic', and 'SampleInfo'.
+#'                 'Metatranscriptomic', 'SampleInfo', and 'PhylogeneticTree'.
 #' @param newData The new data to be inserted into the object.
 #' @return The updated `MicrobiomeData` object.
 #' @export
