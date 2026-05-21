@@ -54,7 +54,7 @@
 
 ## Task 4 — Add stratified CV to classification and ML test coverage
 
-**Status:** pending
+**Status:** ✅ shipped 2026-05-21 — commit 9d1c682
 
 **Context:**
 `performClassification()` fold assignment is NOT stratified — can produce single-class folds for imbalanced data. Also, `performClassification` and `performRandomForest` have zero test coverage.
@@ -74,7 +74,7 @@
 
 ## Task 5 — Fix clustering metric mismatch and add test coverage
 
-**Status:** pending
+**Status:** ✅ shipped 2026-05-21 — commit f2bb84e
 
 **Context:**
 `performClustering()` uses `scale(data)` (Euclidean) for k-means but computes silhouette against Bray-Curtis `dist_mat` — metric mismatch. Also zero test coverage for clustering and network.
@@ -95,7 +95,7 @@
 
 ## Task 6 — Add rank-abundance and shared-taxa Venn visualizations
 
-**Status:** pending
+**Status:** ✅ shipped 2026-05-21 — commit 06d1116
 
 **Context:**
 Missing standard microbiome visualizations: rank-abundance (Whittaker) plots and Venn/UpSet-style shared taxa diagrams.
@@ -116,7 +116,7 @@ Missing standard microbiome visualizations: rank-abundance (Whittaker) plots and
 
 ## Task 7 — Wire UniFrac distance into beta diversity pipeline
 
-**Status:** pending
+**Status:** ✅ shipped 2026-05-21 — commit 9a102db
 
 **Context:**
 `phyloseq` is imported but never used. UniFrac (weighted/unweighted) is the #1 expected 16S beta diversity metric.
