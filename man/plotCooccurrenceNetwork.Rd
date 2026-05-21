@@ -35,7 +35,7 @@ Visualises the \code{igraph} network from
 \code{\link{buildCooccurrenceNetwork}} using ggplot2.
 }
 \examples{
-\dontrun{
+\donttest{
 net <- buildCooccurrenceNetwork(counts, cor_threshold = 0.3)
 plotCooccurrenceNetwork(net)
 }

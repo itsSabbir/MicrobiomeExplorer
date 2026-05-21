@@ -24,8 +24,7 @@
 #' @importFrom DESeq2 DESeq
 #' @importFrom DESeq2 results
 #' @importFrom DESeq2 estimateSizeFactors
-#' @import edgeR
-#' @import limma
+#' @importFrom edgeR DGEList calcNormFactors estimateDisp glmQLFit glmQLFTest topTags
 #' @export
 performDifferentialExpression <- function(microbiomeData, conditions, analysisType = "DESeq2", countThreshold = 5, minSamples = 2) {
   if (!is.matrix(microbiomeData)) {

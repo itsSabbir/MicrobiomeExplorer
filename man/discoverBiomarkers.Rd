@@ -10,8 +10,9 @@ discoverBiomarkers(
   group_var,
   method = "kw",
   pval_threshold = 0.05,
-  lda_threshold = 0.5,
-  rf_top_n = 20
+  lda_threshold = NULL,
+  rf_top_n = 20,
+  effect_size_threshold = NULL
 )
 }
 \arguments{
@@ -25,20 +26,24 @@ discoverBiomarkers(
 \code{"rf"} (random forest importance), or \code{"combined"} (intersection
 of both). Default: \code{"kw"}.}
 
-\item{pval_threshold}{Numeric. Significance cutoff. Default: \code{0.05}.}
+\item{pval_threshold}{Numeric. BH-adjusted significance cutoff. Default:
+\code{0.05}.}
 
-\item{lda_threshold}{Numeric. Minimum absolute effect size (log10 fold-change
-between group means). Default: \code{0.5} (roughly a 3x difference).}
+\item{lda_threshold}{Deprecated alias for \code{effect_size_threshold}.}
 
 \item{rf_top_n}{Integer. Top N features from RF importance to consider
 significant (used when \code{method} is \code{"rf"} or \code{"combined"}).
 Default: \code{20}.}
+
+\item{effect_size_threshold}{Numeric. Minimum absolute effect size, measured
+as log10 fold-change of group means. Default: \code{0.5} (roughly a 3x
+difference).}
 }
 \value{
 A list with:
   \describe{
     \item{biomarkers}{data.frame of significant taxa with columns: taxon,
-      enriched_group, pvalue, effect_size.}
+      enriched_group, pvalue, padj, effect_size.}
     \item{all_results}{Full data.frame for all tested taxa.}
     \item{method}{Character string.}
     \item{n_significant}{Integer count.}
@@ -46,11 +51,11 @@ A list with:
 }
 \description{
 Identifies taxa significantly associated with sample groups using a
-LEfSe-style pipeline (Kruskal-Wallis + pairwise Wilcoxon + LDA effect
-size) or random forest importance, or a combination of both.
+LEfSe-style pipeline (Kruskal-Wallis + log10 fold-change effect size) or
+random forest importance, or a combination of both.
 }
 \examples{
-\dontrun{
+\donttest{
 counts <- matrix(rpois(200, 20), nrow = 20, ncol = 10)
 rownames(counts) <- paste0("S", 1:20)
 colnames(counts) <- paste0("OTU", 1:10)

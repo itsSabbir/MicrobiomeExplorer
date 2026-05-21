@@ -46,7 +46,7 @@ k-fold cross-validation, returning per-fold accuracy, aggregated confusion
 matrix, and ROC data (when \pkg{pROC} is available).
 }
 \examples{
-\dontrun{
+\donttest{
 counts <- matrix(rpois(200, 20), nrow = 20, ncol = 10)
 rownames(counts) <- paste0("S", 1:20)
 meta <- data.frame(Group = rep(c("A", "B"), 10), row.names = paste0("S", 1:20))

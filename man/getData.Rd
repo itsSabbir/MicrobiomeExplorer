@@ -13,7 +13,8 @@ getData(object, dataType)
 \item{object}{A MicrobiomeData object.}
 
 \item{dataType}{A character string specifying the type of data to retrieve.
-Valid types are 'rRNA16S', 'Metagenomic', 'Metatranscriptomic', 'SampleInfo'.}
+Valid types are 'rRNA16S', 'Metagenomic', 'Metatranscriptomic',
+'SampleInfo', and 'PhylogeneticTree'.}
 }
 \value{
 The requested data stored in the MicrobiomeData object.

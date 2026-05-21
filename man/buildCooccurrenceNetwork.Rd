@@ -44,7 +44,7 @@ correlations, filtering edges by correlation strength and significance,
 and performing community detection.
 }
 \examples{
-\dontrun{
+\donttest{
 set.seed(42)
 counts <- matrix(rpois(200, 15), nrow = 20, ncol = 10)
 rownames(counts) <- paste0("S", 1:20)

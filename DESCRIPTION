@@ -1,7 +1,7 @@
 Package: MicrobiomeExplorer
 Type: Package
 Title: Tools for Microbiome Analysis and Visualization
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: 
     person("Sabbir", "Hossain", email = "hossain.sabbir17@gmail.com", role = c("aut", "cre"))
 Description:
@@ -22,7 +22,6 @@ Imports:
     shiny,
     DESeq2,
     edgeR,
-    limma,
     stats,
     methods,
     grDevices,

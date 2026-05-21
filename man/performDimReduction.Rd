@@ -52,7 +52,7 @@ same format as \code{\link{performOrdination}} so that
 \code{\link{plotOrdinationBiplot}} works directly.
 }
 \examples{
-\dontrun{
+\donttest{
 set.seed(42)
 counts <- matrix(rpois(100, 15), nrow = 20, ncol = 5)
 rownames(counts) <- paste0("S", 1:20)

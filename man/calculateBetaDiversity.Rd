@@ -4,18 +4,24 @@
 \alias{calculateBetaDiversity}
 \title{Calculate Beta Diversity Distance Matrix}
 \usage{
-calculateBetaDiversity(data, method = "bray", binary = FALSE)
+calculateBetaDiversity(data, method = "bray", binary = FALSE, ...)
 }
 \arguments{
-\item{data}{A matrix or data.frame with rows as samples and columns as taxa.
+\item{data}{A matrix or data.frame with rows as samples and columns as taxa,
+or a \code{MicrobiomeData} object containing \code{rRNA16S} data.
 Values must be non-negative counts or relative abundances.}
 
 \item{method}{Character string specifying the distance metric. One of
-\code{"bray"} (Bray-Curtis), \code{"jaccard"} (Jaccard), or
-\code{"euclidean"} (Euclidean). Default: \code{"bray"}.}
+\code{"bray"} (Bray-Curtis), \code{"jaccard"} (Jaccard),
+\code{"euclidean"} (Euclidean), \code{"unifrac"} (unweighted UniFrac),
+or \code{"wunifrac"} (weighted UniFrac). Default: \code{"bray"}.}
 
 \item{binary}{Logical. If \code{TRUE}, data are converted to
 presence/absence before computing distances. Default: \code{FALSE}.}
+
+\item{...}{Named options. For UniFrac methods, pass \code{tree} or
+\code{phylogenetic_tree} unless \code{data} is a \code{MicrobiomeData}
+object with a \code{PhylogeneticTree} slot.}
 }
 \value{
 A \code{dist} object containing the pairwise distance matrix.

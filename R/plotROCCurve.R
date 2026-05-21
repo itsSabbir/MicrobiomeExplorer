@@ -8,7 +8,7 @@
 #' @return A \code{ggplot} object.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' cv <- performClassification(counts, meta, "Group")
 #' plotROCCurve(cv)
 #' }

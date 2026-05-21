@@ -18,7 +18,7 @@ Plots the Receiver Operating Characteristic curve with AUC annotation
 from \code{\link{performClassification}} output.
 }
 \examples{
-\dontrun{
+\donttest{
 cv <- performClassification(counts, meta, "Group")
 plotROCCurve(cv)
 }

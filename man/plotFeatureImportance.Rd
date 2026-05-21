@@ -22,7 +22,7 @@ A \code{ggplot} object.
 Plots the top N most important features from a random forest result.
 }
 \examples{
-\dontrun{
+\donttest{
 rf <- performRandomForest(counts, meta, "Group")
 plotFeatureImportance(rf, top_n = 15)
 }

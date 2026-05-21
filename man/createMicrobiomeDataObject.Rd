@@ -9,14 +9,16 @@ createMicrobiomeDataObject(
   rRNA16S,
   Metagenomic,
   Metatranscriptomic,
-  SampleInfo
+  SampleInfo,
+  PhylogeneticTree = NULL
 )
 
-\S4method{createMicrobiomeDataObject}{ANY,ANY,ANY,list}(
+\S4method{createMicrobiomeDataObject}{ANY,ANY,ANY,list,ANY}(
   rRNA16S,
   Metagenomic,
   Metatranscriptomic,
-  SampleInfo
+  SampleInfo,
+  PhylogeneticTree = NULL
 )
 }
 \arguments{
@@ -27,6 +29,8 @@ createMicrobiomeDataObject(
 \item{Metatranscriptomic}{A matrix or dataframe with metatranscriptomic data.}
 
 \item{SampleInfo}{A data frame with sample information.}
+
+\item{PhylogeneticTree}{A phylogenetic tree object used by tree-aware analyses.}
 }
 \value{
 A `MicrobiomeData` object.
