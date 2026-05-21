@@ -16,7 +16,7 @@
 #' in the user's default web browser.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   MicrobiomeExplorer::runMicrobiomeExplorerApp()
 #'   MicrobiomeExplorer::runMicrobiomeExplorerApp(host = "0.0.0.0", port = 3838)
 #' }

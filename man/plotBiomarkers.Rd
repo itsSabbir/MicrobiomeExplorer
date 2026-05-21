@@ -20,7 +20,7 @@ Visualises biomarker taxa with bars coloured by the enriched group,
 similar to a LEfSe-style plot.
 }
 \examples{
-\dontrun{
+\donttest{
 bm <- discoverBiomarkers(counts, meta, "Group")
 plotBiomarkers(bm)
 }

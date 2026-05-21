@@ -13,7 +13,7 @@ updateData(object, dataType, newData)
 \item{object}{A `MicrobiomeData` object to be updated.}
 
 \item{dataType}{The type of data to update. Valid types include 'rRNA16S', 'Metagenomic',
-'Metatranscriptomic', and 'SampleInfo'.}
+'Metatranscriptomic', 'SampleInfo', and 'PhylogeneticTree'.}
 
 \item{newData}{The new data to be inserted into the object.}
 }

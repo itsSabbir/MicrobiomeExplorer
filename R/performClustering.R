@@ -30,7 +30,7 @@
 #'   }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' counts <- matrix(rpois(100, 15), nrow = 20, ncol = 5)
 #' rownames(counts) <- paste0("S", 1:20)
 #' cl <- performClustering(counts, method = "kmeans", k = 3)

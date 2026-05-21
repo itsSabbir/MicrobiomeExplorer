@@ -19,5 +19,7 @@ metagenomic, and metatranscriptomic data, along with associated sample informati
 \item{\code{Metatranscriptomic}}{Metatranscriptomic data stored as a matrix or dataframe.}
 
 \item{\code{SampleInfo}}{A dataframe containing information about the samples.}
+
+\item{\code{PhylogeneticTree}}{A phylogenetic tree for tree-aware analyses such as UniFrac.}
 }}
 

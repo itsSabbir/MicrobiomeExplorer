@@ -28,7 +28,7 @@ The application code is located in the \code{./inst/shiny-scripts} directory
 within the MicrobiomeExplorer package.
 }
 \examples{
-\dontrun{
+\donttest{
   MicrobiomeExplorer::runMicrobiomeExplorerApp()
   MicrobiomeExplorer::runMicrobiomeExplorerApp(host = "0.0.0.0", port = 3838)
 }

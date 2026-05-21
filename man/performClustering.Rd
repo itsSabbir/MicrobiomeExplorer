@@ -46,6 +46,7 @@ A list with:
     \item{avg_silhouette}{Mean silhouette width.}
     \item{silhouette_scores}{Per-sample silhouette widths (when
       \code{cluster} package is available).}
+    \item{dist_method_used}{Distance metric used for silhouette scoring.}
   }
 }
 \description{
@@ -53,7 +54,7 @@ Clusters samples using k-means, hierarchical, or DBSCAN methods. When
 \code{k = NULL}, the optimal cluster count is selected via silhouette width.
 }
 \examples{
-\dontrun{
+\donttest{
 counts <- matrix(rpois(100, 15), nrow = 20, ncol = 5)
 rownames(counts) <- paste0("S", 1:20)
 cl <- performClustering(counts, method = "kmeans", k = 3)

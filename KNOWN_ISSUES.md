@@ -1,6 +1,6 @@
 # Known Issues & Limitations
 
-> Last updated: 2026-04-29 | Package version: 0.2.0
+> Last updated: 2026-05-21 | Package version: 0.3.0
 
 ---
 
@@ -37,6 +37,7 @@ These are non-blocking notes, not errors:
 | Network Analysis | Datasets with >200 taxa produce cluttered network plots. Use the "Top Taxa" filter to limit. |
 | Heatmap | ComplexHeatmap objects use a different export path than ggplot — PDF/PNG export handles this automatically. |
 | Alpha Diversity | "Index to Visualise" dropdown is empty until you click "Calculate & Plot" at least once. |
+| Beta Diversity | UniFrac and weighted UniFrac require a phylogenetic tree; Bray-Curtis, Jaccard, and Euclidean do not. |
 
 ### Memory
 
@@ -56,12 +57,12 @@ These packages are in `Suggests` and checked at runtime with `requireNamespace()
 | `cluster` | `performClustering()` | Silhouette scores unavailable, clustering still works |
 | `dbscan` | `performClustering(method = "dbscan")` | Error with install instructions |
 
-## Deprecated Function Names
+## Removed Function Names
 
-The following old names still work but emit deprecation warnings. They will be removed in a future version:
+The following deprecated aliases were removed in v0.3.0 for submission hygiene:
 
-| Deprecated | Use Instead |
-|-----------|-------------|
+| Removed Alias | Use Instead |
+|---------------|-------------|
 | `calculate_alpha_diversity()` | `calculateAlphaDiversity()` |
 | `calculate_stats()` | `calculateStats()` |
 | `plot_microbiome_heatmap()` | `plotMicrobiomeHeatmap()` |
@@ -69,9 +70,8 @@ The following old names still work but emit deprecation warnings. They will be r
 
 ## Not Yet Implemented
 
-These features are on the roadmap but not in v0.2.0:
+These features are on the roadmap but not in v0.3.0:
 
-- **Phylogenetic tree support** — `phyloseq` is imported but UniFrac and tree-based analyses are not wired up.
 - **Batch effect correction** — no ComBat/SVA integration.
 - **Longitudinal / paired-sample analysis** — all analyses assume independent samples.
 - **Multi-group differential abundance** — DE tab only supports 2-group comparisons (DESeq2/edgeR limitation in our wrapper).

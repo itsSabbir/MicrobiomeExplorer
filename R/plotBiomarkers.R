@@ -9,7 +9,7 @@
 #' @return A \code{ggplot} object.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' bm <- discoverBiomarkers(counts, meta, "Group")
 #' plotBiomarkers(bm)
 #' }

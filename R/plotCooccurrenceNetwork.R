@@ -15,7 +15,7 @@
 #' @return A \code{ggplot} object.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' net <- buildCooccurrenceNetwork(counts, cor_threshold = 0.3)
 #' plotCooccurrenceNetwork(net)
 #' }

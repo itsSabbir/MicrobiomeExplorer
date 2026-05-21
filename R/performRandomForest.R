@@ -29,7 +29,7 @@
 #'   }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' set.seed(1)
 #' counts <- matrix(rpois(200, 20), nrow = 20, ncol = 10)
 #' rownames(counts) <- paste0("S", 1:20)
