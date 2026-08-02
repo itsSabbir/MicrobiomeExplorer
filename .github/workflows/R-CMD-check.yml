@@ -3,17 +3,67 @@ name: R-CMD-check
 on:
   push:
     branches: [main]
+    paths:
+      - R/**
+      - tests/**
+      - man/**
+      - vignettes/**
+      - data/**
+      - inst/**
+      - DESCRIPTION
+      - NAMESPACE
+      - LICENSE
+      - .Rbuildignore
+      - .github/workflows/R-CMD-check.yml
   pull_request:
     branches: [main]
+    paths:
+      - R/**
+      - tests/**
+      - man/**
+      - vignettes/**
+      - data/**
+      - inst/**
+      - DESCRIPTION
+      - NAMESPACE
+      - LICENSE
+      - .Rbuildignore
+      - .github/workflows/R-CMD-check.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   R-CMD-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     container:
       image: bioconductor/bioconductor_docker:RELEASE_3_20
+    env:
+      R_LIBS_USER: ${{ github.workspace }}/.R/library
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Prepare R dependency cache
+        id: r-version
+        run: |
+          mkdir -p "${R_LIBS_USER}"
+          echo "version=$(Rscript -e 'cat(getRversion())')" >> "${GITHUB_OUTPUT}"
+
+      - name: Cache R dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .R/library
+          key: r-${{ runner.os }}-${{ steps.r-version.outputs.version }}-bioc-3.20-${{ hashFiles('DESCRIPTION') }}
+          restore-keys: |
+            r-${{ runner.os }}-${{ steps.r-version.outputs.version }}-bioc-3.20-
 
       - name: Install system dependencies
         run: |
@@ -22,9 +72,9 @@ jobs:
 
       - name: Install R dependencies
         run: |
-          Rscript -e "install.packages('remotes', repos='https://cloud.r-project.org')"
+          Rscript -e "if (!requireNamespace('remotes', quietly=TRUE)) install.packages('remotes', repos='https://cloud.r-project.org')"
           Rscript -e "remotes::install_deps('.', dependencies=TRUE, repos=BiocManager::repositories())"
-          Rscript -e "install.packages('rcmdcheck', repos='https://cloud.r-project.org')"
+          Rscript -e "if (!requireNamespace('rcmdcheck', quietly=TRUE)) install.packages('rcmdcheck', repos='https://cloud.r-project.org')"
 
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual'), error_on = 'error')"
