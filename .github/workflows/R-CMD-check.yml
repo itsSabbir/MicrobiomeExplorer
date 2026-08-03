@@ -43,8 +43,6 @@ jobs:
     timeout-minutes: 90
     container:
       image: bioconductor/bioconductor_docker:RELEASE_3_20
-    env:
-      R_LIBS_USER: ${{ github.workspace }}/.R/library
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -54,13 +52,17 @@ jobs:
       - name: Prepare R dependency cache
         id: r-version
         run: |
-          mkdir -p "${R_LIBS_USER}"
-          echo "version=$(Rscript -e 'cat(getRversion())')" >> "${GITHUB_OUTPUT}"
+          set -euo pipefail
+          echo "R_LIBS_USER=${RUNNER_TEMP}/R-library" >> "${GITHUB_ENV}"
+          mkdir -p "${RUNNER_TEMP}/R-library"
+          version="$(Rscript -e 'cat(as.character(getRversion()))')"
+          test -n "${version}"
+          echo "version=${version}" >> "${GITHUB_OUTPUT}"
 
       - name: Cache R dependencies
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: .R/library
+          path: ${{ runner.temp }}/R-library
           key: r-${{ runner.os }}-${{ steps.r-version.outputs.version }}-bioc-3.20-${{ hashFiles('DESCRIPTION') }}
           restore-keys: |
             r-${{ runner.os }}-${{ steps.r-version.outputs.version }}-bioc-3.20-
