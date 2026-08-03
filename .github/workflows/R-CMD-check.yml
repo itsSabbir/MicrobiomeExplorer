@@ -52,7 +52,7 @@ jobs:
       - name: Prepare R dependency cache
         id: r-version
         run: |
-          set -euo pipefail
+          set -eu
           echo "R_LIBS_USER=${RUNNER_TEMP}/R-library" >> "${GITHUB_ENV}"
           mkdir -p "${RUNNER_TEMP}/R-library"
           version="$(Rscript -e 'cat(as.character(getRversion()))')"
