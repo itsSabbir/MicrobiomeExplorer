@@ -64,8 +64,6 @@ jobs:
         with:
           path: ${{ runner.temp }}/R-library
           key: r-${{ runner.os }}-${{ steps.r-version.outputs.version }}-bioc-3.20-${{ hashFiles('DESCRIPTION') }}
-          restore-keys: |
-            r-${{ runner.os }}-${{ steps.r-version.outputs.version }}-bioc-3.20-
 
       - name: Install system dependencies
         run: |
