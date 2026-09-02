@@ -19,4 +19,7 @@ tasks/handoff-log.jsonl
 .env.local
 .env.*.local
 **/.claude/worktrees/
+# Public repository: the task ledger stays machine-local, so hide it here too,
+# not only in one machine's excludes (which do not travel).
+**/tasks/
 # <<< codex-claude bridge <<<
