@@ -23,3 +23,4 @@ tasks/handoff-log.jsonl
 # not only in one machine's excludes (which do not travel).
 **/tasks/
 # <<< codex-claude bridge <<<
+.DS_Store
